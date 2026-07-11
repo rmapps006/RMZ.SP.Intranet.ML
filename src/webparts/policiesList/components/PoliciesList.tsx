@@ -86,7 +86,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
 
   return (
     <section className={styles.policies}>
-      <SectionHeader title="Policies & Procedures" linkText="All Policies" linkUrl={props.allPoliciesUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.allPoliciesUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.top}>
         <div className={styles.search}>

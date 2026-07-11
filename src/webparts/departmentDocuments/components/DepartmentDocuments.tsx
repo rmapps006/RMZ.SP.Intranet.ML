@@ -20,6 +20,10 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
   const policiesLibrary: string = props.policiesLibrary || ds.policiesLibrary;
   const documentsLibrary: string = props.documentsLibrary || ds.documentsLibrary;
   const department: string = props.department || ds.departmentName;
+  // props.panel1Title/panel2Title already resolve the web part's own EN/AR
+  // property-pane override (see DepartmentDocumentsWebPart.render()). The
+  // settings-backed fallback (ds.panel1Title/ds.panel2Title) has no Arabic
+  // variant yet — known follow-up, out of scope here.
   const panel1Title: string = props.panel1Title || ds.panel1Title;
   const panel2Title: string = props.panel2Title || ds.panel2Title;
   const documentHubUrl: string = props.documentHubUrl || ds.documentHubUrl;
@@ -60,7 +64,7 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
 
   return (
     <section className={styles.docs}>
-      <SectionHeader title="Forms & Documents" linkText="Document Hub" linkUrl={documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.docsG}>
         {loading ? (

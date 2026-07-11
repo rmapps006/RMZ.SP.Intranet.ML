@@ -2,6 +2,8 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 
 export interface IDepartmentDocumentsProps {
   context: WebPartContext;
+  title: string;
+  linkText: string;
   department: string;
   policiesLibrary: string;
   documentsLibrary: string;

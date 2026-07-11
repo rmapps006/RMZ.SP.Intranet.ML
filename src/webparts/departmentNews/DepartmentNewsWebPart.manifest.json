@@ -25,6 +25,10 @@
       },
       "officeFabricIconFontName": "News",
       "properties": {
+        "title": "Department News",
+        "titleAR": "",
+        "linkText": "All News",
+        "linkTextAR": "",
         "newsList": "",
         "allNewsUrl": ""
       }

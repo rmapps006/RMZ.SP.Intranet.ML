@@ -7,9 +7,11 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ContentManagerWebPartStrings';
 import ContentManager from './components/ContentManager';
 import { IContentManagerProps } from './components/IContentManagerProps';
+import { getCurrentLanguage, pickLocalized } from '../../common/services/languageService';
 
 export interface IContentManagerWebPartProps {
   title: string;
+  titleAR: string;
   newsList: string;
   eventsList: string;
   benefitsList: string;
@@ -20,9 +22,10 @@ export interface IContentManagerWebPartProps {
 
 export default class ContentManagerWebPart extends BaseClientSideWebPart<IContentManagerWebPartProps> {
   public render(): void {
+    const language = getCurrentLanguage();
     const element: React.ReactElement<IContentManagerProps> = React.createElement(ContentManager, {
       context: this.context,
-      title: this.properties.title || 'Content Manager',
+      title: pickLocalized(this.properties.title || 'Content Manager', this.properties.titleAR, language),
       newsList: this.properties.newsList || 'News',
       eventsList: this.properties.eventsList || 'Events',
       benefitsList: this.properties.benefitsList || 'HR Benefits',
@@ -52,6 +55,7 @@ export default class ContentManagerWebPart extends BaseClientSideWebPart<IConten
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('title', { label: strings.TitleLabel }),
+                PropertyPaneTextField('titleAR', { label: strings.TitleARLabel }),
                 PropertyPaneToggle('showNews', { label: strings.ShowNewsLabel }),
                 PropertyPaneToggle('showEvents', { label: strings.ShowEventsLabel }),
                 PropertyPaneToggle('showBenefits', { label: strings.ShowBenefitsLabel }),

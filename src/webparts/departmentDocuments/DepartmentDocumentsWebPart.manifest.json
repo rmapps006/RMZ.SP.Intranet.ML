@@ -25,12 +25,18 @@
       },
       "officeFabricIconFontName": "DocLibrary",
       "properties": {
+        "title": "Forms & Documents",
+        "titleAR": "",
+        "linkText": "Document Hub",
+        "linkTextAR": "",
         "department": "",
         "policiesLibrary": "",
         "documentsLibrary": "",
         "documentHubUrl": "",
         "panel1Title": "",
-        "panel2Title": ""
+        "panel1TitleAR": "",
+        "panel2Title": "",
+        "panel2TitleAR": ""
       }
     }
   ]

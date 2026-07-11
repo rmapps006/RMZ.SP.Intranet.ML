@@ -2,6 +2,7 @@ declare interface IHrBenefitsWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   TitleLabel: string;
+  TitleARLabel: string;
   AllBenefitsUrlLabel: string;
   BenefitsJsonLabel: string;
 }

@@ -52,7 +52,7 @@ const DepartmentNews: React.FunctionComponent<IDepartmentNewsProps> = (props) =>
 
   return (
     <section className={styles.news}>
-      <SectionHeader title="Department News" linkText="All News" linkUrl={allNewsUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={allNewsUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
         <div className={styles.empty}>Loading…</div>

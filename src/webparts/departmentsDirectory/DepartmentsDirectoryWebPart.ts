@@ -11,9 +11,11 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'DepartmentsDirectoryWebPartStrings';
 import DepartmentsDirectory from './components/DepartmentsDirectory';
 import { IDepartmentsDirectoryProps } from './components/IDepartmentsDirectoryProps';
+import { getCurrentLanguage, pickLocalized } from '../../common/services/languageService';
 
 export interface IDepartmentsDirectoryWebPartProps {
   title: string;
+  titleAR: string;
   viewAllUrl: string;
   departmentsJson: string;
   showTitle: boolean;
@@ -22,9 +24,10 @@ export interface IDepartmentsDirectoryWebPartProps {
 
 export default class DepartmentsDirectoryWebPart extends BaseClientSideWebPart<IDepartmentsDirectoryWebPartProps> {
   public render(): void {
+    const language = getCurrentLanguage();
     const element: React.ReactElement<IDepartmentsDirectoryProps> = React.createElement(DepartmentsDirectory, {
       context: this.context,
-      title: this.properties.title || 'Departments',
+      title: pickLocalized(this.properties.title || 'Departments', this.properties.titleAR, language),
       viewAllUrl: this.properties.viewAllUrl || '',
       departmentsJson: this.properties.departmentsJson || '',
       showTitle: this.properties.showTitle !== false,
@@ -53,6 +56,7 @@ export default class DepartmentsDirectoryWebPart extends BaseClientSideWebPart<I
                 PropertyPaneToggle('showTitle', { label: 'Show section title' }),
                 PropertyPaneToggle('showViewAll', { label: 'Show the "All Departments" link' }),
                 PropertyPaneTextField('title', { label: strings.TitleLabel }),
+                PropertyPaneTextField('titleAR', { label: strings.TitleARLabel }),
                 PropertyPaneTextField('viewAllUrl', { label: strings.ViewAllUrlLabel }),
                 PropertyPaneTextField('departmentsJson', {
                   label: strings.DepartmentsJsonLabel,

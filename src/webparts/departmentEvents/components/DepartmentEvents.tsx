@@ -56,7 +56,7 @@ const DepartmentEvents: React.FunctionComponent<IDepartmentEventsProps> = (props
 
   return (
     <section className={styles.events}>
-      <SectionHeader title="Department Events" linkText="View Calendar" linkUrl={calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
         <div className={styles.empty}>Loading…</div>

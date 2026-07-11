@@ -17,6 +17,10 @@
       "description": { "default": "Searchable, filterable directory of people sourced from Microsoft Graph." },
       "officeFabricIconFontName": "People",
       "properties": {
+        "title": "Employee Directory",
+        "titleAR": "",
+        "linkText": "Full Directory",
+        "linkTextAR": "",
         "fullDirectoryUrl": "",
         "pageSize": "24"
       }

@@ -18,6 +18,7 @@
       "officeFabricIconFontName": "Link",
       "properties": {
         "title": "Quick Links",
+        "titleAR": "",
         "viewAllUrl": "",
         "linksJson": ""
       }

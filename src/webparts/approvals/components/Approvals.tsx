@@ -81,7 +81,7 @@ const Approvals: React.FunctionComponent<IApprovalsProps> = (props) => {
 
   return (
     <section className={styles.approvals}>
-      <SectionHeader title="Applications & Approvals" linkText="View All" linkUrl={props.viewAllUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.viewAllUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.appsG}>
         {renderPanel('My Pending Requests', 'New Request', props.newRequestUrl, data.myPending, 'No pending requests.')}

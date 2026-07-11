@@ -4,7 +4,9 @@ declare interface IEmbeddedPortalWebPartStrings {
   PortalUrlLabel: string;
   FrameHeightLabel: string;
   SectionTitleLabel: string;
+  SectionTitleARLabel: string;
   LinkTextLabel: string;
+  LinkTextARLabel: string;
   HideUrlLabel: string;
   AppSignInModeLabel: string;
 }

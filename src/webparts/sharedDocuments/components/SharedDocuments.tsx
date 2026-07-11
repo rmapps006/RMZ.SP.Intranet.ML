@@ -119,7 +119,7 @@ const SharedDocuments: React.FunctionComponent<ISharedDocumentsProps> = (props) 
 
   return (
     <section className={styles.root}>
-      <SectionHeader title="Shared Documents" linkText="Document Hub" linkUrl={props.documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
       <div className={styles.grid}>
         <DocumentPanel title={props.panel1Title} libraryUrl={props.panel1Url} items={items1} newTab={newTab} loading={loading1} />
         <DocumentPanel title={props.panel2Title} libraryUrl={props.panel2Url} items={items2} newTab={newTab} loading={loading2} />

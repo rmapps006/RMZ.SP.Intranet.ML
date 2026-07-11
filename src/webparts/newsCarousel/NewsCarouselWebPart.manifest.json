@@ -17,6 +17,10 @@
       "description": { "default": "Filterable grid of company news and announcements from the Site Pages library." },
       "officeFabricIconFontName": "News",
       "properties": {
+        "title": "News & Announcements",
+        "titleAR": "",
+        "linkText": "View Archive",
+        "linkTextAR": "",
         "newsList": "News",
         "archiveUrl": "",
         "maxItems": "3"

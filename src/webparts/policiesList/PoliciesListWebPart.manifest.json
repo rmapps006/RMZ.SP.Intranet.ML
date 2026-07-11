@@ -17,6 +17,10 @@
       "description": { "default": "Searchable, filterable table of company policies for the intranet." },
       "officeFabricIconFontName": "DocumentSet",
       "properties": {
+        "title": "Policies & Procedures",
+        "titleAR": "",
+        "linkText": "All Policies",
+        "linkTextAR": "",
         "policiesList": "Policies",
         "allPoliciesUrl": ""
       }

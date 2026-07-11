@@ -11,4 +11,6 @@ export interface ISharedDocumentsProps {
   documentHubUrl: string;
   showTitle: boolean;
   showViewAll: boolean;
+  title: string;
+  linkText: string;
 }

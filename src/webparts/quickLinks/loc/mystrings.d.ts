@@ -2,6 +2,7 @@ declare interface IQuickLinksWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   TitleLabel: string;
+  TitleARLabel: string;
   ViewAllUrlLabel: string;
   LinksJsonLabel: string;
 }

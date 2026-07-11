@@ -6,4 +6,6 @@ export interface IPoliciesListProps {
   allPoliciesUrl: string;
   showTitle: boolean;
   showViewAll: boolean;
+  title: string;
+  linkText: string;
 }

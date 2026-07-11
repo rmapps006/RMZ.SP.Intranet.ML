@@ -7,4 +7,6 @@ export interface IEventsListProps {
   maxItems: string;
   showTitle: boolean;
   showViewAll: boolean;
+  title: string;
+  linkText: string;
 }

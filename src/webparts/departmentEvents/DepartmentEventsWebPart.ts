@@ -7,8 +7,13 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'DepartmentEventsWebPartStrings';
 import DepartmentEvents from './components/DepartmentEvents';
 import { IDepartmentEventsProps } from './components/IDepartmentEventsProps';
+import { getCurrentLanguage, pickLocalized } from '../../common/services/languageService';
 
 export interface IDepartmentEventsWebPartProps {
+  title: string;
+  titleAR: string;
+  linkText: string;
+  linkTextAR: string;
   eventsList: string;
   calendarUrl: string;
   maxItems: string;
@@ -18,10 +23,13 @@ export interface IDepartmentEventsWebPartProps {
 
 export default class DepartmentEventsWebPart extends BaseClientSideWebPart<IDepartmentEventsWebPartProps> {
   public render(): void {
+    const language = getCurrentLanguage();
     const element: React.ReactElement<IDepartmentEventsProps> = React.createElement(DepartmentEvents, {
       showTitle: this.properties.showTitle !== false,
       showViewAll: this.properties.showViewAll !== false,
       context: this.context,
+      title: pickLocalized(this.properties.title, this.properties.titleAR, language),
+      linkText: pickLocalized(this.properties.linkText, this.properties.linkTextAR, language),
       eventsList: this.properties.eventsList,
       calendarUrl: this.properties.calendarUrl,
       maxItems: this.properties.maxItems
@@ -48,6 +56,10 @@ export default class DepartmentEventsWebPart extends BaseClientSideWebPart<IDepa
               groupFields: [
                 PropertyPaneToggle('showTitle', { label: 'Show section title' }),
                 PropertyPaneToggle('showViewAll', { label: 'Show the "View All" link' }),
+                PropertyPaneTextField('title', { label: strings.TitleLabel }),
+                PropertyPaneTextField('titleAR', { label: strings.TitleARLabel }),
+                PropertyPaneTextField('linkText', { label: strings.LinkTextLabel }),
+                PropertyPaneTextField('linkTextAR', { label: strings.LinkTextARLabel }),
                 PropertyPaneTextField('eventsList', { label: strings.EventsListLabel }),
                 PropertyPaneTextField('calendarUrl', { label: strings.CalendarUrlLabel }),
                 PropertyPaneTextField('maxItems', { label: strings.MaxItemsLabel })

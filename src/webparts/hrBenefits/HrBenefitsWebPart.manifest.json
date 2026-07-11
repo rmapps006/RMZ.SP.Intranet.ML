@@ -18,6 +18,7 @@
       "officeFabricIconFontName": "Health",
       "properties": {
         "title": "HR Benefits",
+        "titleAR": "",
         "allBenefitsUrl": "",
         "benefitsJson": ""
       }

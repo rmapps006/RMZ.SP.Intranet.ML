@@ -123,7 +123,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
 
   return (
     <section className={styles.directory}>
-      <SectionHeader title="Employee Directory" linkText="Full Directory" linkUrl={props.fullDirectoryUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.fullDirectoryUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.dirTop}>
         <div className={styles.dirSb}>

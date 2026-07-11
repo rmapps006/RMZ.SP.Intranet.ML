@@ -17,6 +17,10 @@
       "description": { "default": "Upcoming company events from a SharePoint Events list." },
       "officeFabricIconFontName": "Calendar",
       "properties": {
+        "title": "Company Events",
+        "titleAR": "",
+        "linkText": "View Calendar",
+        "linkTextAR": "",
         "eventsList": "Events",
         "calendarUrl": "",
         "maxItems": "4"

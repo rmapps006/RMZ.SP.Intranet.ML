@@ -18,6 +18,7 @@
       "officeFabricIconFontName": "Org",
       "properties": {
         "title": "Departments",
+        "titleAR": "",
         "viewAllUrl": "",
         "departmentsJson": "",
         "showTitle": true,

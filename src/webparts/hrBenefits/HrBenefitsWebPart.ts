@@ -7,9 +7,11 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'HrBenefitsWebPartStrings';
 import HrBenefits from './components/HrBenefits';
 import { IHrBenefitsProps } from './components/IHrBenefitsProps';
+import { getCurrentLanguage, pickLocalized } from '../../common/services/languageService';
 
 export interface IHrBenefitsWebPartProps {
   title: string;
+  titleAR: string;
   allBenefitsUrl: string;
   benefitsList: string;
   benefitsJson: string;
@@ -19,11 +21,12 @@ export interface IHrBenefitsWebPartProps {
 
 export default class HrBenefitsWebPart extends BaseClientSideWebPart<IHrBenefitsWebPartProps> {
   public render(): void {
+    const language = getCurrentLanguage();
     const element: React.ReactElement<IHrBenefitsProps> = React.createElement(HrBenefits, {
       showTitle: this.properties.showTitle !== false,
       showViewAll: this.properties.showViewAll !== false,
       context: this.context,
-      title: this.properties.title || 'HR Benefits',
+      title: pickLocalized(this.properties.title || 'HR Benefits', this.properties.titleAR, language),
       allBenefitsUrl: this.properties.allBenefitsUrl,
       benefitsList: this.properties.benefitsList || 'HR Benefits',
       benefitsJson: this.properties.benefitsJson
@@ -51,6 +54,7 @@ export default class HrBenefitsWebPart extends BaseClientSideWebPart<IHrBenefits
                 PropertyPaneToggle('showTitle', { label: 'Show section title' }),
                 PropertyPaneToggle('showViewAll', { label: 'Show the "View All" link' }),
                 PropertyPaneTextField('title', { label: strings.TitleLabel }),
+                PropertyPaneTextField('titleAR', { label: strings.TitleARLabel }),
                 PropertyPaneTextField('allBenefitsUrl', { label: strings.AllBenefitsUrlLabel }),
                 PropertyPaneTextField('benefitsList', { label: 'HR Benefits list name' }),
                 PropertyPaneTextField('benefitsJson', { label: strings.BenefitsJsonLabel, multiline: true })

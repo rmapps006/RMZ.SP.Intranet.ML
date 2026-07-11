@@ -18,6 +18,7 @@
       "officeFabricIconFontName": "PageEdit",
       "properties": {
         "title": "Content Manager",
+        "titleAR": "",
         "newsList": "News",
         "eventsList": "Events",
         "benefitsList": "HR Benefits",

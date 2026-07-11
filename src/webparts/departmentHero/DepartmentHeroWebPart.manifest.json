@@ -26,8 +26,11 @@
       "officeFabricIconFontName": "Org",
       "properties": {
         "eyebrow": "",
+        "eyebrowAR": "",
         "departmentName": "",
+        "departmentNameAR": "",
         "description": "",
+        "descriptionAR": "",
         "ownerName": "",
         "ownerRole": ""
       }

@@ -7,4 +7,6 @@ export interface INewsCarouselProps {
   maxItems: number;
   showTitle: boolean;
   showViewAll: boolean;
+  title: string;
+  linkText: string;
 }

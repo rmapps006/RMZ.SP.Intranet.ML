@@ -3,6 +3,7 @@ define([], function () {
     "PropertyPaneDescription": "Choose which content types this dashboard manages and the list names to use.",
     "BasicGroupName": "Content Manager Settings",
     "TitleLabel": "Section title",
+    "TitleARLabel": "Section title (Arabic)",
     "ShowNewsLabel": "Manage News",
     "ShowEventsLabel": "Manage Events",
     "ShowBenefitsLabel": "Manage HR Benefits",

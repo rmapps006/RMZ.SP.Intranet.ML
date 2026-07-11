@@ -7,8 +7,13 @@ import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import * as strings from 'ApprovalsWebPartStrings';
 import Approvals from './components/Approvals';
 import { IApprovalsProps } from './components/IApprovalsProps';
+import { getCurrentLanguage, pickLocalized } from '../../common/services/languageService';
 
 export interface IApprovalsWebPartProps {
+  title: string;
+  titleAR: string;
+  linkText: string;
+  linkTextAR: string;
   requestsList: string;
   department: string;
   viewAllUrl: string;
@@ -20,10 +25,13 @@ export interface IApprovalsWebPartProps {
 
 export default class ApprovalsWebPart extends BaseClientSideWebPart<IApprovalsWebPartProps> {
   public render(): void {
+    const language = getCurrentLanguage();
     const element: React.ReactElement<IApprovalsProps> = React.createElement(Approvals, {
       showTitle: this.properties.showTitle !== false,
       showViewAll: this.properties.showViewAll !== false,
       context: this.context,
+      title: pickLocalized(this.properties.title || 'Applications & Approvals', this.properties.titleAR, language),
+      linkText: pickLocalized(this.properties.linkText || 'View All', this.properties.linkTextAR, language),
       requestsList: this.properties.requestsList,
       department: this.properties.department,
       viewAllUrl: this.properties.viewAllUrl,
@@ -52,6 +60,10 @@ export default class ApprovalsWebPart extends BaseClientSideWebPart<IApprovalsWe
               groupFields: [
                 PropertyPaneToggle('showTitle', { label: 'Show section title' }),
                 PropertyPaneToggle('showViewAll', { label: 'Show the "View All" link' }),
+                PropertyPaneTextField('title', { label: strings.TitleLabel }),
+                PropertyPaneTextField('titleAR', { label: strings.TitleARLabel }),
+                PropertyPaneTextField('linkText', { label: strings.LinkTextLabel }),
+                PropertyPaneTextField('linkTextAR', { label: strings.LinkTextARLabel }),
                 PropertyPaneTextField('requestsList', { label: strings.RequestsListLabel }),
                 PropertyPaneTextField('department', { label: strings.DepartmentLabel }),
                 PropertyPaneTextField('viewAllUrl', { label: strings.ViewAllUrlLabel }),

@@ -2,6 +2,7 @@ declare interface IContentManagerWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   TitleLabel: string;
+  TitleARLabel: string;
   ShowNewsLabel: string;
   ShowEventsLabel: string;
   ShowBenefitsLabel: string;

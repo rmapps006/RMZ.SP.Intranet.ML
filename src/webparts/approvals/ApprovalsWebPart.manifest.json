@@ -17,6 +17,10 @@
       "description": { "default": "Pending requests and approvals awaiting the current user." },
       "officeFabricIconFontName": "DocumentApproval",
       "properties": {
+        "title": "Applications & Approvals",
+        "titleAR": "",
+        "linkText": "View All",
+        "linkTextAR": "",
         "requestsList": "Approvals",
         "department": "Development",
         "viewAllUrl": "",

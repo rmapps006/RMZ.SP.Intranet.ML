@@ -20,7 +20,9 @@
         "portalUrl": "https://www.example.com",
         "frameHeight": "520",
         "sectionTitle": "Embedded Portal",
+        "sectionTitleAR": "",
         "linkText": "Open in new tab",
+        "linkTextAR": "",
         "appSignInMode": false
       }
     }

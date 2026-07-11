@@ -63,7 +63,7 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
 
   return (
     <section className={styles.news}>
-      <SectionHeader title="News & Announcements" linkText="View Archive" linkUrl={props.archiveUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.archiveUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.newsCats}>
         {NEWS_CATEGORIES.map((cat: string) => (

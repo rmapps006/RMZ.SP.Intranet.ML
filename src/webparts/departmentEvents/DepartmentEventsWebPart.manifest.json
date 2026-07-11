@@ -25,6 +25,10 @@
       },
       "officeFabricIconFontName": "Calendar",
       "properties": {
+        "title": "Department Events",
+        "titleAR": "",
+        "linkText": "View Calendar",
+        "linkTextAR": "",
         "eventsList": "",
         "calendarUrl": "",
         "maxItems": ""

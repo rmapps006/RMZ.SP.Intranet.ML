@@ -56,7 +56,7 @@ const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
 
   return (
     <section className={styles.events}>
-      <SectionHeader title="Company Events" linkText="View Calendar" linkUrl={props.calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
+      <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
         <div className={styles.evtsEmpty}>Loading events…</div>

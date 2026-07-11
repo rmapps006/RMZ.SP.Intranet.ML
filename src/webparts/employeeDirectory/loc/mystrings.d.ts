@@ -1,6 +1,10 @@
 declare interface IEmployeeDirectoryWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
+  TitleLabel: string;
+  TitleARLabel: string;
+  LinkTextLabel: string;
+  LinkTextARLabel: string;
   FullDirectoryUrlLabel: string;
   PageSizeLabel: string;
 }

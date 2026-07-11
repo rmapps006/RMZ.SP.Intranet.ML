@@ -17,11 +17,17 @@
       "description": { "default": "Two-column view of recent files from configured document libraries." },
       "officeFabricIconFontName": "DocLibrary",
       "properties": {
+        "title": "Shared Documents",
+        "titleAR": "",
+        "linkText": "Document Hub",
+        "linkTextAR": "",
         "panel1Library": "Documents",
         "panel1Title": "Company Shared Library",
+        "panel1TitleAR": "",
         "panel1Url": "",
         "panel2Library": "Templates",
         "panel2Title": "Templates & Forms",
+        "panel2TitleAR": "",
         "panel2Url": "",
         "documentHubUrl": ""
       }
