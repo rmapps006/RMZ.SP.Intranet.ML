@@ -1,0 +1,207 @@
+@import '../../../common/styles/tokens';
+
+.directory {
+  @include ora-bg-alt;
+  @include ora-pad;
+  font-family: $font-body;
+}
+
+.dirTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.dirSb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  padding: 9px 16px;
+  width: 360px;
+  max-width: 100%;
+
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+
+  input {
+    font-family: $font-body;
+    font-size: 12px;
+    color: $ora-text-2;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+}
+
+.searchIcon {
+  opacity: 0.38;
+  flex-shrink: 0;
+}
+
+.dirChips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 10px;
+  padding: 5px 13px;
+  border: 1px solid $ora-border;
+  border-radius: 15px;
+  color: $ora-text-2;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+  background: $ora-white;
+
+  &:hover:not(.on) {
+    border-color: rgba(227, 203, 168, 0.6);
+  }
+
+  &.on {
+    background: $ora-dark;
+    color: #fff;
+    border-color: $ora-dark;
+  }
+}
+
+.dirStatus {
+  font-size: 12px;
+  color: $ora-text-2;
+  margin: 0 0 12px;
+}
+
+.dirEmpty {
+  font-size: 13px;
+  color: $ora-text-2;
+  text-align: center;
+  padding: 28px 0;
+}
+
+.dirG {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dirCd {
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  padding: 18px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: $ora-white;
+
+  &:hover {
+    box-shadow: $ora-shadow;
+    border-color: rgba(227, 203, 168, 0.5);
+  }
+}
+
+.dirHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 13px;
+}
+
+.dirNm {
+  font-size: 12px;
+  color: $ora-dark;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.dirRole {
+  font-size: 10px;
+  color: $ora-text-2;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.dirDept {
+  font-size: 9px;
+  color: $ora-text-muted;
+  letter-spacing: 0.02em;
+}
+
+.dirContact {
+  border-top: 1px solid $ora-border;
+  padding-top: 11px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.dirLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: $ora-text-2;
+  min-width: 0;
+
+  svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.dirActs {
+  display: flex;
+  gap: 6px;
+}
+
+.dirAct {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 28px;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $ora-text-2;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--ora-accent, #{$ora-sand});
+    color: $ora-dark;
+  }
+}

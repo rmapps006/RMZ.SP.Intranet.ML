@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "fa5a4c01-9751-44ce-88d2-9ca0a1443cab",
+  "alias": "DetailViewWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Detail View" },
+      "description": { "default": "Shows the full detail for a News, Event, Policy or Employee from the URL (?type=&recId=)." },
+      "officeFabricIconFontName": "EntryView",
+      "properties": {
+        "newsList": "News",
+        "eventsList": "Events",
+        "policiesList": "Policies",
+        "benefitsList": "HR Benefits",
+        "backUrl": ""
+      }
+    }
+  ]
+}

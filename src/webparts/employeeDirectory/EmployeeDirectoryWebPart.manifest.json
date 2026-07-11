@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "62faf2e1-930e-4cb8-acf3-6e2690952613",
+  "alias": "EmployeeDirectoryWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Employee Directory" },
+      "description": { "default": "Searchable, filterable directory of people sourced from Microsoft Graph." },
+      "officeFabricIconFontName": "People",
+      "properties": {
+        "fullDirectoryUrl": "",
+        "pageSize": "24"
+      }
+    }
+  ]
+}

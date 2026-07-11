@@ -1,0 +1,210 @@
+@import '../../../common/styles/tokens';
+
+.policies {
+  @include ora-pad;
+  background: $ora-white;
+  font-family: $font-body;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  padding: 9px 16px;
+  width: 300px;
+  max-width: 100%;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+
+  input {
+    font-family: $font-body;
+    font-size: 12px;
+    color: $ora-text-2;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+}
+
+.chips {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 10px;
+  padding: 5px 13px;
+  border: 1px solid $ora-border;
+  border-radius: 15px;
+  color: $ora-text-2;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+  background: $ora-white;
+
+  &:hover:not(.on) {
+    border-color: rgba(227, 203, 168, 0.6);
+  }
+}
+
+.on {
+  background: $ora-dark;
+  color: #fff;
+  border-color: $ora-dark;
+}
+
+.table {
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: $ora-shadow;
+}
+
+.hrow,
+.row {
+  display: grid;
+  grid-template-columns: 1fr 150px 120px 70px;
+  gap: 16px;
+  align-items: center;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+}
+
+.hrow {
+  padding: 12px 22px;
+  border-bottom: 1px solid $ora-border;
+  background: #faf8f5;
+
+  @media (max-width: 700px) {
+    padding: 12px 16px;
+  }
+}
+
+.hc {
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: $ora-text-muted;
+  font-weight: 600;
+}
+
+.row {
+  padding: 13px 22px;
+  border-bottom: 1px solid rgba(181, 181, 181, 0.12);
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $ora-bg;
+  }
+
+  @media (max-width: 700px) {
+    padding: 13px 16px;
+  }
+}
+
+/* Below 700px the table collapses to Title + Department; the Last Updated and
+   Version columns are hidden to avoid horizontal overflow on small screens. */
+@media (max-width: 700px) {
+  .hrow .hc:nth-child(3),
+  .hrow .hc:nth-child(4),
+  .date,
+  .ver {
+    display: none;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.nm {
+  font-size: 12px;
+  color: $ora-dark;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 3px 11px;
+  border-radius: 12px;
+  letter-spacing: 0.03em;
+  justify-self: start;
+  white-space: nowrap;
+}
+
+.date {
+  font-size: 11px;
+  color: $ora-text-2;
+}
+
+.ver {
+  font-size: 10px;
+  color: $ora-text-muted;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.dic {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: $font-body;
+  flex-shrink: 0;
+}
+
+.pdf {
+  background: rgba(234, 139, 110, 0.12);
+  color: $ora-sun;
+}
+
+.doc {
+  background: rgba(164, 224, 230, 0.18);
+  color: #4a9aa0;
+}
+
+.xls {
+  background: rgba(100, 180, 80, 0.1);
+  color: #4e8838;
+}
+
+.empty {
+  padding: 24px 22px;
+  font-size: 12px;
+  color: $ora-text-2;
+  text-align: center;
+}

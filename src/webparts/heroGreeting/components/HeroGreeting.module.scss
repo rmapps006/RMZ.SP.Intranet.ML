@@ -1,0 +1,142 @@
+@import '../../../common/styles/tokens';
+
+.hero {
+  height: 480px;
+  position: relative;
+  overflow: hidden;
+  font-family: $font-body;
+
+  @media (max-width: 900px) {
+    height: auto;
+    min-height: 360px;
+  }
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #141110 0%, #1e1812 22%, #352b1e 50%, #574535 75%, #78655a 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(227, 203, 168, 0.05) 79px,
+      rgba(227, 203, 168, 0.05) 80px
+    );
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.08) 55%, transparent 100%);
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  padding: 0 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (max-width: 900px) {
+    padding: 48px 24px;
+  }
+}
+
+.greet {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: rgba(227, 203, 168, 0.75);
+  margin-bottom: 8px;
+
+  span {
+    color: var(--ora-accent, #{$ora-sand});
+  }
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(181, 181, 181, 0.6);
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: $font-head;
+  font-weight: 100;
+  font-size: 56px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  line-height: 1.04;
+  margin: 0 0 14px;
+
+  em {
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 36px;
+  }
+}
+
+.rule {
+  width: 48px;
+  height: 1px;
+  background: var(--ora-accent, #{$ora-sand});
+  margin-bottom: 18px;
+}
+
+.sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.62);
+  letter-spacing: 0.09em;
+  margin-bottom: 30px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(227, 203, 168, 0.12);
+  border: 1px solid rgba(227, 203, 168, 0.35);
+  color: var(--ora-accent, #{$ora-sand});
+  font-family: $font-body;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 11px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(227, 203, 168, 0.2);
+  }
+}
+
+.caption {
+  position: absolute;
+  bottom: 16px;
+  right: 26px;
+  font-family: monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 10;
+}

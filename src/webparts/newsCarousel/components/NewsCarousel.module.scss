@@ -1,0 +1,131 @@
+@import '../../../common/styles/tokens';
+
+.news {
+  @include ora-pad;
+  background: $ora-white;
+  font-family: $font-body;
+}
+
+.newsCats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+
+.ncat {
+  font-size: 10px;
+  padding: 5px 14px;
+  border: 1px solid $ora-border;
+  border-radius: 15px;
+  color: $ora-text-2;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+  background: $ora-white;
+  font-family: $font-body;
+  line-height: 1.4;
+
+  &:hover:not(.on) {
+    border-color: rgba(227, 203, 168, 0.6);
+  }
+
+  &.on {
+    background: $ora-dark;
+    color: #fff;
+    border-color: $ora-dark;
+  }
+}
+
+.newsG {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  position: relative;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nc {
+  @include ora-card;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: $ora-shadow-hover;
+  }
+}
+
+.ncImg {
+  height: 148px;
+  position: relative;
+}
+
+.ncBd {
+  padding: 16px 17px 20px;
+}
+
+.ncTag {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $ora-silver;
+  margin-bottom: 6px;
+}
+
+.ncH {
+  font-family: $font-head;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.42;
+  color: $ora-dark;
+  margin: 0 0 8px;
+}
+
+.ncEx {
+  font-size: 11px;
+  color: $ora-text-2;
+  line-height: 1.6;
+  margin: 0 0 11px;
+}
+
+.ncFt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ncDt,
+.ncAu {
+  font-size: 10px;
+  color: $ora-text-muted;
+}
+
+.newsNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.newsDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $ora-border;
+  cursor: pointer;
+
+  &.on {
+    background: var(--ora-accent, #{$ora-sand});
+  }
+}

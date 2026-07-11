@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "2fb577bd-e9fd-4a1a-9dd1-db05de8c9431",
+  "alias": "DepartmentDocumentsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart"
+  ],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": {
+        "default": "Intranet"
+      },
+      "title": {
+        "default": "Department Documents"
+      },
+      "description": {
+        "default": "Department policies and shared documents from SharePoint libraries."
+      },
+      "officeFabricIconFontName": "DocLibrary",
+      "properties": {
+        "department": "",
+        "policiesLibrary": "",
+        "documentsLibrary": "",
+        "documentHubUrl": "",
+        "panel1Title": "",
+        "panel2Title": ""
+      }
+    }
+  ]
+}

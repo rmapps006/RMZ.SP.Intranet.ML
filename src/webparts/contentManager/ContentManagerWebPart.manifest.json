@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "c6324e68-dcc1-469d-86f4-bea2a661e608",
+  "alias": "ContentManagerWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Content Manager" },
+      "description": { "default": "One dashboard for contributors to add, edit and remove News, Events and HR Benefits." },
+      "officeFabricIconFontName": "PageEdit",
+      "properties": {
+        "title": "Content Manager",
+        "newsList": "News",
+        "eventsList": "Events",
+        "benefitsList": "HR Benefits",
+        "showNews": true,
+        "showEvents": true,
+        "showBenefits": false
+      }
+    }
+  ]
+}

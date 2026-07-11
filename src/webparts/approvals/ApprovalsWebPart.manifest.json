@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "843bf446-0b37-4083-8c20-3d0f8343cbbe",
+  "alias": "ApprovalsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Applications & Approvals" },
+      "description": { "default": "Pending requests and approvals awaiting the current user." },
+      "officeFabricIconFontName": "DocumentApproval",
+      "properties": {
+        "requestsList": "Approvals",
+        "department": "Development",
+        "viewAllUrl": "",
+        "newRequestUrl": "",
+        "reviewAllUrl": ""
+      }
+    }
+  ]
+}

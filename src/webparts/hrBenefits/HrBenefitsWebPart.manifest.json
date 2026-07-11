@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "d35d3fce-bada-4a3d-b000-f80d534f8583",
+  "alias": "HrBenefitsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "HR Benefits" },
+      "description": { "default": "Grid of HR benefit cards for the intranet." },
+      "officeFabricIconFontName": "Health",
+      "properties": {
+        "title": "HR Benefits",
+        "allBenefitsUrl": "",
+        "benefitsJson": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "9ab0cfae-580a-4296-abe1-85ccf9a5f7a1",
+  "alias": "DepartmentNewsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart"
+  ],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": {
+        "default": "Intranet"
+      },
+      "title": {
+        "default": "Department News"
+      },
+      "description": {
+        "default": "Latest department news from the department News list."
+      },
+      "officeFabricIconFontName": "News",
+      "properties": {
+        "newsList": "",
+        "allNewsUrl": ""
+      }
+    }
+  ]
+}

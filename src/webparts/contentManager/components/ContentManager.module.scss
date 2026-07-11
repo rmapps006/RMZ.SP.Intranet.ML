@@ -1,0 +1,195 @@
+@import '../../../common/styles/tokens';
+
+.cm {
+  font-family: $font-body;
+  color: $ora-dark;
+  padding: 8px 2px;
+}
+
+.head {
+  margin-bottom: 8px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $ora-silver;
+}
+
+.title {
+  font-family: $font-head;
+  font-weight: 300;
+  font-size: 24px;
+  margin: 4px 0 2px;
+}
+
+.intro {
+  font-size: 13px;
+  color: $ora-silver;
+  margin: 0 0 6px;
+}
+
+.panel {
+  padding: 12px 0;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.form {
+  border: 1px solid rgba(38, 38, 38, 0.12);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  background: rgba(245, 243, 240, 0.4);
+}
+
+.formTitle {
+  font-family: $font-head;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: $ora-dark;
+  margin-bottom: 4px;
+}
+
+.dateInput {
+  padding: 6px 8px;
+  border: 1px solid #a19f9d;
+  border-radius: 2px;
+  font-family: $font-body;
+  font-size: 14px;
+  max-width: 320px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rowItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.rowMain {
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowMeta {
+  font-size: 12px;
+  color: $ora-silver;
+  margin-top: 2px;
+}
+
+.rowActions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  color: $ora-dark;
+
+  &:hover {
+    background: rgba(38, 38, 38, 0.07);
+  }
+}
+
+.empty {
+  font-size: 13px;
+  color: $ora-silver;
+  padding: 14px 2px;
+}
+
+.rtField {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.rtToolbar {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid #a19f9d;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  background: #faf9f8;
+}
+
+.rtBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 3px;
+  color: $ora-dark;
+  font-size: 13px;
+
+  &:hover {
+    background: rgba(38, 38, 38, 0.08);
+  }
+}
+
+.rtEditor {
+  min-height: 130px;
+  padding: 10px 12px;
+  border: 1px solid #a19f9d;
+  border-radius: 0 0 2px 2px;
+  font-family: $font-body;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #fff;
+  overflow-y: auto;
+
+  &:focus {
+    outline: none;
+    border-color: $ora-sand-dark;
+  }
+
+  p {
+    margin: 0 0 8px;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "b975901c-fe7c-4efe-8c53-be86d2f9c691",
+  "alias": "NewsCarouselWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "News & Announcements" },
+      "description": { "default": "Filterable grid of company news and announcements from the Site Pages library." },
+      "officeFabricIconFontName": "News",
+      "properties": {
+        "newsList": "News",
+        "archiveUrl": "",
+        "maxItems": "3"
+      }
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "ora-header-footer-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/oraHeaderFooter/ORAHeaderFooterApplicationCustomizer.js",
+          "manifest": "./src/extensions/oraHeaderFooter/ORAHeaderFooterApplicationCustomizer.manifest.json"
+        }
+      ]
+    },
+    "hero-greeting-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/heroGreeting/HeroGreetingWebPart.js",
+          "manifest": "./src/webparts/heroGreeting/HeroGreetingWebPart.manifest.json"
+        }
+      ]
+    },
+    "embedded-portal-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/embeddedPortal/EmbeddedPortalWebPart.js",
+          "manifest": "./src/webparts/embeddedPortal/EmbeddedPortalWebPart.manifest.json"
+        }
+      ]
+    },
+    "productivity-strip-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/productivityStrip/ProductivityStripWebPart.js",
+          "manifest": "./src/webparts/productivityStrip/ProductivityStripWebPart.manifest.json"
+        }
+      ]
+    },
+    "news-carousel-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newsCarousel/NewsCarouselWebPart.js",
+          "manifest": "./src/webparts/newsCarousel/NewsCarouselWebPart.manifest.json"
+        }
+      ]
+    },
+    "events-list-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/eventsList/EventsListWebPart.js",
+          "manifest": "./src/webparts/eventsList/EventsListWebPart.manifest.json"
+        }
+      ]
+    },
+    "hr-benefits-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/hrBenefits/HrBenefitsWebPart.js",
+          "manifest": "./src/webparts/hrBenefits/HrBenefitsWebPart.manifest.json"
+        }
+      ]
+    },
+    "policies-list-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/policiesList/PoliciesListWebPart.js",
+          "manifest": "./src/webparts/policiesList/PoliciesListWebPart.manifest.json"
+        }
+      ]
+    },
+    "shared-documents-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/sharedDocuments/SharedDocumentsWebPart.js",
+          "manifest": "./src/webparts/sharedDocuments/SharedDocumentsWebPart.manifest.json"
+        }
+      ]
+    },
+    "employee-directory-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/employeeDirectory/EmployeeDirectoryWebPart.js",
+          "manifest": "./src/webparts/employeeDirectory/EmployeeDirectoryWebPart.manifest.json"
+        }
+      ]
+    },
+    "ora-admin-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/oraAdmin/OraAdminWebPart.js",
+          "manifest": "./src/webparts/oraAdmin/OraAdminWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-hero-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentHero/DepartmentHeroWebPart.js",
+          "manifest": "./src/webparts/departmentHero/DepartmentHeroWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-quick-actions-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentQuickActions/DepartmentQuickActionsWebPart.js",
+          "manifest": "./src/webparts/departmentQuickActions/DepartmentQuickActionsWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-documents-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentDocuments/DepartmentDocumentsWebPart.js",
+          "manifest": "./src/webparts/departmentDocuments/DepartmentDocumentsWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-news-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentNews/DepartmentNewsWebPart.js",
+          "manifest": "./src/webparts/departmentNews/DepartmentNewsWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-events-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentEvents/DepartmentEventsWebPart.js",
+          "manifest": "./src/webparts/departmentEvents/DepartmentEventsWebPart.manifest.json"
+        }
+      ]
+    },
+    "approvals-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/approvals/ApprovalsWebPart.js",
+          "manifest": "./src/webparts/approvals/ApprovalsWebPart.manifest.json"
+        }
+      ]
+    },
+    "quick-links-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/quickLinks/QuickLinksWebPart.js",
+          "manifest": "./src/webparts/quickLinks/QuickLinksWebPart.manifest.json"
+        }
+      ]
+    },
+    "department-admin-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentAdmin/DepartmentAdminWebPart.js",
+          "manifest": "./src/webparts/departmentAdmin/DepartmentAdminWebPart.manifest.json"
+        }
+      ]
+    },
+    "departments-directory-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/departmentsDirectory/DepartmentsDirectoryWebPart.js",
+          "manifest": "./src/webparts/departmentsDirectory/DepartmentsDirectoryWebPart.manifest.json"
+        }
+      ]
+    },
+    "detail-view-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/detailView/DetailViewWebPart.js",
+          "manifest": "./src/webparts/detailView/DetailViewWebPart.manifest.json"
+        }
+      ]
+    },
+    "content-manager-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/contentManager/ContentManagerWebPart.js",
+          "manifest": "./src/webparts/contentManager/ContentManagerWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ORAHeaderFooterApplicationCustomizerStrings": "lib/extensions/oraHeaderFooter/loc/{locale}.js",
+    "HeroGreetingWebPartStrings": "lib/webparts/heroGreeting/loc/{locale}.js",
+    "EmbeddedPortalWebPartStrings": "lib/webparts/embeddedPortal/loc/{locale}.js",
+    "ProductivityStripWebPartStrings": "lib/webparts/productivityStrip/loc/{locale}.js",
+    "NewsCarouselWebPartStrings": "lib/webparts/newsCarousel/loc/{locale}.js",
+    "EventsListWebPartStrings": "lib/webparts/eventsList/loc/{locale}.js",
+    "HrBenefitsWebPartStrings": "lib/webparts/hrBenefits/loc/{locale}.js",
+    "PoliciesListWebPartStrings": "lib/webparts/policiesList/loc/{locale}.js",
+    "SharedDocumentsWebPartStrings": "lib/webparts/sharedDocuments/loc/{locale}.js",
+    "EmployeeDirectoryWebPartStrings": "lib/webparts/employeeDirectory/loc/{locale}.js",
+    "OraAdminWebPartStrings": "lib/webparts/oraAdmin/loc/{locale}.js",
+    "DepartmentHeroWebPartStrings": "lib/webparts/departmentHero/loc/{locale}.js",
+    "DepartmentQuickActionsWebPartStrings": "lib/webparts/departmentQuickActions/loc/{locale}.js",
+    "DepartmentDocumentsWebPartStrings": "lib/webparts/departmentDocuments/loc/{locale}.js",
+    "DepartmentNewsWebPartStrings": "lib/webparts/departmentNews/loc/{locale}.js",
+    "DepartmentEventsWebPartStrings": "lib/webparts/departmentEvents/loc/{locale}.js",
+    "ApprovalsWebPartStrings": "lib/webparts/approvals/loc/{locale}.js",
+    "QuickLinksWebPartStrings": "lib/webparts/quickLinks/loc/{locale}.js",
+    "DepartmentAdminWebPartStrings": "lib/webparts/departmentAdmin/loc/{locale}.js",
+    "DepartmentsDirectoryWebPartStrings": "lib/webparts/departmentsDirectory/loc/{locale}.js",
+    "DetailViewWebPartStrings": "lib/webparts/detailView/loc/{locale}.js",
+    "ContentManagerWebPartStrings": "lib/webparts/contentManager/loc/{locale}.js"
+  }
+}

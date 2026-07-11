@@ -1,0 +1,87 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Intranet Suite",
+    "id": "4775dea0-79ff-4acf-b3cc-ab985b550610",
+    "version": "1.3.2.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": false,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Intranet Suite",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": ""
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Intranet global header and footer."
+      },
+      "longDescription": {
+        "default": "Application Customizer that injects a configurable branded global header (logo, navigation, search, notifications, user avatar) and footer on every SharePoint page."
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "People.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Calendars.Read"
+      }
+    ],
+    "features": [
+      {
+        "title": "Intranet Suite - Header & Footer",
+        "description": "Deploys the header/footer application customizer to every page.",
+        "id": "3fd780cb-71c3-45e4-ac55-8455274c1a58",
+        "version": "1.3.2.0",
+        "componentIds": [
+          "c4e5110d-1d14-4170-8db9-987c63c015ac",
+          "d56e274f-e609-47d7-91c1-e49f3fe74c5e",
+          "875c6113-030c-4068-bfb4-b0df80400ddc",
+          "f2e10b95-0b20-4d1f-9a62-a3bafccee72c",
+          "b975901c-fe7c-4efe-8c53-be86d2f9c691",
+          "e34006b6-56c7-4f1d-8cd6-395b909e7549",
+          "d35d3fce-bada-4a3d-b000-f80d534f8583",
+          "577e282d-a89f-48ea-baa8-b303a8865538",
+          "cdc9bdad-043b-4f8e-b1e0-2f7b4454333c",
+          "62faf2e1-930e-4cb8-acf3-6e2690952613",
+          "604a1ad1-9900-4dfe-af74-e3b26e616679",
+          "a49ab41e-0aa5-4b64-a4f9-14b4973d3fa4",
+          "f8f22084-7c6a-4165-a22d-e8c8cd178477",
+          "2fb577bd-e9fd-4a1a-9dd1-db05de8c9431",
+          "9ab0cfae-580a-4296-abe1-85ccf9a5f7a1",
+          "6fa19072-6a57-4112-8c72-e00e48512f51",
+          "843bf446-0b37-4083-8c20-3d0f8343cbbe",
+          "040fdd60-5faf-4821-a644-be801dd2beb7",
+          "c6a4ffba-77e7-4a8c-b460-726ef9dce6f2",
+          "a97c1d88-2379-4fd0-8887-963db1c86f57",
+          "fa5a4c01-9751-44ce-88d2-9ca0a1443cab",
+          "c6324e68-dcc1-469d-86f4-bea2a661e608"
+        ],
+        "assets": {
+          "elementManifests": [
+            "elements.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/intranet-suite.sppkg"
+  }
+}

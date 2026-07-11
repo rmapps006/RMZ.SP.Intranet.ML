@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORA UAE Intranet — Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500&family=Jost:wght@200;300;400;500&family=Questrial&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: 'Public Sans', sans-serif; background: #111; color: #fff; display: flex; flex-direction: column; }
+
+  /* TOP BAR */
+  .top-bar { background: #0d0d0d; border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; gap: 16px; padding: 0 20px; height: 52px; flex-shrink: 0; }
+
+  .ora-mark { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .ora-mark img { height: 30px; border-radius: 3px; display: block; }
+  .ora-mark-b { font-family: 'Raleway', sans-serif; font-weight: 400; font-size: 9px; letter-spacing: .22em; color: rgba(181,181,181,.6); text-transform: uppercase; }
+  .bar-rule { width: 1px; height: 16px; background: rgba(227,203,168,.2); flex-shrink: 0; }
+  .bar-label { font-size: 10px; color: rgba(255,255,255,.28); letter-spacing: .06em; flex-shrink: 0; }
+
+  /* TABS */
+  .tab-row { display: flex; gap: 3px; align-items: center; }
+  .tab-btn { background: none; border: 1px solid transparent; color: rgba(255,255,255,.35); padding: 5px 14px; font-family: 'Public Sans', sans-serif; font-size: 11px; letter-spacing: .04em; cursor: pointer; border-radius: 3px; transition: all .15s; height: 30px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .tab-btn:hover { color: rgba(255,255,255,.65); border-color: rgba(255,255,255,.1); }
+  .tab-btn.active { color: #e3cba8; border-color: rgba(227,203,168,.38); background: rgba(227,203,168,.07); }
+  .tab-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.18); flex-shrink: 0; }
+  .tab-btn.active .tab-dot { background: #e3cba8; }
+
+  /* RIGHT CONTROLS */
+  .right-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-left: auto; }
+  .ann-toggle { background: none; border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.42); padding: 4px 12px; font-family: 'Public Sans', sans-serif; font-size: 10px; letter-spacing: .07em; cursor: pointer; border-radius: 3px; transition: all .15s; height: 26px; display: flex; align-items: center; gap: 6px; }
+  .ann-toggle:hover { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.28); }
+  .ann-toggle.on { color: #ea8b6e; border-color: rgba(234,139,110,.42); }
+  .ann-pip { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.2); transition: background .15s; }
+  .ann-toggle.on .ann-pip { background: #ea8b6e; }
+  .view-toggle { display: flex; border: 1px solid rgba(255,255,255,.1); border-radius: 3px; overflow: hidden; }
+  .view-btn { background: none; border: none; color: rgba(255,255,255,.28); padding: 4px 11px; font-size: 10px; letter-spacing: .07em; cursor: pointer; height: 26px; transition: all .15s; font-family: 'Public Sans', sans-serif; }
+  .view-btn:hover { color: rgba(255,255,255,.6); }
+  .view-btn.active { background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); }
+  .view-btn + .view-btn { border-left: 1px solid rgba(255,255,255,.08); }
+
+  /* CUSTOMIZER BUTTON */
+  .cust-btn { background: none; border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.42); padding: 4px 12px; font-family: 'Public Sans', sans-serif; font-size: 10px; letter-spacing: .07em; cursor: pointer; border-radius: 3px; transition: all .15s; height: 26px; display: flex; align-items: center; gap: 6px; }
+  .cust-btn:hover { color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.28); }
+  .cust-btn.on { color: #a4e0e6; border-color: rgba(164,224,230,.42); }
+  .cust-pip { width: 8px; height: 8px; border-radius: 50%; background: var(--cur-accent, #e3cba8); flex-shrink: 0; transition: background .2s; }
+
+  /* CUSTOMIZER PANEL */
+  .cust-panel { position: absolute; top: 52px; right: 0; width: 260px; background: #161616; border-left: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); padding: 20px; z-index: 300; display: none; flex-direction: column; gap: 20px; box-shadow: -4px 4px 24px rgba(0,0,0,.4); }
+  .cust-panel.open { display: flex; }
+  .cust-section-lbl { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 10px; }
+  .cust-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all .15s; position: relative; }
+  .swatch.on { border-color: rgba(255,255,255,.7); }
+  .swatch:hover { transform: scale(1.1); }
+  .cust-fonts { display: flex; flex-direction: column; gap: 6px; }
+  .font-opt { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 3px; cursor: pointer; transition: all .15s; }
+  .font-opt:hover { border-color: rgba(255,255,255,.25); }
+  .font-opt.on { border-color: rgba(164,224,230,.5); background: rgba(164,224,230,.06); }
+  .font-opt-name { font-size: 10px; color: rgba(255,255,255,.5); letter-spacing: .05em; flex:1; }
+  .font-opt.on .font-opt-name { color: #a4e0e6; }
+  .font-opt-sample { font-size: 18px; color: rgba(255,255,255,.7); line-height: 1; }
+  .cust-dark { display: flex; flex-direction: column; gap: 6px; }
+  .dark-opt { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 3px; cursor: pointer; transition: all .15s; }
+  .dark-opt:hover { border-color: rgba(255,255,255,.25); }
+  .dark-opt.on { border-color: rgba(164,224,230,.5); background: rgba(164,224,230,.06); }
+  .dark-opt-swatch { width: 18px; height: 18px; border-radius: 3px; flex-shrink:0; border:1px solid rgba(255,255,255,.15); }
+  .dark-opt-lbl { font-size: 10px; color: rgba(255,255,255,.5); }
+  .dark-opt.on .dark-opt-lbl { color: #a4e0e6; }
+  .cust-reset { background: none; border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.35); font-family: 'Public Sans', sans-serif; font-size: 10px; letter-spacing: .08em; padding: 7px 14px; border-radius: 3px; cursor: pointer; transition: all .15s; text-align: center; }
+  .cust-reset:hover { border-color: rgba(255,255,255,.3); color: rgba(255,255,255,.7); }
+
+  /* IFRAME AREA */
+  .frame-area { flex: 1; overflow: hidden; position: relative; background: #1a1a1a; }
+  .design-frame { width: 100%; height: 100%; border: none; display: none; background: #fafaf8; }
+  .design-frame.active { display: block; }
+
+  /* STATUS BAR */
+  .status-bar { background: #0a0a0a; border-top: 1px solid rgba(255,255,255,.05); padding: 0 22px; height: 26px; display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+  .status-item { font-size: 10px; color: rgba(255,255,255,.18); letter-spacing: .06em; display: flex; align-items: center; gap: 5px; }
+  .status-item.active { color: rgba(227,203,168,.55); }
+  .status-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+  .status-right { margin-left: auto; display: flex; gap: 18px; }
+  .scale-readout { font-size: 10px; color: rgba(255,255,255,.18); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<div style="position:relative;">
+<div class="top-bar">
+  <div class="ora-mark">
+    <img src="ora-logo.png" alt="ORA">
+    <span class="ora-mark-b">UAE</span>
+  </div>
+  <div class="bar-rule"></div>
+  <span class="bar-label">Intranet Design</span>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="v1" onclick="switchTab('v1',this)"><span class="tab-dot"></span>Variation A — Editorial</button>
+    <button class="tab-btn" data-tab="depts" onclick="switchTab('depts',this)"><span class="tab-dot"></span>Departments</button>
+    <button class="tab-btn" data-tab="dept" onclick="switchTab('dept',this)"><span class="tab-dot"></span>Department Page</button>
+    <button class="tab-btn" data-tab="onboard" onclick="switchTab('onboard',this)"><span class="tab-dot"></span>Onboarding</button>
+  </div>
+
+  <div class="right-controls">
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setViewMode('scroll',this)">Scroll</button>
+      <button class="view-btn" onclick="setViewMode('fit',this)">Fit</button>
+    </div>
+    <button class="ann-toggle on" id="annBtn" onclick="toggleAnnotations()"><span class="ann-pip"></span>Annotations</button>
+    <button class="cust-btn" id="custBtn" onclick="toggleCustomizer()"><span class="cust-pip" id="custPip"></span>Customise</button>
+  </div>
+</div>
+
+<!-- CUSTOMIZER PANEL -->
+<div class="cust-panel" id="custPanel">
+
+  <div>
+    <div class="cust-section-lbl">Accent Colour</div>
+    <div class="cust-swatches">
+      <div class="swatch on" style="background:#e3cba8;" title="Sand (Default)" onclick="setAccent('#e3cba8',this)"></div>
+      <div class="swatch" style="background:#a4e0e6;" title="Ocean" onclick="setAccent('#a4e0e6',this)"></div>
+      <div class="swatch" style="background:#ea8b6e;" title="Terracotta" onclick="setAccent('#ea8b6e',this)"></div>
+      <div class="swatch" style="background:#9ab4c8;" title="Slate" onclick="setAccent('#9ab4c8',this)"></div>
+      <div class="swatch" style="background:#c8dea8;" title="Sage" onclick="setAccent('#c8dea8',this)"></div>
+      <div class="swatch" style="background:#d4b8d8;" title="Lavender" onclick="setAccent('#d4b8d8',this)"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="cust-section-lbl">Dark / Nav Colour</div>
+    <div class="cust-dark">
+      <div class="dark-opt on" onclick="setDark('#262626',this)"><div class="dark-opt-swatch" style="background:#262626;"></div><div class="dark-opt-lbl">Charcoal (Default)</div></div>
+      <div class="dark-opt" onclick="setDark('#1a2a3a',this)"><div class="dark-opt-swatch" style="background:#1a2a3a;"></div><div class="dark-opt-lbl">Midnight Navy</div></div>
+      <div class="dark-opt" onclick="setDark('#1e2818',this)"><div class="dark-opt-swatch" style="background:#1e2818;"></div><div class="dark-opt-lbl">Forest</div></div>
+      <div class="dark-opt" onclick="setDark('#2a1e18',this)"><div class="dark-opt-swatch" style="background:#2a1e18;"></div><div class="dark-opt-lbl">Deep Bronze</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="cust-section-lbl">Heading Font</div>
+    <div class="cust-fonts">
+      <div class="font-opt on" onclick="setFont(&quot;'Raleway',sans-serif&quot;,this)">
+        <span class="font-opt-sample" style="font-family:'Raleway',sans-serif;font-weight:200;">Aa</span>
+        <span class="font-opt-name">Raleway (Default)</span>
+      </div>
+      <div class="font-opt" onclick="setFont(&quot;'Jost',sans-serif&quot;,this)">
+        <span class="font-opt-sample" style="font-family:'Jost',sans-serif;font-weight:200;">Aa</span>
+        <span class="font-opt-name">Jost</span>
+      </div>
+      <div class="font-opt" onclick="setFont(&quot;'Questrial',sans-serif&quot;,this)">
+        <span class="font-opt-sample" style="font-family:'Questrial',sans-serif;">Aa</span>
+        <span class="font-opt-name">Questrial</span>
+      </div>
+      <div class="font-opt" onclick="setFont(&quot;Georgia,serif&quot;,this)">
+        <span class="font-opt-sample" style="font-family:Georgia,serif;font-weight:300;">Aa</span>
+        <span class="font-opt-name">Georgia Serif</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="cust-reset" onclick="resetTheme()">Reset to ORA Defaults</button>
+</div>
+</div><!-- /relative wrapper -->
+
+<div class="frame-area" id="frameArea">
+  <iframe class="design-frame active" id="frame-v1" src="v1-homepage.html" scrolling="yes"></iframe>
+  <iframe class="design-frame" id="frame-depts" src="departments.html" scrolling="yes"></iframe>
+  <iframe class="design-frame" id="frame-dept" src="department-page.html" scrolling="yes"></iframe>
+  <iframe class="design-frame" id="frame-onboard" src="onboarding.html" scrolling="yes"></iframe>
+</div>
+
+<div class="status-bar">
+  <div class="status-item active" id="st-v1">Var A · Editorial</div>
+  <div class="status-item" id="st-depts">Departments</div>
+  <div class="status-item" id="st-dept">Department Page</div>
+  <div class="status-item" id="st-onboard">Onboarding</div>
+  <div class="status-right">
+    <span class="scale-readout" id="scaleReadout">1440px · Desktop</span>
+    <span class="scale-readout">ORA UAE 2026</span>
+  </div>
+</div>
+
+<script>
+var currentTab = 'v1';
+var annotationsOn = true;
+var viewMode = 'scroll';
+var theme = { accent: '#e3cba8', dark: '#262626', fh: "'Raleway',sans-serif" };
+
+var tabs = { v1:'Var A · Editorial', depts:'Departments', dept:'Department Page', onboard:'Onboarding' };
+
+function getFrame(tab){ return document.getElementById('frame-' + tab); }
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.design-frame').forEach(f => f.classList.remove('active'));
+  getFrame(tab).classList.add('active');
+  Object.keys(tabs).forEach(k => document.getElementById('st-'+k).classList.toggle('active', k===tab));
+  sendAnnotations();
+  sendTheme();
+}
+
+function toggleAnnotations() {
+  annotationsOn = !annotationsOn;
+  var btn = document.getElementById('annBtn');
+  btn.classList.toggle('on', annotationsOn);
+  sendAnnotations();
+}
+
+function sendAnnotations() {
+  var f = getFrame(currentTab);
+  if(f && f.contentWindow) try{ f.contentWindow.postMessage({annotations:annotationsOn},'*'); }catch(e){}
+}
+
+function sendTheme(all) {
+  var frames = all ? document.querySelectorAll('.design-frame') : [getFrame(currentTab)];
+  frames.forEach(function(f){ if(f && f.contentWindow) try{ f.contentWindow.postMessage({theme:theme},'*'); }catch(e){} });
+}
+
+function toggleCustomizer() {
+  var p = document.getElementById('custPanel');
+  var b = document.getElementById('custBtn');
+  var open = p.classList.toggle('open');
+  b.classList.toggle('on', open);
+}
+
+function setAccent(color, el) {
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  theme.accent = color;
+  document.getElementById('custPip').style.background = color;
+  sendTheme(true);
+}
+
+function setDark(color, el) {
+  document.querySelectorAll('.dark-opt').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  theme.dark = color;
+  sendTheme(true);
+}
+
+function setFont(fh, el) {
+  document.querySelectorAll('.font-opt').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  theme.fh = fh;
+  sendTheme(true);
+}
+
+function resetTheme() {
+  theme = { accent: '#e3cba8', dark: '#262626', fh: "'Raleway',sans-serif" };
+  document.querySelectorAll('.swatch').forEach((s,i) => s.classList.toggle('on', i===0));
+  document.querySelectorAll('.dark-opt').forEach((s,i) => s.classList.toggle('on', i===0));
+  document.querySelectorAll('.font-opt').forEach((s,i) => s.classList.toggle('on', i===0));
+  document.getElementById('custPip').style.background = '#e3cba8';
+  sendTheme(true);
+}
+
+function setViewMode(mode, btn) {
+  viewMode = mode;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  var area = document.getElementById('frameArea');
+  document.querySelectorAll('.design-frame').forEach(function(f) {
+    if(mode === 'fit') {
+      var scale = area.offsetWidth / 1440;
+      f.style.transform = 'scale('+scale+')';
+      f.style.transformOrigin = 'top left';
+      f.style.width = '1440px';
+      f.style.height = (area.offsetHeight / scale) + 'px';
+      document.getElementById('scaleReadout').textContent = Math.round(scale*100) + '% · 1440px';
+    } else {
+      f.style.transform = '';
+      f.style.width = '100%';
+      f.style.height = '100%';
+      document.getElementById('scaleReadout').textContent = '1440px · Desktop';
+    }
+  });
+}
+
+// Send theme + annotations on iframe load
+document.querySelectorAll('.design-frame').forEach(function(f) {
+  f.addEventListener('load', function() {
+    try{ f.contentWindow.postMessage({annotations:annotationsOn, theme:theme},'*'); }catch(e){}
+  });
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  if(e.target.tagName==='INPUT') return;
+  var map = {'1':'v1','2':'v2','3':'depts','4':'dept','5':'onboard'};
+  if(map[e.key]) switchTab(map[e.key], document.querySelector('[data-tab="'+map[e.key]+'"]'));
+  if(e.key==='a'||e.key==='A') toggleAnnotations();
+  if(e.key==='c'||e.key==='C') toggleCustomizer();
+  if(e.key==='Escape') document.getElementById('custPanel').classList.remove('open');
+});
+</script>
+</body>
+</html>

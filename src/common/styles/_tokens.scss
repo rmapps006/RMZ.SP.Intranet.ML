@@ -1,0 +1,61 @@
+// ORA UAE shared design tokens (from design/v1-homepage.html :root)
+// Import into any web part SCSS module with:  @import '../../../common/styles/tokens';
+
+$ora-white: #ffffff;
+$ora-silver: #b5b5b5;
+$ora-sand: #e3cba8;
+$ora-sand-dark: var(--ora-accent-dark, #c4a880);
+$ora-dark: #262626;
+$ora-sun: #ea8b6e;
+$ora-ocean: #a4e0e6;
+$ora-bg: #fafaf8;
+$ora-alt-bg: #f5f3f0;
+$ora-border: rgba(181, 181, 181, 0.26);
+$ora-border-light: rgba(181, 181, 181, 0.12);
+$ora-text-1: #262626;
+$ora-text-2: #8a8682;
+$ora-text-muted: #b5b5b5;
+$ora-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
+$ora-shadow-hover: 0 4px 24px rgba(38, 38, 38, 0.1);
+
+// CSS-variable-backed so the fonts can be re-themed from Admin at runtime; the
+// ORA families remain the compile-time fallback when no override is set.
+$font-head: var(--ora-font-head, 'Raleway', 'Segoe UI', sans-serif);
+$font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
+
+// Section outer padding (.pad in the design)
+@mixin ora-pad {
+  padding: 52px 60px;
+
+  @media (max-width: 900px) {
+    padding: 36px 20px;
+  }
+}
+
+// Alternate band background with the faint vertical rule overlay (.bg-alt)
+@mixin ora-bg-alt {
+  background: $ora-alt-bg;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 119px,
+      rgba(181, 181, 181, 0.06) 119px,
+      rgba(181, 181, 181, 0.06) 120px
+    );
+  }
+}
+
+// Card surface (.nc / .ben-cd / .dp etc.)
+@mixin ora-card {
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  box-shadow: $ora-shadow;
+}

@@ -1,0 +1,42 @@
+@import '../styles/tokens';
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: $font-head;
+  font-weight: 200;
+  font-size: 26px;
+  letter-spacing: 0.1em;
+  color: $ora-dark;
+  margin: 0;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background: var(--ora-accent, #{$ora-sand});
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+}
+
+.link {
+  font-size: 10px;
+  color: $ora-text-muted;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    color: $ora-dark;
+  }
+}

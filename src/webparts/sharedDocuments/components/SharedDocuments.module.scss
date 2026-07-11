@@ -1,0 +1,110 @@
+@import '../../../common/styles/tokens';
+
+.root {
+  background: $ora-white;
+  font-family: $font-body;
+  @include ora-pad;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  @include ora-card;
+  overflow: hidden;
+  position: relative;
+}
+
+.panelHead {
+  padding: 13px 18px;
+  border-bottom: 1px solid $ora-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panelTitle {
+  font-family: $font-head;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: $ora-dark;
+}
+
+.panelLink {
+  font-size: 10px;
+  color: $ora-text-muted;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    color: $ora-dark;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 18px;
+  border-bottom: 1px solid $ora-border-light;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $ora-bg;
+  }
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: $font-body;
+  flex-shrink: 0;
+}
+
+.pdf {
+  background: rgba(234, 139, 110, 0.12);
+  color: $ora-sun;
+}
+
+.doc {
+  background: rgba(164, 224, 230, 0.18);
+  color: #4a9aa0;
+}
+
+.xls {
+  background: rgba(100, 180, 80, 0.1);
+  color: #4e8838;
+}
+
+.name {
+  font-size: 12px;
+  color: $ora-dark;
+  flex: 1;
+}
+
+.date {
+  font-size: 10px;
+  color: $ora-text-muted;
+}

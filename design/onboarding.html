@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ORA UAE — Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--w:#fff;--si:#b5b5b5;--sa:#e3cba8;--dk:#262626;--su:#ea8b6e;--oc:#a4e0e6;
+  --bg:#fafaf8;--bd:rgba(181,181,181,.26);--t1:#262626;--t2:#8a8682;--tm:#b5b5b5;
+  --sh:0 2px 16px rgba(38,38,38,.06);--fh:'Raleway',sans-serif;--fb:'Public Sans',Arial,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--bg);color:var(--t1);min-width:1440px;}
+a{text-decoration:none;color:inherit;} svg{display:block;}
+.sp-tag{position:absolute;top:10px;right:10px;background:rgba(234,139,110,.93);color:#fff;
+  font-size:10px;font-family:var(--fb);font-weight:500;letter-spacing:.07em;
+  padding:3px 10px;border-radius:2px;z-index:50;pointer-events:none;white-space:nowrap;}
+.sp-tag.ootb{background:rgba(42,154,166,.93);}
+.hide-ann .sp-tag{display:none;}
+.ann-legend{position:fixed;bottom:20px;right:20px;background:var(--dk);border-radius:4px;
+  padding:12px 16px;display:flex;gap:14px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.hide-ann .ann-legend{display:none;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.05em;}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* Header */
+.hdr{background:var(--w);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;}
+.hdr::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--sa),rgba(227,203,168,.25));}
+.hdr-in{display:flex;align-items:center;height:60px;padding:0 40px;}
+.logo{display:flex;align-items:baseline;gap:3px;flex-shrink:0;}
+.logo-a{font-family:var(--fh);font-weight:200;font-size:21px;letter-spacing:.3em;color:var(--dk);}
+.logo-b{font-family:var(--fh);font-weight:400;font-size:10px;letter-spacing:.2em;color:var(--si);text-transform:uppercase;}
+.logo-rule{width:1px;height:18px;background:var(--sa);margin:0 18px;flex-shrink:0;}
+.nav{display:flex;}
+.nav a{font-size:12px;color:var(--t2);padding:0 13px;height:60px;display:flex;align-items:center;letter-spacing:.03em;border-bottom:2px solid transparent;transition:all .15s;}
+.nav a:hover,.nav a.on{color:var(--dk);border-bottom-color:var(--sa);}
+.nav a.on{font-weight:500;}
+.breadcrumb{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:11px;color:var(--tm);}
+.breadcrumb a{color:var(--t2);}
+.avt{width:33px;height:33px;border-radius:50%;background:linear-gradient(135deg,#e3cba8,#c4a880);
+  display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:12px;font-weight:400;color:#fff;margin-left:20px;}
+
+/* Hero */
+.hero{height:320px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#141110 0%,#1e1812 22%,#302618 50%,#4a3820 75%,#6a5438 100%);}
+.hero-bg::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(227,203,168,.055) 79px,rgba(227,203,168,.055) 80px);}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.05) 60%,transparent 100%);}
+.hero-ct{position:relative;z-index:10;padding:0 80px;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+.hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--sa);margin-bottom:12px;}
+.hero-h1{font-family:var(--fh);font-weight:100;font-size:48px;letter-spacing:.1em;color:#fff;line-height:1.05;margin-bottom:12px;}
+.hero-h1 span{font-weight:300;}
+.hero-rule{width:40px;height:1px;background:var(--sa);margin-bottom:14px;}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:.05em;max-width:560px;line-height:1.6;}
+.hero-caption{position:absolute;bottom:14px;right:24px;font-family:monospace;font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.12em;text-transform:uppercase;}
+
+/* Welcome + progress row */
+.intro{background:var(--w);border-bottom:1px solid var(--bd);padding:36px 60px;position:relative;}
+.intro-g{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:center;}
+.intro-msg{position:relative;}
+.intro-lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--si);margin-bottom:12px;}
+.intro-h{font-family:var(--fh);font-weight:200;font-size:26px;letter-spacing:.04em;color:var(--dk);line-height:1.35;margin-bottom:12px;}
+.intro-p{font-size:13px;color:var(--t2);line-height:1.7;max-width:620px;}
+.intro-sig{margin-top:16px;font-size:12px;color:var(--dk);}
+.intro-sig span{color:var(--tm);}
+.prog-card{border:1px solid var(--bd);border-radius:3px;padding:24px;position:relative;background:var(--w);box-shadow:var(--sh);}
+.prog-lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tm);margin-bottom:14px;}
+.prog-num{display:flex;align-items:baseline;gap:8px;margin-bottom:14px;}
+.prog-n{font-family:var(--fh);font-weight:100;font-size:42px;color:var(--dk);line-height:1;}
+.prog-of{font-size:13px;color:var(--tm);}
+.prog-bar{height:6px;background:#f0ece6;border-radius:4px;overflow:hidden;margin-bottom:8px;}
+.prog-fill{height:100%;width:50%;background:linear-gradient(90deg,var(--sa),#c8a880);border-radius:4px;}
+.prog-cap{font-size:11px;color:var(--t2);}
+
+/* Section commons */
+.sec{position:relative;}
+.sec-inner{padding:52px 60px;}
+.sec-inner.alt{background:#f5f3f0;}
+.sec-inner.alt::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(90deg,transparent,transparent 119px,rgba(181,181,181,.06) 119px,rgba(181,181,181,.06) 120px);}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;position:relative;}
+.sec-ttl{font-family:var(--fh);font-weight:200;font-size:24px;letter-spacing:.1em;color:var(--dk);}
+.sec-ttl::before{content:'';display:inline-block;width:20px;height:1px;background:var(--sa);margin-right:12px;vertical-align:middle;}
+.sec-lnk{font-size:10px;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;}
+.sec-lnk:hover{color:var(--dk);}
+
+/* Journey stepper */
+.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;position:relative;z-index:1;}
+.jstep{background:var(--w);border:1px solid var(--bd);border-radius:3px;padding:22px;position:relative;overflow:hidden;}
+.jstep::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--bd);}
+.jstep.done::before{background:var(--sa);}
+.jstep.active::before{background:var(--su);}
+.jstep-top{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.jstep-num{width:34px;height:34px;border-radius:50%;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;
+  font-family:var(--fh);font-size:14px;font-weight:300;color:var(--t2);flex-shrink:0;}
+.jstep.done .jstep-num{background:var(--sa);border-color:var(--sa);color:var(--dk);}
+.jstep.active .jstep-num{border-color:var(--su);color:var(--su);}
+.jstep-h{font-family:var(--fh);font-weight:400;font-size:15px;color:var(--dk);letter-spacing:.03em;margin-bottom:2px;}
+.jstep-meta{font-size:10px;color:var(--tm);letter-spacing:.04em;}
+.jchk{display:flex;align-items:flex-start;gap:9px;padding:6px 0;font-size:12px;color:var(--t2);}
+.jbox{width:16px;height:16px;border-radius:3px;border:1px solid var(--bd);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;}
+.jchk.ok .jbox{background:var(--sa);border-color:var(--sa);}
+.jchk.ok{color:var(--dk);}
+.jbox svg{display:none;} .jchk.ok .jbox svg{display:block;}
+
+/* Resources */
+.res-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.res-cd{background:var(--w);border:1px solid var(--bd);border-radius:3px;padding:20px;cursor:pointer;
+  transition:all .2s;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;}
+.res-cd::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sa);opacity:0;transition:opacity .2s;}
+.res-cd:hover{box-shadow:var(--sh);border-color:rgba(227,203,168,.55);} .res-cd:hover::after{opacity:1;}
+.res-ic{width:36px;height:36px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;letter-spacing:.05em;font-family:var(--fb);}
+.res-ic.pdf{background:rgba(234,139,110,.12);color:var(--su);}
+.res-ic.doc{background:rgba(164,224,230,.18);color:#4a9aa0;}
+.res-ic.zip{background:rgba(181,181,181,.18);color:#6a6660;}
+.res-nm{font-family:var(--fh);font-weight:300;font-size:14px;color:var(--dk);line-height:1.35;}
+.res-meta{font-size:10px;color:var(--tm);margin-top:auto;display:flex;align-items:center;gap:6px;}
+
+/* Contacts */
+.con-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.con-cd{border:1px solid var(--bd);border-radius:3px;padding:20px;display:flex;align-items:center;gap:14px;background:var(--w);transition:all .15s;cursor:pointer;}
+.con-cd:hover{box-shadow:var(--sh);border-color:rgba(227,203,168,.5);}
+.con-avt{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:300;color:#fff;flex-shrink:0;}
+.con-nm{font-size:13px;color:var(--dk);font-weight:500;margin-bottom:2px;}
+.con-role{font-size:10px;color:var(--t2);margin-bottom:3px;}
+.con-mail{font-size:10px;color:#4a9aa0;}
+
+/* Footer */
+.ftr{background:var(--dk);padding:28px 60px;display:flex;align-items:center;justify-content:space-between;}
+.ftr-lg{font-family:var(--fh);font-weight:200;font-size:15px;letter-spacing:.3em;color:rgba(255,255,255,.3);}
+.ftr-cp{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.04em;}
+.ftr-tg{font-family:var(--fh);font-size:11px;font-weight:300;letter-spacing:.22em;color:rgba(227,203,168,.3);}
+
+@media(max-width:900px){
+  body{min-width:375px;}
+  .nav,.logo-rule,.breadcrumb{display:none;}
+  .hdr-in{padding:0 16px;}
+  .hero-ct{padding:0 24px;} .hero-h1{font-size:32px;}
+  .intro,.sec-inner,.ftr{padding-left:20px;padding-right:20px;}
+  .intro-g,.journey,.res-g,.con-g{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo" style="display:flex;align-items:center;gap:10px;"><img src="ora-logo.png" height="34" style="border-radius:3px;display:block;" alt="ORA UAE"><span class="logo-b" style="font-size:11px;letter-spacing:.22em;">UAE</span></div>
+    <div class="logo-rule"></div>
+    <nav class="nav">
+      <a href="v1-homepage.html">Home</a><a href="#">Departments</a><a href="#">Policies</a>
+      <a href="#">Documents</a><a href="#">News</a><a href="#">Events</a>
+      <a href="#" class="on">Onboarding</a>
+    </nav>
+    <div class="breadcrumb">
+      <a href="v1-homepage.html">Home</a><span>›</span><span style="color:var(--dk);">Onboarding</span>
+    </div>
+    <div class="avt">SK</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero sec">
+  <div class="hero-bg"></div>
+  <div class="hero-ct">
+    <div class="hero-eyebrow">ORA UAE · New Joiners</div>
+    <h1 class="hero-h1">Welcome to <span>ORA UAE</span></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Everything you need for a confident start — your onboarding journey, key documents, and the people who'll help you along the way.</p>
+  </div>
+  <div class="hero-caption">Hero image · Office &amp; People Photography</div>
+  <div class="sp-tag ootb">SP: Hero Web Part</div>
+</section>
+
+<!-- WELCOME + PROGRESS -->
+<section class="intro sec">
+  <div class="intro-g">
+    <div class="intro-msg">
+      <div class="intro-lbl">A Message From HR</div>
+      <h2 class="intro-h">We're delighted to have you join the ORA UAE family.</h2>
+      <p class="intro-p">Your first few weeks are designed to help you settle in, meet your team, and get set up with everything you need. Work through the journey below at your own pace — your HR buddy and IT support are on hand for anything you need. Welcome aboard, and here's to reimagining time together.</p>
+      <div class="intro-sig">Sarah Johnson <span>· Chief HR Officer</span></div>
+      <div class="sp-tag ootb" style="top:-6px;">SP: Text Web Part</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-lbl">Your Onboarding Progress</div>
+      <div class="prog-num"><div class="prog-n">3</div><div class="prog-of">of 6 stages complete</div></div>
+      <div class="prog-bar"><div class="prog-fill"></div></div>
+      <div class="prog-cap">Next up — IT Setup &amp; Access</div>
+      <div class="sp-tag">SPFx: Onboarding Tracker</div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="sec">
+  <div class="sec-inner alt">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Your Onboarding Journey</h2>
+      <a href="#" class="sec-lnk">Step-by-Step Guide</a>
+      <div class="sp-tag">SPFx: Interactive Checklist</div>
+    </div>
+    <div class="journey">
+      <div class="jstep done">
+        <div class="jstep-top"><div class="jstep-num">1</div><div><div class="jstep-h">Pre-Joining</div><div class="jstep-meta">Before Day One</div></div></div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Submit signed offer &amp; documents</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Complete pre-joining forms</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Provide visa &amp; ID documents</div>
+      </div>
+      <div class="jstep done">
+        <div class="jstep-top"><div class="jstep-num">2</div><div><div class="jstep-h">First Day</div><div class="jstep-meta">Day One</div></div></div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Office tour &amp; desk allocation</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Meet your HR buddy</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Collect access badge</div>
+      </div>
+      <div class="jstep done">
+        <div class="jstep-top"><div class="jstep-num">3</div><div><div class="jstep-h">HR Documentation</div><div class="jstep-meta">Week One</div></div></div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Sign employment contract</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Enrol in benefits &amp; insurance</div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Set up payroll details</div>
+      </div>
+      <div class="jstep active">
+        <div class="jstep-top"><div class="jstep-num">4</div><div><div class="jstep-h">IT Setup &amp; Access</div><div class="jstep-meta">Week One · In Progress</div></div></div>
+        <div class="jchk ok"><div class="jbox"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="#262626" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>Receive laptop &amp; equipment</div>
+        <div class="jchk"><div class="jbox"></div>Configure email &amp; Teams</div>
+        <div class="jchk"><div class="jbox"></div>Request system access (SAP, HRMS)</div>
+      </div>
+      <div class="jstep">
+        <div class="jstep-top"><div class="jstep-num">5</div><div><div class="jstep-h">Training Schedule</div><div class="jstep-meta">Weeks 1–4</div></div></div>
+        <div class="jchk"><div class="jbox"></div>Complete induction training</div>
+        <div class="jchk"><div class="jbox"></div>Health &amp; safety briefing</div>
+        <div class="jchk"><div class="jbox"></div>Role-specific training plan</div>
+      </div>
+      <div class="jstep">
+        <div class="jstep-top"><div class="jstep-num">6</div><div><div class="jstep-h">Key Contacts</div><div class="jstep-meta">Ongoing</div></div></div>
+        <div class="jchk"><div class="jbox"></div>Meet your line manager</div>
+        <div class="jchk"><div class="jbox"></div>Connect with your team</div>
+        <div class="jchk"><div class="jbox"></div>Schedule 30-day check-in</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Downloadable Resources</h2>
+      <a href="#" class="sec-lnk">Resource Library</a>
+      <div class="sp-tag ootb">SP: Document Library Web Part</div>
+    </div>
+    <div class="res-g">
+      <div class="res-cd"><div class="res-ic pdf">PDF</div><div class="res-nm">New Joiner Welcome Pack</div><div class="res-meta">PDF · 2.4 MB</div></div>
+      <div class="res-cd"><div class="res-ic doc">DOC</div><div class="res-nm">Onboarding Checklist Template</div><div class="res-meta">DOCX · 180 KB</div></div>
+      <div class="res-cd"><div class="res-ic pdf">PDF</div><div class="res-nm">Employee Handbook 2026</div><div class="res-meta">PDF · 5.1 MB</div></div>
+      <div class="res-cd"><div class="res-ic doc">DOC</div><div class="res-nm">Benefits Enrolment Form</div><div class="res-meta">DOCX · 96 KB</div></div>
+      <div class="res-cd"><div class="res-ic pdf">PDF</div><div class="res-nm">IT &amp; Systems Quick Start Guide</div><div class="res-meta">PDF · 1.8 MB</div></div>
+      <div class="res-cd"><div class="res-ic doc">DOC</div><div class="res-nm">Direct Deposit / Payroll Form</div><div class="res-meta">DOCX · 72 KB</div></div>
+      <div class="res-cd"><div class="res-ic zip">ZIP</div><div class="res-nm">Brand Assets &amp; Email Signature</div><div class="res-meta">ZIP · 8.3 MB</div></div>
+      <div class="res-cd"><div class="res-ic pdf">PDF</div><div class="res-nm">Office Map &amp; Facilities Guide</div><div class="res-meta">PDF · 1.2 MB</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY CONTACTS -->
+<section class="sec">
+  <div class="sec-inner alt">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Your Key Contacts</h2>
+      <a href="#" class="sec-lnk">Full Directory</a>
+      <div class="sp-tag ootb">SP: People Web Part</div>
+    </div>
+    <div class="con-g">
+      <div class="con-cd"><div class="con-avt" style="background:linear-gradient(135deg,#6ab8c0,#a4e0e6);">SJ</div><div><div class="con-nm">Sarah Johnson</div><div class="con-role">Chief HR Officer</div><div class="con-mail">s.johnson@ora.ae</div></div></div>
+      <div class="con-cd"><div class="con-avt" style="background:linear-gradient(135deg,#c8a880,#e3cba8);">NA</div><div><div class="con-nm">Noura Al-Amiri</div><div class="con-role">HR Buddy · People Team</div><div class="con-mail">n.alamiri@ora.ae</div></div></div>
+      <div class="con-cd"><div class="con-avt" style="background:linear-gradient(135deg,#262626,#4a3c30);">IT</div><div><div class="con-nm">IT Service Desk</div><div class="con-role">Digital &amp; Technology</div><div class="con-mail">itsupport@ora.ae</div></div></div>
+      <div class="con-cd"><div class="con-avt" style="background:linear-gradient(135deg,#b09878,#d4b898);">HF</div><div><div class="con-nm">Hassan Al-Farsi</div><div class="con-role">Line Manager · Development</div><div class="con-mail">h.farsi@ora.ae</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-lg">ORA UAE</div>
+  <div class="ftr-cp">© 2026 ORA UAE. All rights reserved.</div>
+  <div class="ftr-tg">Reimagining Time</div>
+</footer>
+
+<div class="ann-legend">
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(42,154,166,.93);"></div>SP: SharePoint OOTB</div>
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(234,139,110,.93);"></div>SPFx: Custom Extension</div>
+</div>
+
+<script>
+window.addEventListener('message', function(e){
+  var d = e.data || {};
+  if(d.annotations !== undefined) document.body.classList.toggle('hide-ann', !d.annotations);
+  if(d.theme){ var t=d.theme, r=document.documentElement.style;
+    if(t.accent){ r.setProperty('--sa', t.accent); }
+    if(t.dark){ r.setProperty('--dk', t.dark); }
+    if(t.fh){ r.setProperty('--fh', t.fh); }
+  }
+});
+</script>
+</body>
+</html>

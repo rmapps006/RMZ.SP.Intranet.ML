@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "d56e274f-e609-47d7-91c1-e49f3fe74c5e",
+  "alias": "HeroGreetingWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Hero Greeting" },
+      "description": { "default": "Personalised hero banner with a time-based greeting." },
+      "officeFabricIconFontName": "Photo2",
+      "properties": {
+        "eyebrow": "Intranet",
+        "titleLine1": "One workspace,",
+        "titleEmphasis": "Connecting People",
+        "subtitle": "Your workspace. Your team. Your updates — all in one place.",
+        "buttonText": "Explore Updates",
+        "buttonUrl": "",
+        "showGreeting": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "f2e10b95-0b20-4d1f-9a62-a3bafccee72c",
+  "alias": "ProductivityStripWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Productivity Strip" },
+      "description": { "default": "Today's schedule and quick links." },
+      "officeFabricIconFontName": "Contact",
+      "properties": {
+        "quickLinksJson": "",
+        "maxEvents": "3"
+      }
+    }
+  ]
+}

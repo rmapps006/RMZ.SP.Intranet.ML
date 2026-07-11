@@ -1,0 +1,26 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "e34006b6-56c7-4f1d-8cd6-395b909e7549",
+  "alias": "EventsListWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Company Events" },
+      "description": { "default": "Upcoming company events from a SharePoint Events list." },
+      "officeFabricIconFontName": "Calendar",
+      "properties": {
+        "eventsList": "Events",
+        "calendarUrl": "",
+        "maxItems": "4"
+      }
+    }
+  ]
+}

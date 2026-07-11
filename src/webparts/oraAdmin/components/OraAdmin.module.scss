@@ -1,0 +1,154 @@
+@import '../../../common/styles/tokens';
+
+.admin {
+  @include ora-pad;
+  background: $ora-white;
+  font-family: $font-body;
+}
+
+.panel {
+  @include ora-card;
+  max-width: 720px;
+  padding: 28px 30px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $ora-silver;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: $font-head;
+  font-weight: 200;
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  color: $ora-dark;
+  margin: 0 0 10px;
+}
+
+.intro {
+  font-size: 12px;
+  color: $ora-text-2;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: $ora-dark;
+  border: 1px solid $ora-dark;
+  color: $ora-white;
+  font-family: $font-body;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 11px 24px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: #3a3028;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.results {
+  margin-top: 22px;
+  border-top: 1px solid $ora-border;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid $ora-border-light;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.ok {
+  background: #7bc47a;
+}
+
+.skipped {
+  background: $ora-silver;
+}
+
+.error {
+  background: $ora-sun;
+}
+
+.rowName {
+  font-size: 12px;
+  color: $ora-dark;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.rowMsg {
+  font-size: 11px;
+  color: $ora-text-2;
+}
+
+.hint {
+  font-size: 11px;
+  color: $ora-text-muted;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+.navRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid $ora-border-light;
+}
+
+.navLabel {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.navUrl {
+  flex: 1;
+  min-width: 160px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+
+.qlRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid $ora-border-light;
+}
+
+.subTitle {
+  margin: 18px 0 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $ora-text-1;
+}

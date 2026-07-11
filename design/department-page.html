@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORA UAE — Development Department</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --w:#ffffff; --si:#b5b5b5; --sa:#e3cba8; --dk:#262626;
+  --su:#ea8b6e; --oc:#a4e0e6;
+  --bg:#fafaf8; --bd:rgba(181,181,181,.26);
+  --t1:#262626; --t2:#8a8682; --tm:#b5b5b5;
+  --sh:0 2px 16px rgba(38,38,38,.06);
+  --fh:'Raleway',sans-serif; --fb:'Public Sans',Arial,sans-serif;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:var(--fb); background:var(--bg); color:var(--t1); min-width:1440px; }
+a { text-decoration:none; color:inherit; }
+svg { display:block; }
+.sp-tag { position:absolute; top:10px; right:10px; background:rgba(234,139,110,.92); color:#fff;
+  font-size:10px; font-family:var(--fb); font-weight:500; letter-spacing:.07em;
+  padding:3px 10px; border-radius:2px; z-index:50; pointer-events:none; white-space:nowrap; }
+.hide-ann .sp-tag { display:none; }
+
+/* HEADER */
+.hdr { background:var(--w); border-bottom:1px solid var(--bd); position:sticky; top:0; z-index:100; }
+.hdr::before { content:''; display:block; height:3px;
+  background:linear-gradient(90deg,var(--sa) 0%,rgba(227,203,168,.3) 100%); }
+.hdr-in { display:flex; align-items:center; height:60px; padding:0 40px; }
+.logo { display:flex; align-items:baseline; gap:3px; flex-shrink:0; }
+.logo-a { font-family:var(--fh); font-weight:200; font-size:21px; letter-spacing:.3em; color:var(--dk); }
+.logo-b { font-family:var(--fh); font-weight:400; font-size:10px; letter-spacing:.2em; color:var(--si); text-transform:uppercase; }
+.logo-rule { width:1px; height:18px; background:var(--sa); margin:0 18px; flex-shrink:0; }
+.nav { display:flex; }
+.nav a { font-size:12px; color:var(--t2); padding:0 13px; height:60px; display:flex; align-items:center;
+  letter-spacing:.03em; border-bottom:2px solid transparent; transition:all .15s; }
+.nav a:hover,.nav a.on { color:var(--dk); border-bottom-color:var(--sa); }
+.nav a.on { font-weight:500; }
+.breadcrumb { display:flex; align-items:center; gap:6px; margin-left:auto; font-size:11px; color:var(--tm); }
+.breadcrumb a { color:var(--t2); }
+.breadcrumb span { color:var(--tm); }
+.srch { display:flex; align-items:center; gap:8px; background:#f5f3f0; border:1px solid var(--bd);
+  border-radius:3px; padding:7px 14px; width:180px; margin-left:20px; }
+.srch input { font-family:var(--fb); font-size:12px; color:var(--t2); background:none; border:none; outline:none; width:100%; }
+.avt { width:33px; height:33px; border-radius:50%; background:linear-gradient(135deg,#e3cba8,#c4a880);
+  display:flex; align-items:center; justify-content:center; font-family:var(--fh); font-size:12px; font-weight:400; color:#fff; margin-left:14px; }
+
+/* DEPT HERO */
+.dept-hero { height:300px; position:relative; overflow:hidden; }
+.dept-hero-bg { position:absolute; inset:0;
+  background:linear-gradient(160deg,#141110 0%,#1e1812 22%,#302618 50%,#4a3820 75%,#6a5438 100%); }
+.dept-hero-bg::before { content:''; position:absolute; inset:0;
+  background-image:repeating-linear-gradient(90deg,transparent,transparent 79px,
+  rgba(227,203,168,.055) 79px,rgba(227,203,168,.055) 80px); }
+.dept-hero-bg::after { content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.05) 60%,transparent 100%); }
+.dept-hero-ct { position:relative; z-index:10; padding:0 80px;
+  height:100%; display:flex; flex-direction:column; justify-content:center; }
+.dept-eyebrow { font-size:10px; font-weight:400; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--sa); margin-bottom:12px; }
+.dept-name { font-family:var(--fh); font-weight:100; font-size:48px;
+  letter-spacing:.12em; color:#fff; line-height:1.05; margin-bottom:12px; }
+.dept-rule { width:40px; height:1px; background:var(--sa); margin-bottom:14px; }
+.dept-desc { font-size:14px; font-weight:300; color:rgba(255,255,255,.65);
+  letter-spacing:.05em; max-width:560px; margin-bottom:22px; line-height:1.6; }
+.dept-owner-row { display:flex; align-items:center; gap:12px; }
+.dept-owner-avt { width:36px; height:36px; border-radius:50%;
+  background:linear-gradient(135deg,#e3cba8,#c8a880);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--fh); font-size:12px; font-weight:300; color:#fff; flex-shrink:0; }
+.dept-owner-nm { font-size:13px; color:rgba(255,255,255,.8); font-weight:300; }
+.dept-owner-role { font-size:10px; color:rgba(255,255,255,.45); letter-spacing:.05em; margin-top:2px; }
+
+/* QUICK ACTIONS */
+.qa-strip { background:var(--w); border-bottom:1px solid var(--bd); padding:20px 60px; }
+.qa-row { display:flex; gap:12px; align-items:center; }
+.qa-btn { display:flex; align-items:center; gap:9px; padding:10px 20px;
+  border:1px solid var(--bd); border-radius:3px; font-size:12px; color:var(--dk);
+  cursor:pointer; transition:all .15s; background:var(--w); font-family:var(--fb); }
+.qa-btn:hover { border-color:var(--sa); box-shadow:var(--sh); }
+.qa-btn.primary { background:var(--dk); color:#fff; border-color:var(--dk); }
+.qa-btn.primary:hover { background:#3a3028; }
+.qa-btn svg { flex-shrink:0; }
+.qa-sep { width:1px; height:24px; background:var(--bd); margin:0 4px; }
+.dept-stats-row { display:flex; gap:32px; margin-left:auto; }
+.dept-stat { text-align:center; }
+.dept-stat-n { font-family:var(--fh); font-weight:200; font-size:22px; color:var(--dk); line-height:1; margin-bottom:3px; }
+.dept-stat-l { font-size:9px; color:var(--tm); letter-spacing:.1em; text-transform:uppercase; }
+
+/* Section commons */
+.sec { position:relative; }
+.sec-inner { padding:52px 60px; }
+.sec-inner.alt { background:#f5f3f0; }
+.sec-inner.alt::before { content:''; position:absolute; inset:0;
+  background-image:repeating-linear-gradient(90deg,transparent,transparent 119px,
+  rgba(181,181,181,.06) 119px,rgba(181,181,181,.06) 120px); }
+.sec-hd { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:26px; position:relative; }
+.sec-ttl { font-family:var(--fh); font-weight:200; font-size:24px; letter-spacing:.1em; color:var(--dk); }
+.sec-ttl::before { content:''; display:inline-block; width:20px; height:1px;
+  background:var(--sa); margin-right:12px; vertical-align:middle; }
+.sec-lnk { font-size:10px; color:var(--tm); letter-spacing:.12em; text-transform:uppercase; transition:color .15s; }
+.sec-lnk:hover { color:var(--dk); }
+
+/* Documents / Policies */
+.docs-g { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.dp { background:var(--w); border:1px solid var(--bd); border-radius:3px; overflow:hidden; box-shadow:var(--sh); }
+.dp-hd { padding:14px 18px; border-bottom:1px solid var(--bd); display:flex; align-items:center; justify-content:space-between; }
+.dp-tt { font-family:var(--fh); font-weight:300; font-size:14px; letter-spacing:.05em; color:var(--dk); }
+.di { display:flex; align-items:center; gap:12px; padding:11px 18px; border-bottom:1px solid rgba(181,181,181,.12); cursor:pointer; }
+.di:last-child { border-bottom:none; }
+.di:hover { background:var(--bg); }
+.dic { width:31px; height:31px; border-radius:3px; display:flex; align-items:center;
+  justify-content:center; font-size:8px; font-weight:700; letter-spacing:.05em; font-family:var(--fb); flex-shrink:0; }
+.dic.pdf { background:rgba(234,139,110,.12); color:var(--su); }
+.dic.doc { background:rgba(164,224,230,.18); color:#4a9aa0; }
+.dic.xls { background:rgba(100,180,80,.1); color:#4e8838; }
+.di-info { flex:1; min-width:0; }
+.di-nm { font-size:12px; color:var(--dk); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px; }
+.di-meta { font-size:10px; color:var(--tm); }
+.di-badge { font-size:9px; padding:2px 7px; border-radius:10px; background:rgba(164,224,230,.2); color:#3a8a90; letter-spacing:.04em; flex-shrink:0; }
+
+/* News */
+.news-g { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; position:relative; }
+.nc { background:var(--w); border:1px solid var(--bd); border-radius:3px; overflow:hidden; cursor:pointer; box-shadow:var(--sh); transition:box-shadow .2s; }
+.nc:hover { box-shadow:0 4px 24px rgba(38,38,38,.1); }
+.nc-img { height:140px; position:relative; }
+.nc-img::after { content:attr(data-lbl); position:absolute; bottom:10px; left:12px;
+  font-family:monospace; font-size:9px; color:rgba(255,255,255,.38); letter-spacing:.08em; text-transform:uppercase; }
+.nc-bd { padding:16px 16px 20px; }
+.nc-tag { font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--si); margin-bottom:6px; }
+.nc-h { font-family:var(--fh); font-weight:300; font-size:14px; line-height:1.42; color:var(--dk); margin-bottom:8px; }
+.nc-ft { display:flex; align-items:center; justify-content:space-between; }
+.nc-dt, .nc-au { font-size:10px; color:var(--tm); }
+
+/* Events */
+.evts-g { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.ec { border:1px solid var(--bd); border-radius:3px; display:flex; overflow:hidden; box-shadow:var(--sh); }
+.ec-date { width:66px; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; padding:14px 6px; flex-shrink:0; }
+.ec-mo { font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(38,38,38,.55); margin-bottom:4px; }
+.ec-dy { font-family:var(--fh); font-weight:100; font-size:32px; color:var(--dk); line-height:1; }
+.ec-bd { padding:14px 18px; }
+.ec-tp { font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--si); margin-bottom:6px; }
+.ec-tt { font-family:var(--fh); font-weight:300; font-size:14px; color:var(--dk); margin-bottom:6px; line-height:1.3; }
+.ec-time { font-size:11px; color:var(--t2); margin-bottom:2px; }
+.ec-loc { font-size:10px; color:var(--tm); }
+
+/* Applications / Approvals */
+.apps-g { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.app-panel { background:var(--w); border:1px solid var(--bd); border-radius:3px; overflow:hidden; box-shadow:var(--sh); position:relative; }
+.app-panel-hd { padding:16px 20px; border-bottom:1px solid var(--bd);
+  display:flex; align-items:center; justify-content:space-between; background:#fafaf8; }
+.app-panel-tt { font-family:var(--fh); font-weight:300; font-size:14px; letter-spacing:.05em; color:var(--dk); }
+.app-item { display:flex; align-items:center; gap:14px; padding:13px 20px; border-bottom:1px solid rgba(181,181,181,.12); }
+.app-item:last-child { border-bottom:none; }
+.app-status { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.app-status.pending { background:var(--sa); }
+.app-status.approved { background:#7bc47a; }
+.app-status.review { background:var(--oc); }
+.app-info { flex:1; }
+.app-title { font-size:12px; color:var(--dk); margin-bottom:2px; }
+.app-sub { font-size:10px; color:var(--tm); }
+.app-dt { font-size:10px; color:var(--tm); white-space:nowrap; }
+.app-chip { font-size:9px; padding:3px 9px; border-radius:10px; letter-spacing:.04em; flex-shrink:0; }
+.app-chip.pending { background:rgba(227,203,168,.3); color:#8a6838; }
+.app-chip.approved { background:rgba(120,196,120,.15); color:#3a7a3a; }
+.app-chip.review { background:rgba(164,224,230,.2); color:#3a8a90; }
+
+/* Footer */
+.ftr { background:var(--dk); padding:30px 60px; display:flex; align-items:center; justify-content:space-between; }
+.ftr-lg { font-family:var(--fh); font-weight:200; font-size:15px; letter-spacing:.3em; color:rgba(255,255,255,.3); }
+.ftr-cp { font-size:10px; color:rgba(255,255,255,.2); letter-spacing:.04em; }
+.ftr-tg { font-family:var(--fh); font-size:11px; font-weight:300; letter-spacing:.22em; color:rgba(227,203,168,.32); }
+
+@media (max-width:900px) {
+  body { min-width:375px; }
+  .hdr-in { padding:0 16px; }
+  .nav { display:none; }
+  .logo-rule { display:none; }
+  .breadcrumb { display:none; }
+  .srch { display:none; }
+  .dept-hero-ct { padding:0 24px; }
+  .dept-name { font-size:32px; }
+  .qa-strip { padding:14px 20px; overflow-x:auto; }
+  .qa-row { flex-wrap:wrap; gap:8px; }
+  .dept-stats-row { display:none; }
+  .sec-inner { padding:36px 20px; }
+  .docs-g, .apps-g, .evts-g { grid-template-columns:1fr; }
+  .news-g { grid-template-columns:1fr; }
+  .ftr { padding:24px 20px; flex-wrap:wrap; gap:8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">
+      <span class="logo-a">ORA</span>
+      <span class="logo-b">&thinsp;UAE</span>
+    </div>
+    <div class="logo-rule"></div>
+    <nav class="nav">
+      <a href="v1-homepage.html">Home</a>
+      <a href="#" class="on">Departments</a>
+      <a href="#">Policies</a>
+      <a href="#">Documents</a>
+      <a href="#">News</a>
+      <a href="#">Events</a>
+      <a href="#">Applications</a>
+      <a href="#">Approvals</a>
+    </nav>
+    <div class="breadcrumb">
+      <a href="v1-homepage.html">Home</a>
+      <span>›</span>
+      <a href="#">Departments</a>
+      <span>›</span>
+      <span style="color:var(--dk);">Development</span>
+    </div>
+    <div class="srch">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="opacity:.38;flex-shrink:0;">
+        <circle cx="6" cy="6" r="4.5" stroke="#8a8682" stroke-width="1.4"/>
+        <path d="M9.5 9.5L12 12" stroke="#8a8682" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="Search department…">
+    </div>
+    <div class="avt">AK</div>
+  </div>
+</header>
+
+<!-- DEPARTMENT HERO -->
+<section class="dept-hero sec">
+  <div class="dept-hero-bg"></div>
+  <div class="dept-hero-ct">
+    <div class="dept-eyebrow">ORA UAE · Department</div>
+    <h1 class="dept-name">Development</h1>
+    <div class="dept-rule"></div>
+    <p class="dept-desc">Leading ORA UAE's residential and commercial real estate development portfolio across the UAE and the wider MENA region.</p>
+    <div class="dept-owner-row">
+      <div class="dept-owner-avt">HF</div>
+      <div>
+        <div class="dept-owner-nm">Hassan Al-Farsi</div>
+        <div class="dept-owner-role">VP Development</div>
+      </div>
+    </div>
+  </div>
+  <div class="sp-tag">SP: Hero Web Part</div>
+</section>
+
+<!-- QUICK ACTIONS -->
+<section class="qa-strip sec">
+  <div class="qa-row">
+    <button class="qa-btn primary">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/>
+      </svg>
+      Submit Request
+    </button>
+    <div class="qa-sep"></div>
+    <button class="qa-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <rect x="2" y="2" width="10" height="10" rx="1"/>
+        <line x1="5" y1="6" x2="9" y2="6"/><line x1="5" y1="8" x2="9" y2="8"/>
+      </svg>
+      Policies
+    </button>
+    <button class="qa-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <rect x="2" y="2" width="10" height="11" rx="1"/>
+        <line x1="4.5" y1="5.5" x2="9.5" y2="5.5"/><line x1="4.5" y1="7.5" x2="9.5" y2="7.5"/>
+        <line x1="4.5" y1="9.5" x2="7.5" y2="9.5"/>
+      </svg>
+      Documents
+    </button>
+    <button class="qa-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <rect x="2" y="3" width="10" height="9" rx="1"/>
+        <line x1="2" y1="6" x2="12" y2="6"/>
+        <line x1="5" y1="1.5" x2="5" y2="4.5"/><line x1="9" y1="1.5" x2="9" y2="4.5"/>
+      </svg>
+      Events
+    </button>
+    <button class="qa-btn">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+        <path d="M7 2a3 3 0 100 6A3 3 0 007 2z"/>
+        <path d="M2 12c0-2.761 2.239-5 5-5s5 2.239 5 5"/>
+      </svg>
+      Approvals
+    </button>
+    <div class="qa-sep"></div>
+    <div class="dept-stats-row">
+      <div class="dept-stat">
+        <div class="dept-stat-n">46</div>
+        <div class="dept-stat-l">Documents</div>
+      </div>
+      <div class="dept-stat">
+        <div class="dept-stat-n">11</div>
+        <div class="dept-stat-l">Policies</div>
+      </div>
+      <div class="dept-stat">
+        <div class="dept-stat-n">3</div>
+        <div class="dept-stat-l">Pending</div>
+      </div>
+      <div class="dept-stat">
+        <div class="dept-stat-n">14</div>
+        <div class="dept-stat-l">Members</div>
+      </div>
+    </div>
+  </div>
+  <div class="sp-tag">SP: Text Web Part + Quick Links</div>
+</section>
+
+<!-- POLICIES + SHARED DOCS -->
+<section class="sec">
+  <div class="sec-inner alt">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Policies &amp; Documents</h2>
+      <a href="#" class="sec-lnk">Document Hub</a>
+      <div class="sp-tag">SP: Document Library Web Part</div>
+    </div>
+    <div class="docs-g">
+      <div class="dp">
+        <div class="dp-hd">
+          <div class="dp-tt">Department Policies</div>
+          <a href="#" class="sec-lnk" style="font-size:10px;">Open Library</a>
+        </div>
+        <div class="di">
+          <div class="dic pdf">PDF</div>
+          <div class="di-info"><div class="di-nm">Development Project Approval Framework</div><div class="di-meta">Governance · Jun 3, 2026</div></div>
+          <span class="di-badge">Updated</span>
+        </div>
+        <div class="di">
+          <div class="dic pdf">PDF</div>
+          <div class="di-info"><div class="di-nm">Site Acquisition &amp; Due Diligence Policy</div><div class="di-meta">Development · May 22, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic doc">DOC</div>
+          <div class="di-info"><div class="di-nm">Contractor Onboarding Standards</div><div class="di-meta">Procurement · May 8, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic pdf">PDF</div>
+          <div class="di-info"><div class="di-nm">Health &amp; Safety On-Site Policy v2.1</div><div class="di-meta">Technical · Apr 14, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic pdf">PDF</div>
+          <div class="di-info"><div class="di-nm">Environmental Impact Assessment Guide</div><div class="di-meta">Development · Mar 28, 2026</div></div>
+        </div>
+      </div>
+      <div class="dp">
+        <div class="dp-hd">
+          <div class="dp-tt">Shared Documents</div>
+          <a href="#" class="sec-lnk" style="font-size:10px;">Open Library</a>
+        </div>
+        <div class="di">
+          <div class="dic xls">XLS</div>
+          <div class="di-info"><div class="di-nm">Active Projects Tracker Q2 2026</div><div class="di-meta">Project Mgmt · Jun 10, 2026</div></div>
+          <span class="di-badge">Updated</span>
+        </div>
+        <div class="di">
+          <div class="dic doc">DOC</div>
+          <div class="di-info"><div class="di-nm">Dubai Marina Tower — Design Brief</div><div class="di-meta">Design · Jun 5, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic pdf">PDF</div>
+          <div class="di-info"><div class="di-nm">MENA Expansion Feasibility Study 2026</div><div class="di-meta">Strategy · May 18, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic xls">XLS</div>
+          <div class="di-info"><div class="di-nm">Construction Budget Tracker H1 2026</div><div class="di-meta">Finance · May 2, 2026</div></div>
+        </div>
+        <div class="di">
+          <div class="dic doc">DOC</div>
+          <div class="di-info"><div class="di-nm">Vendor &amp; Contractor Contact Directory</div><div class="di-meta">Procurement · Apr 10, 2026</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPT NEWS -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Department News</h2>
+      <a href="#" class="sec-lnk">All News</a>
+      <div class="sp-tag">SP: News Web Part</div>
+    </div>
+    <div class="news-g">
+      <div class="nc">
+        <div class="nc-img" data-lbl="Architecture Photography"
+          style="background:linear-gradient(145deg,#c4b49a 0%,#a89882 40%,#cfc4b6 100%);"></div>
+        <div class="nc-bd">
+          <div class="nc-tag">Project Update</div>
+          <h3 class="nc-h">Dubai Marina Tower Receives Municipality Approval</h3>
+          <div class="nc-ft"><span class="nc-dt">June 9, 2026</span><span class="nc-au">Development Team</span></div>
+        </div>
+      </div>
+      <div class="nc">
+        <div class="nc-img" data-lbl="Interior Design Photography"
+          style="background:linear-gradient(145deg,#d8c8b4 0%,#e8ddd0 60%,#c8bab0 100%);"></div>
+        <div class="nc-bd">
+          <div class="nc-tag">Award</div>
+          <h3 class="nc-h">ORA Wins Best Developer Award at MENA Realty Summit</h3>
+          <div class="nc-ft"><span class="nc-dt">June 4, 2026</span><span class="nc-au">Corporate Comms</span></div>
+        </div>
+      </div>
+      <div class="nc">
+        <div class="nc-img" data-lbl="Site Photography"
+          style="background:linear-gradient(145deg,#b8c4b4 0%,#d0d8cc 60%,#a8b4a8 100%);"></div>
+        <div class="nc-bd">
+          <div class="nc-tag">Milestone</div>
+          <h3 class="nc-h">Yas Island Phase II Ground-Breaking Ceremony Completed</h3>
+          <div class="nc-ft"><span class="nc-dt">May 28, 2026</span><span class="nc-au">Development Team</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPT EVENTS -->
+<section class="sec">
+  <div class="sec-inner alt">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Department Events</h2>
+      <a href="#" class="sec-lnk">View Calendar</a>
+      <div class="sp-tag">SP: Events Web Part</div>
+    </div>
+    <div class="evts-g">
+      <div class="ec">
+        <div class="ec-date" style="background:var(--sa);">
+          <div class="ec-mo">JUN</div>
+          <div class="ec-dy">16</div>
+        </div>
+        <div class="ec-bd">
+          <div class="ec-tp">Project Review</div>
+          <div class="ec-tt">Q2 Development Portfolio Review</div>
+          <div class="ec-time">10:00 – 12:00 GST</div>
+          <div class="ec-loc">Conference Room B, Dubai HQ</div>
+        </div>
+      </div>
+      <div class="ec">
+        <div class="ec-date" style="background:rgba(164,224,230,.28);">
+          <div class="ec-mo">JUN</div>
+          <div class="ec-dy">22</div>
+        </div>
+        <div class="ec-bd">
+          <div class="ec-tp">Site Visit · Optional</div>
+          <div class="ec-tt">Dubai Marina Tower Site Walkthrough</div>
+          <div class="ec-time">08:00 – 11:00 GST</div>
+          <div class="ec-loc">Dubai Marina, Plot D12</div>
+        </div>
+      </div>
+      <div class="ec">
+        <div class="ec-date" style="background:rgba(38,38,38,.06);">
+          <div class="ec-mo">JUL</div>
+          <div class="ec-dy">07</div>
+        </div>
+        <div class="ec-bd">
+          <div class="ec-tp">Training · Mandatory</div>
+          <div class="ec-tt">Updated Building Regulations Briefing</div>
+          <div class="ec-time">14:00 – 16:00 GST</div>
+          <div class="ec-loc">Virtual via Microsoft Teams</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATIONS & APPROVALS -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="sec-hd">
+      <h2 class="sec-ttl">Applications &amp; Approvals</h2>
+      <a href="#" class="sec-lnk">View All</a>
+      <div class="sp-tag">SPFx: Approvals Web Part</div>
+    </div>
+    <div class="apps-g">
+      <div class="app-panel">
+        <div class="app-panel-hd">
+          <div class="app-panel-tt">My Pending Requests</div>
+          <a href="#" class="sec-lnk" style="font-size:10px;">New Request</a>
+        </div>
+        <div class="app-item">
+          <div class="app-status pending"></div>
+          <div class="app-info">
+            <div class="app-title">Site Visit Expense Claim — June 2026</div>
+            <div class="app-sub">Submitted Jun 9 · Finance Approval</div>
+          </div>
+          <span class="app-chip pending">Pending</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status review"></div>
+          <div class="app-info">
+            <div class="app-title">Contractor Agreement — Al-Nafisi LLC</div>
+            <div class="app-sub">Submitted Jun 3 · Legal Review</div>
+          </div>
+          <span class="app-chip review">In Review</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status approved"></div>
+          <div class="app-info">
+            <div class="app-title">Training Budget Request — Q3 2026</div>
+            <div class="app-sub">Approved May 28 · HR &amp; Finance</div>
+          </div>
+          <span class="app-chip approved">Approved</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status approved"></div>
+          <div class="app-info">
+            <div class="app-title">Software Licence — Autodesk Revit x5</div>
+            <div class="app-sub">Approved May 14 · IT &amp; Finance</div>
+          </div>
+          <span class="app-chip approved">Approved</span>
+        </div>
+      </div>
+      <div class="app-panel">
+        <div class="app-panel-hd">
+          <div class="app-panel-tt">Awaiting My Approval</div>
+          <a href="#" class="sec-lnk" style="font-size:10px;">Review All</a>
+        </div>
+        <div class="app-item">
+          <div class="app-status pending"></div>
+          <div class="app-info">
+            <div class="app-title">Design Change Order — Marina Tower Lobby</div>
+            <div class="app-sub">From: Omar Al-Mansouri · Jun 10</div>
+          </div>
+          <span class="app-chip pending">Action Needed</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status pending"></div>
+          <div class="app-info">
+            <div class="app-title">New Hire Request — Senior Architect</div>
+            <div class="app-sub">From: HR Team · Jun 8</div>
+          </div>
+          <span class="app-chip pending">Action Needed</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status review"></div>
+          <div class="app-info">
+            <div class="app-title">Subcontractor Selection — Abu Dhabi Phase II</div>
+            <div class="app-sub">From: Procurement · Jun 5</div>
+          </div>
+          <span class="app-chip review">In Review</span>
+        </div>
+        <div class="app-item">
+          <div class="app-status approved"></div>
+          <div class="app-info">
+            <div class="app-title">Annual Leave Request — Mariam Al-Qassimi</div>
+            <div class="app-sub">Approved by you · Jun 2</div>
+          </div>
+          <span class="app-chip approved">Approved</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-lg">ORA UAE</div>
+  <div class="ftr-cp">© 2026 ORA UAE. All rights reserved.</div>
+  <div class="ftr-tg">Reimagining Time</div>
+</footer>
+
+<script>
+window.addEventListener('message', function(e) {
+  if (e.data && e.data.annotations !== undefined) {
+    document.body.classList.toggle('hide-ann', !e.data.annotations);
+  }
+});
+window.addEventListener('message', function(e){
+  var d = e.data || {};
+  if(d.annotations !== undefined) document.body.classList.toggle('hide-ann', !d.annotations);
+  if(d.theme){ var t=d.theme, r=document.documentElement.style;
+    if(t.accent){ r.setProperty('--sa', t.accent); }
+    if(t.dark){ r.setProperty('--dk', t.dark); }
+    if(t.fh){ r.setProperty('--fh', t.fh); }
+  }
+});
+</script>
+</body>
+</html>

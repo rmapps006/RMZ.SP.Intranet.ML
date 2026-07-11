@@ -1,0 +1,124 @@
+@import '../../../common/styles/tokens';
+
+.approvals {
+  @include ora-pad;
+  background: $ora-white;
+  font-family: $font-body;
+}
+
+.appsG {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.appPanel {
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: $ora-shadow;
+  position: relative;
+}
+
+.appPanelHd {
+  padding: 16px 20px;
+  border-bottom: 1px solid $ora-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.appPanelTt {
+  font-family: $font-head;
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: $ora-dark;
+}
+
+.appPanelLnk {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: $ora-sand-dark;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.appItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 20px;
+  border-bottom: 1px solid rgba(181, 181, 181, 0.12);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.appStatus {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &.pending {
+    background: var(--ora-accent, #{$ora-sand});
+  }
+  &.approved {
+    background: #7bc47a;
+  }
+  &.review {
+    background: $ora-ocean;
+  }
+}
+
+.appInfo {
+  flex: 1;
+}
+
+.appTitle {
+  font-size: 12px;
+  color: $ora-dark;
+  margin-bottom: 2px;
+}
+
+.appSub {
+  font-size: 10px;
+  color: $ora-text-muted;
+}
+
+.appDt {
+  font-size: 10px;
+  color: $ora-text-muted;
+  white-space: nowrap;
+}
+
+.appChip {
+  font-size: 9px;
+  padding: 3px 9px;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+
+  &.pending {
+    background: rgba(227, 203, 168, 0.3);
+    color: #8a6838;
+  }
+  &.approved {
+    background: rgba(120, 196, 120, 0.15);
+    color: #3a7a3a;
+  }
+  &.review {
+    background: rgba(164, 224, 230, 0.2);
+    color: #3a8a90;
+  }
+}

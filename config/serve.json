@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://enter-your-SharePoint-site/_layouts/workbench.aspx",
+      "customActions": {
+        "c4e5110d-1d14-4170-8db9-987c63c015ac": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "navItems": [
+              { "label": "Home", "url": "/" },
+              { "label": "Departments", "url": "/SitePages/Departments.aspx" },
+              { "label": "Policies", "url": "/SitePages/Policies.aspx" },
+              { "label": "Documents", "url": "/SitePages/Documents.aspx" },
+              { "label": "News", "url": "/SitePages/News.aspx" },
+              { "label": "Events", "url": "/SitePages/Events.aspx" },
+              { "label": "Onboarding", "url": "/SitePages/Onboarding.aspx" },
+              { "label": "Approvals", "url": "/SitePages/Approvals.aspx" }
+            ],
+            "searchPlaceholder": "Search intranet…",
+            "copyright": "© 2026 ORA UAE. All rights reserved.",
+            "tagline": "Reimagining Time",
+            "hideSiteHeader": true,
+            "hideCommandBar": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "875c6113-030c-4068-bfb4-b0df80400ddc",
+  "alias": "EmbeddedPortalWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Embedded Portal" },
+      "description": { "default": "Embeds an external portal in a framed mock-browser card." },
+      "officeFabricIconFontName": "Globe",
+      "properties": {
+        "portalUrl": "https://www.orauae.com",
+        "frameHeight": "520",
+        "sectionTitle": "Embedded Portal",
+        "linkText": "Open in new tab",
+        "appSignInMode": false
+      }
+    }
+  ]
+}

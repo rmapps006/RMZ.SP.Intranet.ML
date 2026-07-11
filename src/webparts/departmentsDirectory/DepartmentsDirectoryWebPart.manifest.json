@@ -1,0 +1,28 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "a97c1d88-2379-4fd0-8887-963db1c86f57",
+  "alias": "DepartmentsDirectoryWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Departments Directory" },
+      "description": { "default": "A grid of department sites, managed centrally in Admin → Departments." },
+      "officeFabricIconFontName": "Org",
+      "properties": {
+        "title": "Departments",
+        "viewAllUrl": "",
+        "departmentsJson": "",
+        "showTitle": true,
+        "showViewAll": true
+      }
+    }
+  ]
+}

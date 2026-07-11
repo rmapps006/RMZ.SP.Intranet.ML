@@ -1,0 +1,107 @@
+@import '../../../common/styles/tokens';
+
+.deptHero {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  font-family: $font-body;
+}
+
+.deptHeroBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #141110 0%, #1e1812 22%, #302618 50%, #4a3820 75%, #6a5438 100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(227, 203, 168, 0.055) 79px,
+      rgba(227, 203, 168, 0.055) 80px
+    );
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 60%, transparent 100%);
+  }
+}
+
+.deptHeroCt {
+  position: relative;
+  z-index: 10;
+  padding: 0 80px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 900px) {
+    padding: 0 24px;
+  }
+}
+
+.deptEyebrow {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ora-accent, #{$ora-sand});
+  margin-bottom: 12px;
+}
+
+.deptName {
+  font-family: $font-head;
+  font-weight: 100;
+  font-size: 48px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  line-height: 1.05;
+  margin: 0 0 12px;
+
+  @media (max-width: 900px) {
+    font-size: 32px;
+  }
+}
+
+.deptRule {
+  width: 40px;
+  height: 1px;
+  background: var(--ora-accent, #{$ora-sand});
+  margin-bottom: 14px;
+}
+
+.deptDesc {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.05em;
+  max-width: 560px;
+  margin: 0 0 22px;
+  line-height: 1.6;
+}
+
+.deptOwnerRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deptOwnerNm {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+}
+
+.deptOwnerRole {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}

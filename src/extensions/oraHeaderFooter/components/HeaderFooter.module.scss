@@ -1,0 +1,308 @@
+// ORA UAE design tokens (from design/v1-homepage.html :root)
+$ora-white: #ffffff;
+$ora-silver: #b5b5b5;
+$ora-sand: #e3cba8;
+$ora-sand-dark: var(--ora-accent-dark, #c4a880);
+$ora-dark: #262626;
+$ora-sun: #ea8b6e;
+$ora-ocean: #a4e0e6;
+$ora-bg: #fafaf8;
+$ora-border: rgba(181, 181, 181, 0.26);
+$ora-text-1: #262626;
+$ora-text-2: #8a8682;
+$ora-text-muted: #b5b5b5;
+$ora-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
+$ora-search-bg: #f3f1ed;
+$font-head: var(--ora-font-head, 'Raleway', 'Segoe UI', sans-serif);
+$font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
+
+// Bundled web fonts are loaded by the extension at runtime (see fonts.ts).
+
+/* ====================== HEADER ====================== */
+.oraHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: $ora-white;
+  border-bottom: 1px solid $ora-border;
+  font-family: $font-body;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+// 3px sand gradient top border
+.accentBar {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--ora-accent, #{$ora-sand}) 0%, rgba(227, 203, 168, 0.3) 100%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.16s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:hover .logoSub {
+    color: var(--ora-accent, #{$ora-sand});
+  }
+}
+
+.logoImg {
+  height: 36px;
+  border-radius: 4px;
+  display: block;
+}
+
+.logoSub {
+  font-family: $font-head;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.26em;
+  color: $ora-text-1;
+  text-transform: uppercase;
+  transition: color 0.16s ease;
+}
+
+.logoDivider {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--ora-accent, #{$ora-sand}) 25%,
+    var(--ora-accent, #{$ora-sand}) 75%,
+    transparent
+  );
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+
+.nav {
+  display: flex;
+  gap: 2px;
+}
+
+.navLink {
+  position: relative;
+  font-size: 13px;
+  font-weight: 500;
+  color: $ora-text-1;
+  text-decoration: none;
+  padding: 0 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.01em;
+  border-radius: 6px;
+  transition: color 0.16s ease, background 0.16s ease;
+  cursor: pointer;
+  white-space: nowrap;
+
+  // Animated accent underline (centered, grows on hover/active).
+  &::after {
+    content: '';
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ora-accent, #{$ora-sand});
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.18s ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $ora-dark;
+    text-decoration: none;
+    background: rgba(38, 38, 38, 0.04);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(0.6);
+  }
+}
+
+.navLinkActive {
+  color: $ora-dark;
+  font-weight: 600;
+
+  &::after {
+    transform: scaleX(1);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $ora-search-bg;
+  border: 1px solid $ora-border;
+  border-radius: 18px;
+  padding: 7px 16px;
+  width: 220px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  display: flex;
+  opacity: 0.38;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  font-family: $font-body;
+  font-size: 12px;
+  color: $ora-text-2;
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+
+  &::placeholder {
+    color: $ora-text-muted;
+  }
+}
+
+.bell {
+  position: relative;
+  margin-left: 18px;
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $ora-text-2;
+  flex-shrink: 0;
+  transition: background 0.15s;
+
+  &:hover {
+    background: $ora-search-bg;
+    color: $ora-dark;
+  }
+}
+
+.bellDot {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $ora-sun;
+  border: 1.5px solid $ora-white;
+}
+
+.avatar {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ora-accent, #{$ora-sand}), $ora-sand-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-head;
+  font-size: 12px;
+  font-weight: 400;
+  color: $ora-white;
+  margin-left: 12px;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.profName {
+  font-size: 12px;
+  color: $ora-dark;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+/* ====================== FOOTER ====================== */
+.oraFooter {
+  background: $ora-dark;
+  padding: 28px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: $font-body;
+  box-sizing: border-box;
+}
+
+.footerLogo {
+  font-family: $font-head;
+  font-weight: 200;
+  font-size: 15px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.footerCopy {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.footerTag {
+  font-family: $font-head;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  color: rgba(227, 203, 168, 0.3);
+}
+
+/* ====================== RESPONSIVE ====================== */
+@media (max-width: 900px) {
+  .inner {
+    padding: 0 16px;
+  }
+
+  .nav,
+  .logoDivider,
+  .profName {
+    display: none;
+  }
+
+  .search {
+    width: 150px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .oraFooter {
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+}

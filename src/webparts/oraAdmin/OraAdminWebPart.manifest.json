@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "604a1ad1-9900-4dfe-af74-e3b26e616679",
+  "alias": "OraAdminWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Intranet Setup (Admin)" },
+      "description": { "default": "Provisions lists/libraries and registers the header & footer for the intranet." },
+      "officeFabricIconFontName": "Settings",
+      "properties": {
+        "eventsList": "Events",
+        "policiesList": "Policies",
+        "newsList": "News",
+        "benefitsList": "HR Benefits",
+        "formsLibrary": "Forms",
+        "templatesLibrary": "Templates",
+        "pagesLibrary": "Site Pages",
+        "registerHeaderFooter": true,
+        "seedSampleData": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "c6a4ffba-77e7-4a8c-b460-726ef9dce6f2",
+  "alias": "DepartmentAdminWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Department Setup (Admin)" },
+      "description": { "default": "Per-department settings for a department site: hero, quick links and content sources. Reuses the main portal navigation/theme." },
+      "officeFabricIconFontName": "Settings",
+      "properties": {}
+    }
+  ]
+}

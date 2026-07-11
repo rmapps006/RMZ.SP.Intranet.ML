@@ -1,0 +1,81 @@
+@import '../../../common/styles/tokens';
+
+.news {
+  @include ora-pad;
+  background: $ora-white;
+  font-family: $font-body;
+}
+
+.newsG {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nc {
+  background: $ora-white;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: $ora-shadow;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: $ora-shadow-hover;
+  }
+}
+
+.ncImg {
+  height: 140px;
+  position: relative;
+}
+
+.ncCap {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ncBd {
+  padding: 16px 16px 20px;
+}
+
+.ncTag {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $ora-silver;
+  margin-bottom: 6px;
+}
+
+.ncH {
+  font-family: $font-head;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.42;
+  color: $ora-dark;
+  margin: 0 0 8px;
+}
+
+.ncFt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ncDt,
+.ncAu {
+  font-size: 10px;
+  color: $ora-text-muted;
+}

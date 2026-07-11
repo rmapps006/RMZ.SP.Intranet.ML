@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "577e282d-a89f-48ea-baa8-b303a8865538",
+  "alias": "PoliciesListWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Policies & Procedures" },
+      "description": { "default": "Searchable, filterable table of company policies for the intranet." },
+      "officeFabricIconFontName": "DocumentSet",
+      "properties": {
+        "policiesList": "Policies",
+        "allPoliciesUrl": ""
+      }
+    }
+  ]
+}

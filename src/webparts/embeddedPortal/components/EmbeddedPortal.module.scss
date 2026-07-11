@@ -1,0 +1,121 @@
+@import '../../../common/styles/tokens';
+
+.embeddedPortal {
+  @include ora-bg-alt;
+  font-family: $font-body;
+  padding: 52px 60px;
+
+  @media (max-width: 900px) {
+    padding: 36px 20px;
+  }
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header — mirrors .sec-hd / .sec-ttl / .sec-lnk so the link can target=_blank. */
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 26px;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: $font-head;
+  font-weight: 200;
+  font-size: 26px;
+  letter-spacing: 0.1em;
+  color: $ora-dark;
+  margin: 0;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background: var(--ora-accent, #{$ora-sand});
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+}
+
+.link {
+  font-size: 10px;
+  color: $ora-text-muted;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    color: $ora-dark;
+  }
+}
+
+.frameCard {
+  position: relative;
+  z-index: 1;
+  border: 1px solid $ora-border;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: $ora-shadow;
+  background: $ora-white;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid $ora-border;
+  background: #faf8f5;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dotRed {
+  background: #f0c0c0;
+}
+
+.dotYellow {
+  background: #f0e0b0;
+}
+
+.dotGreen {
+  background: #c0e0c0;
+}
+
+.pill {
+  flex: 1;
+  background: #f3f1ed;
+  border: 1px solid $ora-border;
+  border-radius: 12px;
+  padding: 5px 14px;
+  font-size: 11px;
+  color: $ora-text-muted;
+  letter-spacing: 0.03em;
+}
+
+.ext {
+  flex-shrink: 0;
+}
+
+.frame {
+  display: block;
+  border: none;
+  width: 100%;
+}

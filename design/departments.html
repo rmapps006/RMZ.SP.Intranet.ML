@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ORA UAE — Departments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500&family=Jost:wght@200;300;400;500&family=Questrial&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--w:#fff;--si:#b5b5b5;--sa:#e3cba8;--dk:#262626;--su:#ea8b6e;--oc:#a4e0e6;
+  --bg:#fafaf8;--bd:rgba(181,181,181,.26);--t1:#262626;--t2:#8a8682;--tm:#b5b5b5;
+  --sh:0 2px 16px rgba(38,38,38,.06);--fh:'Raleway',sans-serif;--fb:'Public Sans',Arial,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--bg);color:var(--t1);min-width:1440px;}
+a{text-decoration:none;color:inherit;} svg{display:block;}
+.sp-tag{position:absolute;top:10px;right:10px;background:rgba(234,139,110,.93);color:#fff;
+  font-size:10px;font-family:var(--fb);font-weight:500;letter-spacing:.07em;padding:3px 10px;border-radius:2px;z-index:50;pointer-events:none;white-space:nowrap;}
+.sp-tag.ootb{background:rgba(42,154,166,.93);}
+.hide-ann .sp-tag{display:none;}
+.ann-legend{position:fixed;bottom:20px;right:20px;background:var(--dk);border-radius:4px;padding:12px 16px;display:flex;gap:14px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.hide-ann .ann-legend{display:none;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.05em;}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* Header */
+.hdr{background:var(--w);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;}
+.hdr::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--sa),rgba(227,203,168,.25));}
+.hdr-in{display:flex;align-items:center;height:60px;padding:0 40px;}
+.logo{display:flex;align-items:baseline;gap:3px;flex-shrink:0;}
+.logo-a{font-family:var(--fh);font-weight:200;font-size:21px;letter-spacing:.3em;color:var(--dk);}
+.logo-b{font-family:var(--fh);font-weight:400;font-size:10px;letter-spacing:.2em;color:var(--si);text-transform:uppercase;}
+.logo-rule{width:1px;height:18px;background:var(--sa);margin:0 18px;flex-shrink:0;}
+.nav{display:flex;}
+.nav a{font-size:12px;color:var(--t2);padding:0 13px;height:60px;display:flex;align-items:center;letter-spacing:.03em;border-bottom:2px solid transparent;transition:all .15s;}
+.nav a:hover,.nav a.on{color:var(--dk);border-bottom-color:var(--sa);}
+.nav a.on{font-weight:500;}
+.breadcrumb{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:11px;color:var(--tm);}
+.breadcrumb a{color:var(--t2);}
+.avt{width:33px;height:33px;border-radius:50%;background:linear-gradient(135deg,#e3cba8,#c4a880);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:12px;font-weight:400;color:#fff;margin-left:20px;}
+
+/* Hero */
+.hero{height:260px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#141110 0%,#1e1812 22%,#352b1e 50%,#574535 75%,#78655a 100%);}
+.hero-bg::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(227,203,168,.055) 79px,rgba(227,203,168,.055) 80px);}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.05) 60%,transparent 100%);}
+.hero-ct{position:relative;z-index:10;padding:0 80px;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+.hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--sa);margin-bottom:12px;}
+.hero-h1{font-family:var(--fh);font-weight:100;font-size:46px;letter-spacing:.1em;color:#fff;line-height:1.05;margin-bottom:12px;}
+.hero-rule{width:40px;height:1px;background:var(--sa);margin-bottom:14px;}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:.05em;max-width:540px;line-height:1.6;}
+.hero-caption{position:absolute;bottom:14px;right:24px;font-family:monospace;font-size:9px;color:rgba(255,255,255,.2);letter-spacing:.12em;text-transform:uppercase;}
+
+/* Body */
+.wrap{padding:48px 60px 60px;position:relative;}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;position:relative;}
+.sec-ttl{font-family:var(--fh);font-weight:200;font-size:25px;letter-spacing:.1em;color:var(--dk);}
+.sec-ttl::before{content:'';display:inline-block;width:22px;height:1px;background:var(--sa);margin-right:12px;vertical-align:middle;}
+.sec-sub{font-size:12px;color:var(--t2);margin:0 0 30px 34px;}
+
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.dcard{background:var(--w);border:1px solid var(--bd);border-radius:4px;padding:24px;cursor:pointer;
+  position:relative;overflow:hidden;transition:box-shadow .2s,border-color .2s;display:flex;flex-direction:column;}
+.dcard::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sa);opacity:0;transition:opacity .2s;}
+.dcard:hover{box-shadow:var(--sh);border-color:rgba(227,203,168,.55);} .dcard:hover::after{opacity:1;}
+.dcard-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.dcard-ic{width:30px;height:30px;color:var(--si);flex-shrink:0;}
+.dcard-nm{font-family:var(--fh);font-weight:300;font-size:17px;letter-spacing:.04em;color:var(--dk);}
+.dcard-desc{font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:18px;flex:1;}
+.dcard-meta{display:flex;align-items:center;gap:16px;padding-top:14px;border-top:1px solid var(--bd);}
+.dmeta{display:flex;flex-direction:column;}
+.dmeta-n{font-family:var(--fh);font-weight:300;font-size:16px;color:var(--dk);line-height:1;margin-bottom:3px;}
+.dmeta-l{font-size:9px;color:var(--tm);letter-spacing:.06em;text-transform:uppercase;}
+.dcard-head{margin-left:auto;display:flex;align-items:center;gap:9px;}
+.dhead-avt{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:300;color:#fff;flex-shrink:0;}
+.dhead-nm{font-size:10px;color:var(--t2);text-align:right;line-height:1.3;}
+
+/* Footer */
+.ftr{background:var(--dk);padding:28px 60px;display:flex;align-items:center;justify-content:space-between;}
+.ftr-lg{font-family:var(--fh);font-weight:200;font-size:15px;letter-spacing:.3em;color:rgba(255,255,255,.3);}
+.ftr-cp{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.04em;}
+.ftr-tg{font-family:var(--fh);font-size:11px;font-weight:300;letter-spacing:.22em;color:rgba(227,203,168,.3);}
+
+@media(max-width:900px){
+  body{min-width:375px;}
+  .nav,.logo-rule,.breadcrumb{display:none;}
+  .hdr-in{padding:0 16px;}
+  .hero-ct{padding:0 24px;} .hero-h1{font-size:32px;}
+  .wrap,.ftr{padding-left:20px;padding-right:20px;}
+  .dgrid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo" style="display:flex;align-items:center;gap:10px;"><img src="ora-logo.png" height="34" style="border-radius:3px;display:block;" alt="ORA UAE"><span class="logo-b" style="font-size:11px;letter-spacing:.22em;">UAE</span></div>
+    <div class="logo-rule"></div>
+    <nav class="nav">
+      <a href="v1-homepage.html">Home</a>
+      <a href="#" class="on">Departments</a>
+      <a href="#">Policies</a>
+      <a href="#">Documents</a>
+      <a href="#">News</a>
+      <a href="#">Events</a>
+      <a href="onboarding.html">Onboarding</a>
+      <a href="#">Approvals</a>
+    </nav>
+    <div class="breadcrumb"><a href="v1-homepage.html">Home</a><span>›</span><span style="color:var(--dk);">Departments</span></div>
+    <div class="avt">AK</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ct">
+    <div class="hero-eyebrow">ORA UAE · Directory</div>
+    <h1 class="hero-h1">Departments</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Explore every ORA UAE department — policies, documents, news, events and team contacts, organised in one place.</p>
+  </div>
+  <div class="hero-caption">Hero image · Office &amp; People Photography</div>
+  <div class="sp-tag ootb">SP: Hero Web Part</div>
+</section>
+
+<!-- DEPARTMENTS GRID -->
+<div class="wrap">
+  <div class="sec-hd">
+    <h2 class="sec-ttl">All Departments</h2>
+    <div class="sp-tag ootb">SP: Highlighted Content Web Part</div>
+  </div>
+  <p class="sec-sub">12 departments · Select any department to open its dedicated workspace.</p>
+
+  <div class="dgrid">
+
+    <a href="department-page.html" class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="5" y="19" width="3" height="5"/><rect x="10" y="14" width="3" height="10"/><rect x="15" y="10" width="3" height="14"/><rect x="20" y="6" width="3" height="18"/><line x1="4" y1="24" x2="26" y2="24"/></svg><div class="dcard-nm">Finance</div></div>
+      <div class="dcard-desc">Financial planning, reporting, treasury and budget governance across the ORA UAE portfolio.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">12</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">38</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#c8a880,#e3cba8);">FZ</div><div class="dhead-nm">Fatima<br>Al-Zahrawi</div></div></div>
+    </a>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="11" width="14" height="12" rx="1"/><polyline points="8,11 15,8 22,11"/><line x1="15" y1="8" x2="15" y2="23"/><line x1="8" y1="17" x2="22" y2="17"/></svg><div class="dcard-nm">Procurement</div></div>
+      <div class="dcard-desc">Strategic sourcing, vendor management and corporate purchasing for all business units.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">8</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">24</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#9aaa9e,#c4cec8);">RH</div><div class="dhead-nm">Reem<br>Al-Hashmi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><polyline points="5,21 12,13 17,17 25,7"/><polyline points="21,7 25,7 25,11"/></svg><div class="dcard-nm">Sales Operations</div></div>
+      <div class="dcard-desc">Sales enablement, CRM operations, pipeline analytics and revenue process support.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">6</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">19</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#8a8682,#b5b5b5);">NS</div><div class="dhead-nm">Nasser<br>Al-Suwaidi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><line x1="10" y1="11" x2="10" y2="24"/><line x1="15" y1="11" x2="15" y2="24"/><line x1="20" y1="11" x2="20" y2="24"/><line x1="7" y1="11" x2="23" y2="11"/><line x1="7" y1="24" x2="23" y2="24"/><line x1="11" y1="7" x2="19" y2="7"/><line x1="15" y1="7" x2="15" y2="11"/></svg><div class="dcard-nm">Government Relations</div></div>
+      <div class="dcard-desc">Liaison with authorities, regulatory affairs, permits and public-sector partnerships.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">10</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">15</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#b09878,#d4b898);">MK</div><div class="dhead-nm">Majid<br>Al-Kaabi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><line x1="9" y1="6" x2="9" y2="24"/><path d="M9 10c5 0 9 3 4 7-5 4-4 7 4 7"/><line x1="6" y1="24" x2="12" y2="24"/></svg><div class="dcard-nm">Legal &amp; Compliance</div></div>
+      <div class="dcard-desc">Contracts, corporate governance, compliance frameworks and risk management.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">15</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">42</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#7a7470,#a8a4a0);">LR</div><div class="dhead-nm">Layla<br>Al-Rashidi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M11 9l-5 6 5 6"/><path d="M19 9l5 6-5 6"/><line x1="13" y1="19" x2="17" y2="11"/></svg><div class="dcard-nm">Digital &amp; Technology</div></div>
+      <div class="dcard-desc">IT infrastructure, software platforms, cybersecurity and digital transformation.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">9</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">31</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#262626,#4a3c30);">KH</div><div class="dhead-nm">Khalid<br>Al-Habsi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="15" cy="15" r="3.5"/><circle cx="15" cy="15" r="9" stroke-dasharray="3 3"/></svg><div class="dcard-nm">Sales</div></div>
+      <div class="dcard-desc">Residential and commercial sales, client relationships and revenue generation.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">7</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">22</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#c8a880,#e3cba8);">YM</div><div class="dhead-nm">Yousef<br>Al-Mazrouei</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M7 11h4l9-4v14l-9-4H7z"/><line x1="7" y1="16" x2="7" y2="21"/><circle cx="23" cy="13" r="2.5"/></svg><div class="dcard-nm">Marketing</div></div>
+      <div class="dcard-desc">Brand, communications, digital marketing, events and creative campaigns.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">5</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">28</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#d4846c,#ea8b6e);">AN</div><div class="dhead-nm">Aisha<br>Al-Nuaimi</div></div></div>
+    </div>
+
+    <a href="department-page.html" class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="8" y="10" width="14" height="14"/><line x1="11" y1="10" x2="11" y2="6"/><line x1="19" y1="10" x2="19" y2="5"/><line x1="11" y1="6" x2="19" y2="6"/><rect x="11" y="17" width="3" height="7"/><rect x="17" y="15" width="3" height="4"/></svg><div class="dcard-nm">Development</div></div>
+      <div class="dcard-desc">Real estate development, project delivery, design management and construction.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">11</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">46</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#b09878,#d4b898);">HF</div><div class="dhead-nm">Hassan<br>Al-Farsi</div></div></div>
+    </a>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M10 17v-1a5 5 0 0110 0v1"/><rect x="8" y="16" width="4" height="5" rx="1"/><rect x="18" y="16" width="4" height="5" rx="1"/><line x1="15" y1="23" x2="19" y2="23"/></svg><div class="dcard-nm">Customer Operations</div></div>
+      <div class="dcard-desc">Customer service, after-sales support, handover and community management.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">8</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">17</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#6ab8c0,#a4e0e6);">MQ</div><div class="dhead-nm">Mariam<br>Al-Qassimi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="15" cy="15" r="4.5"/><path d="M15 5v3M15 22v3M5 15h3M22 15h3M8.2 8.2l2 2M19.8 19.8l2 2M8.2 21.8l2-2M19.8 10.2l2-2"/></svg><div class="dcard-nm">Technical</div></div>
+      <div class="dcard-desc">Engineering, MEP, facilities, quality assurance and technical standards.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">13</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">35</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#8a8682,#b5b5b5);">TB</div><div class="dhead-nm">Tariq<br>Al-Blooshi</div></div></div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-top"><svg class="dcard-ic" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="15" cy="11" r="4.5"/><path d="M6 25c0-4.97 4.03-9 9-9s9 4.03 9 9"/></svg><div class="dcard-nm">Human Resources</div></div>
+      <div class="dcard-desc">Talent acquisition, employee experience, benefits, learning and onboarding.</div>
+      <div class="dcard-meta"><div class="dmeta"><div class="dmeta-n">18</div><div class="dmeta-l">Policies</div></div><div class="dmeta"><div class="dmeta-n">53</div><div class="dmeta-l">Documents</div></div><div class="dcard-head"><div class="dhead-avt" style="background:linear-gradient(135deg,#6ab8c0,#a4e0e6);">SJ</div><div class="dhead-nm">Sarah<br>Johnson</div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-lg">ORA UAE</div>
+  <div class="ftr-cp">© 2026 ORA UAE. All rights reserved.</div>
+  <div class="ftr-tg">Reimagining Time</div>
+</footer>
+
+<div class="ann-legend">
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(42,154,166,.93);"></div>SP: SharePoint OOTB</div>
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(234,139,110,.93);"></div>SPFx: Custom Extension</div>
+</div>
+
+<script>
+window.addEventListener('message', function(e){
+  var d = e.data || {};
+  if(d.annotations !== undefined) document.body.classList.toggle('hide-ann', !d.annotations);
+  if(d.theme){ var t=d.theme, r=document.documentElement.style;
+    if(t.accent) r.setProperty('--sa', t.accent);
+    if(t.dark) r.setProperty('--dk', t.dark);
+    if(t.fh) r.setProperty('--fh', t.fh); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "cdc9bdad-043b-4f8e-b1e0-2f7b4454333c",
+  "alias": "SharedDocumentsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Shared Documents" },
+      "description": { "default": "Two-column view of recent files from configured document libraries." },
+      "officeFabricIconFontName": "DocLibrary",
+      "properties": {
+        "panel1Library": "Documents",
+        "panel1Title": "Company Shared Library",
+        "panel1Url": "",
+        "panel2Library": "Templates",
+        "panel2Title": "Templates & Forms",
+        "panel2Url": "",
+        "documentHubUrl": ""
+      }
+    }
+  ]
+}

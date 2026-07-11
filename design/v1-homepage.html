@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ORA UAE — Variation A · SPFx + Custom Hybrid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500&family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--w:#fff;--si:#b5b5b5;--sa:#e3cba8;--dk:#262626;--su:#ea8b6e;--oc:#a4e0e6;
+  --bg:#fafaf8;--bd:rgba(181,181,181,.26);--t1:#262626;--t2:#8a8682;--tm:#b5b5b5;
+  --sh:0 2px 16px rgba(38,38,38,.06);--fh:'Raleway',sans-serif;--fb:'Public Sans',Arial,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--bg);color:var(--t1);min-width:1440px;}
+a{text-decoration:none;color:inherit;} svg{display:block;}
+
+/* Annotations */
+.sp-tag{position:absolute;top:10px;right:10px;background:rgba(234,139,110,.93);color:#fff;
+  font-size:10px;font-family:var(--fb);font-weight:500;letter-spacing:.07em;
+  padding:3px 10px;border-radius:2px;z-index:50;pointer-events:none;white-space:nowrap;}
+.sp-tag.ootb{background:rgba(42,154,166,.93);}
+.hide-ann .sp-tag{display:none;}
+.ann-legend{position:fixed;bottom:20px;right:20px;background:var(--dk);border-radius:4px;
+  padding:12px 16px;display:flex;gap:14px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.hide-ann .ann-legend{display:none;}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(255,255,255,.7);letter-spacing:.05em;}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* Header */
+.hdr{background:var(--w);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;}
+.hdr-in{display:flex;align-items:center;height:64px;padding:0 40px;}
+.logo{display:flex;align-items:baseline;gap:3px;flex-shrink:0;}
+.logo-a{font-family:var(--fh);font-weight:200;font-size:21px;letter-spacing:.3em;color:var(--dk);}
+.logo-b{font-family:var(--fh);font-weight:400;font-size:10px;letter-spacing:.2em;color:var(--si);text-transform:uppercase;}
+.logo-div{width:1px;height:18px;background:var(--sa);margin:0 18px;flex-shrink:0;}
+.nav{display:flex;}
+.nav a{font-size:12px;color:var(--t2);padding:0 13px;height:64px;display:flex;align-items:center;
+  letter-spacing:.03em;border-bottom:2px solid transparent;transition:all .15s;}
+.nav a:hover,.nav a.on{color:var(--dk);border-bottom-color:var(--sa);}
+.nav a.on{font-weight:500;}
+.srch{display:flex;align-items:center;gap:8px;background:#f5f3f0;border:1px solid var(--bd);
+  border-radius:3px;padding:7px 14px;width:196px;margin-left:auto;}
+.srch input{font-family:var(--fb);font-size:12px;color:var(--t2);background:none;border:none;outline:none;width:100%;}
+.avt{width:33px;height:33px;border-radius:50%;background:linear-gradient(135deg,#e3cba8,#c4a880);
+  display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:12px;font-weight:400;color:#fff;margin-left:12px;}
+.prof-n{font-size:12px;color:var(--dk);margin-left:8px;}
+
+/* Hero */
+.hero{height:480px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#141110 0%,#1e1812 22%,#352b1e 50%,#574535 75%,#78655a 100%);}
+.hero-bg::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(227,203,168,.05) 79px,rgba(227,203,168,.05) 80px);}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.46) 0%,rgba(0,0,0,.08) 55%,transparent 100%);}
+.hero-ct{position:relative;z-index:10;padding:0 80px;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;}
+.hero-greet{font-size:13px;font-weight:400;letter-spacing:.18em;color:rgba(227,203,168,.75);margin-bottom:8px;}
+.hero-greet span{color:var(--sa);}
+.hero-eyebrow{font-size:10px;font-weight:400;letter-spacing:.28em;text-transform:uppercase;color:rgba(181,181,181,.6);margin-bottom:14px;}
+.hero-h1{font-family:var(--fh);font-weight:100;font-size:56px;letter-spacing:.12em;color:#fff;line-height:1.04;margin-bottom:14px;}
+.hero-h1 em{font-weight:300;font-style:normal;}
+.hero-rule{width:48px;height:1px;background:var(--sa);margin-bottom:18px;}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.62);letter-spacing:.09em;margin-bottom:30px;}
+.hero-btn{display:inline-flex;align-items:center;gap:10px;background:rgba(227,203,168,.12);
+  border:1px solid rgba(227,203,168,.35);color:var(--sa);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;padding:11px 24px;cursor:pointer;}
+.hero-caption{position:absolute;bottom:16px;right:26px;font-family:monospace;font-size:9px;
+  color:rgba(255,255,255,.2);letter-spacing:.12em;text-transform:uppercase;}
+
+/* Productivity */
+.prod{background:var(--w);border-bottom:1px solid var(--bd);padding:22px 60px;position:relative;}
+.prod-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.pc{background:var(--w);border:1px solid var(--bd);border-radius:3px;padding:18px 22px;position:relative;}
+.pc-lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tm);margin-bottom:11px;}
+.pc-row{display:flex;align-items:center;gap:14px;}
+.pc-avt{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#e3cba8,#c8a880);
+  display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:15px;font-weight:300;color:#fff;flex-shrink:0;}
+.pc-nm{font-family:var(--fh);font-size:15px;font-weight:400;color:var(--dk);margin-bottom:3px;}
+.pc-role{font-size:11px;color:var(--t2);margin-bottom:2px;} .pc-dept{font-size:10px;color:var(--tm);}
+.cal-top{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+.cal-num{font-family:var(--fh);font-weight:100;font-size:38px;color:var(--dk);line-height:1;}
+.cal-dn{font-size:13px;font-weight:500;color:var(--dk);} .cal-mo{font-size:10px;color:var(--tm);letter-spacing:.06em;}
+.cal-item{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--bd);font-size:12px;color:var(--dk);}
+.cal-t{font-size:10px;color:var(--tm);width:42px;flex-shrink:0;} .cal-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ql-g{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.ql-i{display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 4px;
+  border:1px solid var(--bd);border-radius:3px;cursor:pointer;transition:border-color .15s;}
+.ql-i:hover{border-color:var(--sa);}
+.ql-ic{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:var(--fb);}
+.ql-lb{font-size:9px;color:var(--t2);text-align:center;}
+
+/* Section commons */
+.sec{position:relative;}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;}
+.sec-ttl{font-family:var(--fh);font-weight:200;font-size:26px;letter-spacing:.1em;color:var(--dk);}
+.sec-ttl::before{content:'';display:inline-block;width:22px;height:1px;background:var(--sa);margin-right:12px;vertical-align:middle;}
+.sec-lnk{font-size:10px;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;}
+.sec-lnk:hover{color:var(--dk);}
+.pad{padding:52px 60px;}
+.bg-alt{background:#f5f3f0;}
+.bg-alt::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(90deg,transparent,transparent 119px,rgba(181,181,181,.06) 119px,rgba(181,181,181,.06) 120px);}
+
+/* News with category tabs */
+.news-cats{display:flex;gap:8px;margin-bottom:22px;position:relative;z-index:1;}
+.ncat{font-size:10px;padding:5px 14px;border:1px solid var(--bd);border-radius:15px;
+  color:var(--t2);cursor:pointer;letter-spacing:.04em;transition:all .15s;background:var(--w);}
+.ncat.on{background:var(--dk);color:#fff;border-color:var(--dk);}
+.ncat:hover:not(.on){border-color:rgba(227,203,168,.6);}
+.news-carousel-note{font-size:10px;color:var(--tm);letter-spacing:.06em;margin-bottom:22px;position:relative;z-index:1;}
+.news-g{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative;}
+.nc{background:var(--w);border:1px solid var(--bd);border-radius:3px;overflow:hidden;cursor:pointer;box-shadow:var(--sh);transition:box-shadow .2s;}
+.nc:hover{box-shadow:0 4px 24px rgba(38,38,38,.1);}
+.nc-img{height:148px;position:relative;}
+.nc-img::after{content:attr(data-lbl);position:absolute;bottom:10px;left:12px;font-family:monospace;font-size:9px;color:rgba(255,255,255,.38);letter-spacing:.08em;text-transform:uppercase;}
+.nc-bd{padding:16px 17px 20px;}
+.nc-tag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--si);margin-bottom:6px;}
+.nc-h{font-family:var(--fh);font-weight:300;font-size:15px;line-height:1.42;color:var(--dk);margin-bottom:8px;}
+.nc-ex{font-size:11px;color:var(--t2);line-height:1.6;margin-bottom:11px;}
+.nc-ft{display:flex;align-items:center;justify-content:space-between;}
+.nc-dt,.nc-au{font-size:10px;color:var(--tm);}
+.news-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;position:relative;z-index:1;}
+.news-dot{width:6px;height:6px;border-radius:50%;background:var(--bd);cursor:pointer;}
+.news-dot.on{background:var(--sa);}
+
+/* Celebrations */
+.celeb-row{display:flex;gap:14px;overflow-x:auto;padding-bottom:4px;position:relative;z-index:1;}
+.celeb-row::-webkit-scrollbar{height:3px;}
+.celeb-row::-webkit-scrollbar-thumb{background:var(--bd);}
+.celeb-cd{border:1px solid var(--bd);border-radius:3px;padding:14px 16px;flex-shrink:0;
+  width:220px;display:flex;align-items:center;gap:12px;background:var(--w);box-shadow:var(--sh);}
+.celeb-avt{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-family:var(--fh);font-size:14px;font-weight:300;color:#fff;flex-shrink:0;}
+.celeb-nm{font-size:13px;color:var(--dk);font-weight:400;margin-bottom:2px;}
+.celeb-type{font-size:10px;letter-spacing:.05em;font-weight:500;}
+.celeb-type.bd{color:var(--su);}  .celeb-type.an{color:#5a9aa0;}
+.celeb-dt{font-size:10px;color:var(--tm);margin-top:2px;}
+.celeb-icon{font-size:20px;flex-shrink:0;margin-left:auto;}
+
+/* Events */
+.evts-g{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.ec{border:1px solid var(--bd);border-radius:3px;display:flex;overflow:hidden;box-shadow:var(--sh);}
+.ec-date{width:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 6px;flex-shrink:0;}
+.ec-mo{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(38,38,38,.55);margin-bottom:4px;}
+.ec-dy{font-family:var(--fh);font-weight:100;font-size:33px;color:var(--dk);line-height:1;}
+.ec-bd{padding:16px 20px;}
+.ec-tp{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--si);margin-bottom:6px;}
+.ec-tt{font-family:var(--fh);font-weight:300;font-size:15px;color:var(--dk);margin-bottom:6px;line-height:1.3;}
+.ec-time{font-size:11px;color:var(--t2);margin-bottom:2px;} .ec-loc{font-size:10px;color:var(--tm);}
+
+/* HR Benefits */
+.ben-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;}
+.ben-cd{background:var(--w);border:1px solid var(--bd);border-radius:3px;padding:22px 20px;
+  box-shadow:var(--sh);cursor:pointer;transition:box-shadow .2s;position:relative;overflow:hidden;}
+.ben-cd:hover{box-shadow:0 4px 24px rgba(38,38,38,.1);}
+.ben-cd::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sa);opacity:0;transition:opacity .2s;}
+.ben-cd:hover::after{opacity:1;}
+.ben-ic{width:34px;height:34px;margin-bottom:13px;color:var(--si);}
+.ben-cat{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--si);margin-bottom:6px;}
+.ben-tt{font-family:var(--fh);font-weight:300;font-size:15px;color:var(--dk);margin-bottom:8px;line-height:1.3;}
+.ben-desc{font-size:11px;color:var(--t2);line-height:1.62;margin-bottom:12px;}
+.ben-lnk{font-size:10px;color:var(--dk);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--sa);display:inline-block;padding-bottom:1px;}
+
+/* Documents */
+.docs-g{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.dp{background:var(--w);border:1px solid var(--bd);border-radius:3px;overflow:hidden;box-shadow:var(--sh);position:relative;}
+.dp-hd{padding:13px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.dp-tt{font-family:var(--fh);font-weight:300;font-size:14px;letter-spacing:.05em;color:var(--dk);}
+.di{display:flex;align-items:center;gap:11px;padding:10px 18px;border-bottom:1px solid rgba(181,181,181,.12);cursor:pointer;}
+.di:last-child{border-bottom:none;} .di:hover{background:var(--bg);}
+.dic{width:30px;height:30px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;letter-spacing:.05em;font-family:var(--fb);flex-shrink:0;}
+.dic.pdf{background:rgba(234,139,110,.12);color:var(--su);}
+.dic.doc{background:rgba(164,224,230,.18);color:#4a9aa0;}
+.dic.xls{background:rgba(100,180,80,.1);color:#4e8838;}
+.di-nm{font-size:12px;color:var(--dk);flex:1;} .di-dt{font-size:10px;color:var(--tm);}
+
+/* Policies list view */
+.pol-top{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.pol-sb{display:flex;align-items:center;gap:8px;background:var(--w);border:1px solid var(--bd);border-radius:3px;padding:9px 16px;width:300px;}
+.pol-sb input{font-family:var(--fb);font-size:12px;color:var(--t2);background:none;border:none;outline:none;width:100%;}
+.pol-chips{display:flex;gap:7px;flex-wrap:wrap;}
+.chip{font-size:10px;padding:5px 13px;border:1px solid var(--bd);border-radius:15px;color:var(--t2);cursor:pointer;letter-spacing:.04em;transition:all .15s;background:var(--w);}
+.chip.on{background:var(--dk);color:#fff;border-color:var(--dk);}
+.chip:hover:not(.on){border-color:rgba(227,203,168,.6);}
+.pol-table{background:var(--w);border:1px solid var(--bd);border-radius:3px;overflow:hidden;box-shadow:var(--sh);}
+.pol-hrow,.pol-row{display:grid;grid-template-columns:1fr 150px 120px 70px;gap:16px;align-items:center;}
+.pol-hrow{padding:12px 22px;border-bottom:1px solid var(--bd);background:#faf8f5;}
+.pol-hc{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--tm);font-weight:600;}
+.pol-row{padding:13px 22px;border-bottom:1px solid rgba(181,181,181,.12);cursor:pointer;transition:background .15s;}
+.pol-row:last-child{border-bottom:none;} .pol-row:hover{background:var(--bg);}
+.pol-title{display:flex;align-items:center;gap:11px;min-width:0;}
+.pol-nm{font-size:12px;color:var(--dk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pol-badge{font-size:10px;padding:3px 11px;border-radius:12px;letter-spacing:.03em;justify-self:start;white-space:nowrap;}
+.pol-date{font-size:11px;color:var(--t2);} .pol-ver{font-size:10px;color:var(--tm);font-variant-numeric:tabular-nums;letter-spacing:.04em;}
+
+/* Employee Directory */
+.dir-top{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.dir-sb{display:flex;align-items:center;gap:8px;background:var(--w);border:1px solid var(--bd);
+  border-radius:3px;padding:9px 16px;width:360px;}
+.dir-sb input{font-family:var(--fb);font-size:12px;color:var(--t2);background:none;border:none;outline:none;width:100%;}
+.dir-chips{display:flex;gap:8px;}
+.dir-g{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.dir-cd{border:1px solid var(--bd);border-radius:3px;padding:18px 16px;cursor:pointer;transition:all .15s;background:var(--w);}
+.dir-cd:hover{box-shadow:var(--sh);border-color:rgba(227,203,168,.5);}
+.dir-head{display:flex;align-items:flex-start;gap:11px;margin-bottom:13px;}
+.dir-avt{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:13px;font-weight:300;color:#fff;flex-shrink:0;}
+.dir-nm{font-size:12px;color:var(--dk);font-weight:500;margin-bottom:2px;}
+.dir-role{font-size:10px;color:var(--t2);margin-bottom:2px;line-height:1.3;} .dir-dept{font-size:9px;color:var(--tm);letter-spacing:.02em;}
+.dir-contact{border-top:1px solid var(--bd);padding-top:11px;margin-bottom:12px;display:flex;flex-direction:column;gap:7px;}
+.dir-line{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--t2);min-width:0;}
+.dir-line svg{opacity:.5;flex-shrink:0;} .dir-line span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dir-acts{display:flex;gap:6px;}
+.dir-act{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;height:28px;border:1px solid var(--bd);border-radius:3px;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);cursor:pointer;transition:all .15s;}
+.dir-act:hover{border-color:var(--sa);color:var(--dk);}
+
+/* Org Chart */
+.org-tree{display:flex;flex-direction:column;align-items:center;background:var(--w);
+  border:1px solid var(--bd);border-radius:3px;padding:32px;box-shadow:var(--sh);}
+.org-node{border:1px solid var(--bd);border-radius:3px;padding:10px 16px;text-align:center;
+  min-width:140px;cursor:pointer;transition:border-color .15s;}
+.org-node:hover{border-color:var(--sa);}
+.org-node.root{background:var(--dk);border-color:var(--dk);}
+.org-node.root .on-nm{color:#fff;} .org-node.root .on-rl{color:rgba(255,255,255,.5);}
+.on-nm{font-family:var(--fh);font-weight:300;font-size:12px;color:var(--dk);letter-spacing:.04em;margin-bottom:3px;}
+.on-rl{font-size:9px;color:var(--tm);letter-spacing:.04em;}
+.org-vline{width:1px;height:22px;background:var(--bd);margin:0 auto;}
+.org-hline{display:flex;align-items:flex-start;gap:16px;position:relative;}
+.org-hline::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:var(--bd);}
+.org-col{display:flex;flex-direction:column;align-items:center;}
+.org-vline-sm{width:1px;height:16px;background:var(--bd);margin:0 auto;}
+.org-cta{margin-top:22px;display:flex;justify-content:center;}
+.org-cta-btn{border:1px solid var(--bd);padding:9px 22px;font-size:11px;color:var(--dk);
+  letter-spacing:.08em;text-transform:uppercase;border-radius:3px;cursor:pointer;
+  transition:all .15s;background:var(--w);}
+.org-cta-btn:hover{border-color:var(--sa);box-shadow:var(--sh);}
+
+/* Departments — refined compact */
+.dept-g{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;position:relative;}
+.dcard{display:flex;align-items:center;gap:11px;border:1px solid var(--bd);border-radius:3px;padding:14px 14px;cursor:pointer;background:var(--w);
+  position:relative;overflow:hidden;transition:box-shadow .2s,border-color .2s;}
+.dcard::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--sa);opacity:0;transition:opacity .2s;}
+.dcard:hover{box-shadow:var(--sh);border-color:rgba(227,203,168,.55);}
+.dcard:hover::after{opacity:1;}
+.dcard-ic{width:24px;height:24px;color:var(--si);flex-shrink:0;}
+.dcard-nm{font-family:var(--fh);font-weight:300;font-size:12px;letter-spacing:.02em;color:var(--dk);margin-bottom:2px;line-height:1.25;}
+.dcard-ct{font-size:9px;color:var(--tm);letter-spacing:.02em;}
+
+/* Footer */
+.ftr{background:var(--dk);padding:28px 60px;display:flex;align-items:center;justify-content:space-between;}
+.ftr-lg{font-family:var(--fh);font-weight:200;font-size:15px;letter-spacing:.3em;color:rgba(255,255,255,.3);}
+.ftr-cp{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.04em;}
+.ftr-tg{font-family:var(--fh);font-size:11px;font-weight:300;letter-spacing:.22em;color:rgba(227,203,168,.3);}
+
+@media(max-width:900px){
+  body{min-width:375px;}
+  .nav,.logo-div{display:none;}
+  .hdr-in{padding:0 16px;}
+  .prod,.pad,.ftr{padding-left:20px;padding-right:20px;}
+  .prod-g,.news-g,.evts-g,.docs-g,.ben-g,.dir-g,.dept-g{grid-template-columns:1fr;}
+  .ql-g{grid-template-columns:repeat(3,1fr);}
+  .hero-ct{padding:0 24px;}
+  .hero-h1{font-size:36px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo" style="display:flex;align-items:center;gap:10px;"><img src="ora-logo.png" height="34" style="border-radius:3px;display:block;" alt="ORA UAE"><span class="logo-b" style="font-size:11px;letter-spacing:.22em;">UAE</span></div>
+    <div class="logo-div"></div>
+    <nav class="nav">
+      <a href="#" class="on">Home</a><a href="departments.html">Departments</a><a href="#">Policies</a>
+      <a href="#">Documents</a><a href="#">News</a><a href="#">Events</a>
+      <a href="#">Applications</a><a href="#">Approvals</a>
+    </nav>
+    <div class="srch">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="opacity:.38;flex-shrink:0;">
+        <circle cx="6" cy="6" r="4.5" stroke="#8a8682" stroke-width="1.4"/>
+        <path d="M9.5 9.5L12 12" stroke="#8a8682" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="Search intranet…">
+    </div>
+    <div class="avt">AK</div><span class="prof-n">Ahmed K.</span>
+  </div>
+</header>
+
+<!-- HERO + PERSONALIZED GREETING -->
+<section class="hero sec">
+  <div class="hero-bg"></div>
+  <div class="hero-ct">
+    <div class="hero-greet">Good morning, <span>Ahmed Al-Karimi</span></div>
+    <div class="hero-eyebrow">ORA UAE Intranet</div>
+    <h1 class="hero-h1">Reimagining Time,<br><em>Connecting People</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Your workspace. Your team. Your updates — all in one place.</p>
+    <button class="hero-btn">Explore Updates &nbsp;→</button>
+  </div>
+  <div class="hero-caption">Hero image · Premium Architecture Photography</div>
+  <div class="sp-tag ootb">SP: Hero Web Part</div>
+  <div class="sp-tag" style="top:38px;">SPFx: Personalized Greeting</div>
+</section>
+
+<!-- PRODUCTIVITY STRIP -->
+<section class="prod sec">
+  <div class="prod-g">
+    <div class="pc">
+      <div class="pc-lbl">My Profile</div>
+      <div class="pc-row">
+        <div class="pc-avt">AK</div>
+        <div><div class="pc-nm">Ahmed Al-Karimi</div><div class="pc-role">Senior Project Manager</div><div class="pc-dept">Development · Dubai HQ</div></div>
+      </div>
+      <div class="sp-tag ootb">SP: People Web Part</div>
+    </div>
+    <div class="pc">
+      <div class="pc-lbl">Today's Schedule</div>
+      <div class="cal-top">
+        <div class="cal-num">11</div>
+        <div><div class="cal-dn">Thursday</div><div class="cal-mo">June 2026</div></div>
+      </div>
+      <div class="cal-item"><div class="cal-t">09:00</div><div class="cal-dot" style="background:var(--oc);"></div><div>Board Review — Q2 Projects</div></div>
+      <div class="cal-item"><div class="cal-t">14:30</div><div class="cal-dot" style="background:var(--sa);"></div><div>HR Briefing — Policy Updates</div></div>
+      <div class="sp-tag ootb">SP: Events Web Part</div>
+    </div>
+    <div class="pc">
+      <div class="pc-lbl">Quick Access</div>
+      <div class="ql-g">
+        <div class="ql-i"><div class="ql-ic" style="background:#fff3e0;color:#e67e22;">SAP</div><div class="ql-lb">SAP</div></div>
+        <div class="ql-i"><div class="ql-ic" style="background:#e8f4fd;color:#1a73e8;">SF</div><div class="ql-lb">Salesforce</div></div>
+        <div class="ql-i"><div class="ql-ic" style="background:#e8f0fe;color:#4285f4;">✉</div><div class="ql-lb">Outlook</div></div>
+        <div class="ql-i"><div class="ql-ic" style="background:#f0e8ff;color:#7b2fff;">T</div><div class="ql-lb">Teams</div></div>
+        <div class="ql-i"><div class="ql-ic" style="background:rgba(164,224,230,.22);color:#2a9aa6;">HR</div><div class="ql-lb">HRMS</div></div>
+      </div>
+      <div class="sp-tag ootb">SP: Quick Links Web Part</div>
+    </div>
+  </div>
+</section>
+
+<!-- CELEBRATIONS -->
+<section class="sec pad bg-alt" style="padding-top:40px;padding-bottom:40px;">
+  <div class="sec-hd" style="position:relative;z-index:1;">
+    <h2 class="sec-ttl">Celebrations</h2>
+    <a href="#" class="sec-lnk">View All</a>
+    <div class="sp-tag">SPFx: Birthday &amp; Anniversary Widget</div>
+  </div>
+  <div class="celeb-row">
+    <div class="celeb-cd">
+      <div class="celeb-avt" style="background:linear-gradient(135deg,#e3cba8,#c8a880);">AK</div>
+      <div><div class="celeb-nm">Ahmed Al-Karimi</div><div class="celeb-type bd">🎂 Birthday Today</div><div class="celeb-dt">June 11</div></div>
+    </div>
+    <div class="celeb-cd">
+      <div class="celeb-avt" style="background:linear-gradient(135deg,#6ab8c0,#a4e0e6);">SR</div>
+      <div><div class="celeb-nm">Sara Al-Rashid</div><div class="celeb-type an">🎉 Work Anniversary</div><div class="celeb-dt">3 Years · June 11</div></div>
+    </div>
+    <div class="celeb-cd">
+      <div class="celeb-avt" style="background:linear-gradient(135deg,#9aaa9e,#c4cec8);">OK</div>
+      <div><div class="celeb-nm">Omar Khalil</div><div class="celeb-type bd">🎂 Birthday</div><div class="celeb-dt">June 14</div></div>
+    </div>
+    <div class="celeb-cd">
+      <div class="celeb-avt" style="background:linear-gradient(135deg,#c8a880,#e3cba8);">FZ</div>
+      <div><div class="celeb-nm">Fatima Al-Zahrawi</div><div class="celeb-type an">🎉 Work Anniversary</div><div class="celeb-dt">5 Years · June 15</div></div>
+    </div>
+    <div class="celeb-cd">
+      <div class="celeb-avt" style="background:linear-gradient(135deg,#b09878,#d4b898);">HF</div>
+      <div><div class="celeb-nm">Hassan Al-Farsi</div><div class="celeb-type bd">🎂 Birthday</div><div class="celeb-dt">June 15</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS CAROUSEL -->
+<section class="sec pad" style="background:var(--w);">
+  <div class="sec-hd" style="position:relative;">
+    <h2 class="sec-ttl">News &amp; Announcements</h2>
+    <a href="#" class="sec-lnk">View Archive</a>
+    <div class="sp-tag ootb">SP: News Web Part + SPFx: Category Filter</div>
+  </div>
+  <div class="news-cats">
+    <div class="ncat on">All</div>
+    <div class="ncat">General Announcements</div>
+    <div class="ncat">Construction Updates</div>
+    <div class="ncat">HR Updates</div>
+    <div class="ncat">WTC Exhibition</div>
+    <div class="ncat">Finance</div>
+  </div>
+  <div class="news-g">
+    <div class="nc">
+      <div class="nc-img" data-lbl="Architecture Photography" style="background:linear-gradient(145deg,#c4b49a,#a89882 40%,#cfc4b6);"></div>
+      <div class="nc-bd">
+        <div class="nc-tag">Announcement · Corporate</div>
+        <h3 class="nc-h">ORA UAE Launches New Residential Tower in Dubai Marina</h3>
+        <p class="nc-ex">The latest addition to our premium portfolio redefines luxury living with panoramic views and world-class amenities.</p>
+        <div class="nc-ft"><span class="nc-dt">June 10, 2026</span><span class="nc-au">Corporate Comms</span></div>
+      </div>
+    </div>
+    <div class="nc">
+      <div class="nc-img" data-lbl="Construction Site Photography" style="background:linear-gradient(145deg,#9aaa9e,#b5c4b8 60%,#8a9a8e);"></div>
+      <div class="nc-bd">
+        <div class="nc-tag">Construction Update</div>
+        <h3 class="nc-h">Yas Island Phase II — Structural Works 65% Complete</h3>
+        <p class="nc-ex">Structural steel installation progressing ahead of schedule, with facade work to begin Q3 2026.</p>
+        <div class="nc-ft"><span class="nc-dt">June 8, 2026</span><span class="nc-au">Development Team</span></div>
+      </div>
+    </div>
+    <div class="nc">
+      <div class="nc-img" data-lbl="Corporate Photography · Lifestyle" style="background:linear-gradient(145deg,#d8c8b4,#e8ddd0 60%,#c8bab0);"></div>
+      <div class="nc-bd">
+        <div class="nc-tag">HR Update</div>
+        <h3 class="nc-h">Updated Flexible Working Policy — Effective July 2026</h3>
+        <p class="nc-ex">Enhancements to our hybrid working framework supporting employee wellbeing across all departments.</p>
+        <div class="nc-ft"><span class="nc-dt">June 5, 2026</span><span class="nc-au">Human Resources</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="news-nav">
+    <div class="news-dot on"></div><div class="news-dot"></div><div class="news-dot"></div><div class="news-dot"></div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="sec pad bg-alt">
+  <div class="sec-hd" style="position:relative;z-index:1;">
+    <h2 class="sec-ttl">Company Events</h2>
+    <a href="#" class="sec-lnk">View Calendar</a>
+    <div class="sp-tag ootb">SP: Events Web Part</div>
+  </div>
+  <div class="evts-g">
+    <div class="ec"><div class="ec-date" style="background:var(--sa);"><div class="ec-mo">JUN</div><div class="ec-dy">18</div></div><div class="ec-bd"><div class="ec-tp">All-Company · In-Person</div><div class="ec-tt">ORA UAE Annual Strategy Summit 2026</div><div class="ec-time">09:00 – 17:00 GST</div><div class="ec-loc">Atlantis The Royal, Dubai</div></div></div>
+    <div class="ec"><div class="ec-date" style="background:rgba(164,224,230,.28);"><div class="ec-mo">JUN</div><div class="ec-dy">24</div></div><div class="ec-bd"><div class="ec-tp">Learning &amp; Development</div><div class="ec-tt">Digital Transformation Workshop</div><div class="ec-time">10:00 – 13:00 GST</div><div class="ec-loc">Virtual via Microsoft Teams</div></div></div>
+    <div class="ec"><div class="ec-date" style="background:rgba(38,38,38,.06);"><div class="ec-mo">JUL</div><div class="ec-dy">02</div></div><div class="ec-bd"><div class="ec-tp">Finance · Mandatory</div><div class="ec-tt">H2 2026 Budget Review &amp; Approval</div><div class="ec-time">14:00 – 16:00 GST</div><div class="ec-loc">Board Room A, Dubai HQ</div></div></div>
+    <div class="ec"><div class="ec-date" style="background:rgba(234,139,110,.15);"><div class="ec-mo">JUL</div><div class="ec-dy">10</div></div><div class="ec-bd"><div class="ec-tp">HR · Wellness</div><div class="ec-tt">Employee Wellness Day — Summer Edition</div><div class="ec-time">08:00 – 14:00 GST</div><div class="ec-loc">ORA HQ Grounds, Dubai</div></div></div>
+  </div>
+</section>
+
+<!-- HR BENEFITS -->
+<section class="sec pad" style="background:var(--w);">
+  <div class="sec-hd" style="position:relative;">
+    <h2 class="sec-ttl">HR Benefits</h2>
+    <a href="#" class="sec-lnk">All Benefits</a>
+    <div class="sp-tag ootb">SP: Highlighted Content Web Part</div>
+  </div>
+  <div class="ben-g">
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M17 6l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/><circle cx="17" cy="22" r="6"/>
+      </svg>
+      <div class="ben-cat">Health &amp; Medical</div>
+      <div class="ben-tt">Comprehensive Health Insurance</div>
+      <div class="ben-desc">Full medical, dental and optical cover for employee and dependants through ORA's group insurance plan.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <rect x="6" y="8" width="22" height="20" rx="1"/><line x1="6" y1="14" x2="28" y2="14"/>
+        <line x1="12" y1="5" x2="12" y2="11"/><line x1="22" y1="5" x2="22" y2="11"/>
+      </svg>
+      <div class="ben-cat">Leave Policy</div>
+      <div class="ben-tt">Annual, Sick &amp; Special Leave</div>
+      <div class="ben-desc">30 days annual leave, 15 days sick leave, and special leave for personal milestones and emergencies.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <rect x="6" y="10" width="22" height="16" rx="2"/><line x1="6" y1="16" x2="28" y2="16"/>
+        <line x1="11" y1="21" x2="15" y2="21"/><line x1="20" y1="21" x2="24" y2="21"/>
+      </svg>
+      <div class="ben-cat">Financial</div>
+      <div class="ben-tt">Housing &amp; Transport Allowance</div>
+      <div class="ben-desc">Monthly housing and transport allowances based on grade level, applied directly to payroll.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <rect x="6" y="6" width="22" height="22" rx="2"/>
+        <line x1="11" y1="13" x2="23" y2="13"/><line x1="11" y1="17" x2="20" y2="17"/>
+        <line x1="11" y1="21" x2="17" y2="21"/>
+      </svg>
+      <div class="ben-cat">Learning &amp; Development</div>
+      <div class="ben-tt">Training Budget &amp; Programs</div>
+      <div class="ben-desc">Annual training budget per employee plus access to ORA Academy's curated learning programs.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <circle cx="17" cy="14" r="6"/><path d="M9 28c0-4.418 3.582-8 8-8s8 3.582 8 8"/>
+        <line x1="22" y1="22" x2="27" y2="22"/><line x1="24.5" y1="19.5" x2="24.5" y2="24.5"/>
+      </svg>
+      <div class="ben-cat">Wellness</div>
+      <div class="ben-tt">Employee Wellness Program</div>
+      <div class="ben-desc">Gym memberships, mental health support, and quarterly wellness events for all ORA UAE employees.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+    <div class="ben-cd">
+      <svg class="ben-ic" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <path d="M8 26V12l9-6 9 6v14"/><rect x="13" y="18" width="8" height="8"/>
+        <line x1="17" y1="12" x2="17" y2="15"/>
+      </svg>
+      <div class="ben-cat">Education</div>
+      <div class="ben-tt">Education Support Allowance</div>
+      <div class="ben-desc">School fee assistance for dependent children, available to eligible employees at management grade and above.</div>
+      <span class="ben-lnk">View Details</span>
+    </div>
+  </div>
+</section>
+
+<!-- EMBEDDED CONTENT / IFRAME -->
+<section class="sec pad bg-alt" style="padding-top:52px;padding-bottom:52px;">
+  <div class="sec-hd" style="position:relative;z-index:1;">
+    <h2 class="sec-ttl">Embedded Portal</h2>
+    <a href="https://www.orauae.com" target="_blank" class="sec-lnk">Open in new tab</a>
+    <div class="sp-tag">SP: Embed Web Part</div>
+  </div>
+  <div style="position:relative;z-index:1;border:1px solid var(--bd);border-radius:3px;overflow:hidden;box-shadow:var(--sh);background:var(--w);">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--bd);background:#faf8f5;">
+      <div style="display:flex;gap:6px;">
+        <div style="width:10px;height:10px;border-radius:50%;background:#f0c0c0;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#f0e0b0;"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#c0e0c0;"></div>
+      </div>
+      <div style="flex:1;background:#f3f1ed;border:1px solid var(--bd);border-radius:12px;padding:5px 14px;font-size:11px;color:var(--tm);letter-spacing:.03em;">https://www.orauae.com</div>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#b5b5b5" stroke-width="1.3" style="flex-shrink:0;"><path d="M9 2h3v3M12 2l-5 5M6 3H3a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8"/></svg>
+    </div>
+    <iframe src="https://www.orauae.com" width="100%" height="520" style="display:block;border:none;" title="ORA UAE Portal" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+  </div>
+</section>
+
+<!-- POLICIES & PROCEDURES -->
+<section class="sec pad" style="background:var(--w);">
+  <div class="sec-hd" style="position:relative;">
+    <h2 class="sec-ttl">Policies &amp; Procedures</h2>
+    <a href="#" class="sec-lnk">All Policies</a>
+    <div class="sp-tag ootb">SP: List + Column Formatting</div>
+  </div>
+  <div class="pol-top" style="position:relative;z-index:1;">
+    <div class="pol-sb">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="opacity:.38;flex-shrink:0;"><circle cx="6" cy="6" r="4.5" stroke="#8a8682" stroke-width="1.4"/><path d="M9.5 9.5L12 12" stroke="#8a8682" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search policies…">
+    </div>
+    <div class="pol-chips">
+      <div class="chip on">All Departments</div><div class="chip">HR</div><div class="chip">Finance</div>
+      <div class="chip">IT</div><div class="chip">Operations</div><div class="chip">Marketing</div><div class="chip">Legal</div>
+    </div>
+  </div>
+  <div class="pol-table" style="position:relative;z-index:1;">
+    <div class="pol-hrow">
+      <div class="pol-hc">Policy Title</div><div class="pol-hc">Department</div><div class="pol-hc">Last Updated</div><div class="pol-hc">Version</div>
+    </div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Employee Code of Conduct 2026</div></div><div class="pol-badge" style="background:rgba(164,224,230,.2);color:#3a8a90;">HR</div><div class="pol-date">Jun 1, 2026</div><div class="pol-ver">v3.0</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic doc">DOC</div><div class="pol-nm">Flexible Working Policy</div></div><div class="pol-badge" style="background:rgba(164,224,230,.2);color:#3a8a90;">HR</div><div class="pol-date">May 10, 2026</div><div class="pol-ver">v1.4</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Procurement Policy</div></div><div class="pol-badge" style="background:rgba(227,203,168,.35);color:#8a6838;">Finance</div><div class="pol-date">Apr 28, 2026</div><div class="pol-ver">v3.2</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Travel &amp; Expense Policy</div></div><div class="pol-badge" style="background:rgba(227,203,168,.35);color:#8a6838;">Finance</div><div class="pol-date">Apr 2, 2026</div><div class="pol-ver">v2.0</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Data Privacy &amp; Security Policy</div></div><div class="pol-badge" style="background:rgba(100,180,80,.14);color:#4e8838;">IT</div><div class="pol-date">May 15, 2026</div><div class="pol-ver">v2.1</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">IT Acceptable Use Policy</div></div><div class="pol-badge" style="background:rgba(100,180,80,.14);color:#4e8838;">IT</div><div class="pol-date">Apr 5, 2026</div><div class="pol-ver">v2.3</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Health &amp; Safety On-Site Policy</div></div><div class="pol-badge" style="background:rgba(234,139,110,.16);color:#c2664a;">Operations</div><div class="pol-date">Apr 14, 2026</div><div class="pol-ver">v2.1</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic doc">DOC</div><div class="pol-nm">Brand Usage Guidelines</div></div><div class="pol-badge" style="background:rgba(181,181,181,.22);color:#6a6660;">Marketing</div><div class="pol-date">May 20, 2026</div><div class="pol-ver">v2.0</div></div>
+    <div class="pol-row"><div class="pol-title"><div class="dic pdf">PDF</div><div class="pol-nm">Anti-Bribery &amp; Compliance Policy</div></div><div class="pol-badge" style="background:rgba(38,38,38,.1);color:#3a3632;">Legal</div><div class="pol-date">Mar 30, 2026</div><div class="pol-ver">v1.2</div></div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="sec pad" style="background:var(--w);">
+  <div class="sec-hd" style="position:relative;">
+    <h2 class="sec-ttl">Shared Documents</h2>
+    <a href="#" class="sec-lnk">Document Hub</a>
+    <div class="sp-tag ootb">SP: Document Library Web Part</div>
+  </div>
+  <div class="docs-g">
+    <div class="dp">
+      <div class="dp-hd"><div class="dp-tt">Company Shared Library</div><a href="#" class="sec-lnk" style="font-size:10px;">Open Library</a></div>
+      <div class="di"><div class="dic xls">XLS</div><div class="di-nm">Q2 2026 Project Tracker</div><div class="di-dt">Jun 10, 2026</div></div>
+      <div class="di"><div class="dic doc">DOC</div><div class="di-nm">Company Org Chart — June 2026</div><div class="di-dt">Jun 5, 2026</div></div>
+      <div class="di"><div class="dic pdf">PDF</div><div class="di-nm">ORA UAE Brand Guidelines v2</div><div class="di-dt">May 20, 2026</div></div>
+      <div class="di"><div class="dic xls">XLS</div><div class="di-nm">Resource Allocation H2 2026</div><div class="di-dt">Apr 30, 2026</div></div>
+    </div>
+    <div class="dp">
+      <div class="dp-hd"><div class="dp-tt">Templates &amp; Forms</div><a href="#" class="sec-lnk" style="font-size:10px;">Open Library</a></div>
+      <div class="di"><div class="dic doc">DOC</div><div class="di-nm">Leave Request Form</div><div class="di-dt">Jun 8, 2026</div></div>
+      <div class="di"><div class="dic doc">DOC</div><div class="di-nm">Expense Claim Template</div><div class="di-dt">May 28, 2026</div></div>
+      <div class="di"><div class="dic xls">XLS</div><div class="di-nm">Timesheet Template Q2 2026</div><div class="di-dt">May 12, 2026</div></div>
+      <div class="di"><div class="dic doc">DOC</div><div class="di-nm">Purchase Requisition Form</div><div class="di-dt">Apr 22, 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EMPLOYEE DIRECTORY -->
+<section class="sec pad bg-alt">
+  <div class="sec-hd" style="position:relative;z-index:1;">
+    <h2 class="sec-ttl">Employee Directory</h2>
+    <a href="#" class="sec-lnk">Full Directory</a>
+    <div class="sp-tag">SPFx: People Directory (AD Sync)</div>
+  </div>
+  <div class="dir-top" style="position:relative;z-index:1;">
+    <div class="dir-sb">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="opacity:.38;flex-shrink:0;"><circle cx="6" cy="6" r="4.5" stroke="#8a8682" stroke-width="1.4"/><path d="M9.5 9.5L12 12" stroke="#8a8682" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search by name, department, position…">
+    </div>
+    <div class="dir-chips">
+      <div class="chip on">All</div>
+      <div class="chip">Executive</div>
+      <div class="chip">Finance</div>
+      <div class="chip">Development</div>
+      <div class="chip">HR</div>
+      <div class="chip">Technology</div>
+    </div>
+  </div>
+    <div class="dir-g" style="position:relative;z-index:1;">
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#3a3028,#5a4838);">MA</div><div><div class="dir-nm">Mohammed Al-Rashid</div><div class="dir-role">Chief Executive Officer</div><div class="dir-dept">Executive · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>m.alrashid@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2001 · Ext 100</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#c8a880,#e3cba8);">FZ</div><div><div class="dir-nm">Fatima Al-Zahrawi</div><div class="dir-role">Chief Financial Officer</div><div class="dir-dept">Finance · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>f.zahrawi@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2002 · Ext 210</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#8a8682,#b5b5b5);">OM</div><div><div class="dir-nm">Omar Al-Mansouri</div><div class="dir-role">Chief Operating Officer</div><div class="dir-dept">Operations · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>o.mansouri@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2003 · Ext 110</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#6ab8c0,#a4e0e6);">SJ</div><div><div class="dir-nm">Sarah Johnson</div><div class="dir-role">Chief HR Officer</div><div class="dir-dept">Human Resources · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>s.johnson@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2004 · Ext 305</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#262626,#4a3c30);">KH</div><div><div class="dir-nm">Khalid Al-Habsi</div><div class="dir-role">Chief Technology Officer</div><div class="dir-dept">Digital &amp; Technology · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>k.habsi@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2005 · Ext 410</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#d4846c,#ea8b6e);">AN</div><div><div class="dir-nm">Aisha Al-Nuaimi</div><div class="dir-role">Chief Marketing Officer</div><div class="dir-dept">Marketing · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>a.nuaimi@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2006 · Ext 320</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#b09878,#d4b898);">HF</div><div><div class="dir-nm">Hassan Al-Farsi</div><div class="dir-role">VP Development</div><div class="dir-dept">Development · Abu Dhabi</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>h.farsi@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2007 · Ext 505</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+    <div class="dir-cd">
+      <div class="dir-head"><div class="dir-avt" style="background:linear-gradient(135deg,#7a7470,#a8a4a0);">LR</div><div><div class="dir-nm">Layla Al-Rashidi</div><div class="dir-role">VP Legal</div><div class="dir-dept">Legal &amp; Compliance · Dubai HQ</div></div></div>
+      <div class="dir-contact">
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg><span>l.rashidi@ora.ae</span></div>
+        <div class="dir-line"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg><span>+971 50 100 2008 · Ext 260</span></div>
+      </div>
+      <div class="dir-acts"><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z"/></svg> Call</div><div class="dir-act"><svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1.5" y="3" width="11" height="8" rx="1"/><path d="M2 4l5 3.4L12 4"/></svg> Email</div><div class="dir-act">Teams</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ORG CHART -->
+<section class="sec pad" style="background:var(--w);">
+  <div class="sec-hd" style="position:relative;">
+    <h2 class="sec-ttl">Organisation Chart</h2>
+    <a href="#" class="sec-lnk">Full Interactive Chart</a>
+    <div class="sp-tag">SPFx: Org Chart Web Part</div>
+  </div>
+  <div class="org-tree">
+    <div class="org-node root"><div class="on-nm">Mohammed Al-Rashid</div><div class="on-rl">Chief Executive Officer</div></div>
+    <div class="org-vline"></div>
+    <div class="org-hline">
+      <div class="org-col"><div class="org-vline-sm"></div><div class="org-node"><div class="on-nm">Fatima Al-Zahrawi</div><div class="on-rl">CFO · Finance</div></div></div>
+      <div class="org-col"><div class="org-vline-sm"></div><div class="org-node"><div class="on-nm">Omar Al-Mansouri</div><div class="on-rl">COO · Operations</div></div></div>
+      <div class="org-col"><div class="org-vline-sm"></div><div class="org-node"><div class="on-nm">Khalid Al-Habsi</div><div class="on-rl">CTO · Technology</div></div></div>
+      <div class="org-col"><div class="org-vline-sm"></div><div class="org-node"><div class="on-nm">Sarah Johnson</div><div class="on-rl">CHRO · HR</div></div></div>
+      <div class="org-col"><div class="org-vline-sm"></div><div class="org-node"><div class="on-nm">Aisha Al-Nuaimi</div><div class="on-rl">CMO · Marketing</div></div></div>
+    </div>
+    <div class="org-cta"><button class="org-cta-btn">View Full Interactive Org Chart →</button></div>
+  </div>
+</section>
+
+
+<!-- FOOTER --><!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-lg">ORA UAE</div>
+  <div class="ftr-cp">© 2026 ORA UAE. All rights reserved.</div>
+  <div class="ftr-tg">Reimagining Time</div>
+</footer>
+
+<!-- ANNOTATION LEGEND -->
+<div class="ann-legend">
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(42,154,166,.93);"></div>SP: SharePoint OOTB</div>
+  <div class="leg-item"><div class="leg-dot" style="background:rgba(234,139,110,.93);"></div>SPFx: Custom Extension</div>
+</div>
+
+<script>
+window.addEventListener('message', function(e){
+  var d = e.data || {};
+  if(d.annotations !== undefined) document.body.classList.toggle('hide-ann', !d.annotations);
+  if(d.theme){ var t=d.theme, r=document.documentElement.style;
+    if(t.accent){ r.setProperty('--sa', t.accent); }
+    if(t.dark){ r.setProperty('--dk', t.dark); }
+    if(t.fh){ r.setProperty('--fh', t.fh); }
+  }
+});
+</script>
+</body>
+</html>

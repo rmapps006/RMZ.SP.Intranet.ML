@@ -1,0 +1,32 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "f8f22084-7c6a-4165-a22d-e8c8cd178477",
+  "alias": "DepartmentQuickActionsWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": [
+    "SharePointWebPart"
+  ],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": {
+        "default": "Intranet"
+      },
+      "title": {
+        "default": "Department Quick Actions"
+      },
+      "description": {
+        "default": "Quick link buttons for the department page."
+      },
+      "officeFabricIconFontName": "SetAction",
+      "properties": {
+        "actionsJson": ""
+      }
+    }
+  ]
+}
