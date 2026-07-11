@@ -50,10 +50,16 @@
   }
 }
 
+.newsEmpty {
+  padding: 24px 22px;
+  font-size: 12px;
+  color: $intranet-text-2;
+  text-align: center;
+}
+
 .nc {
   @include intranet-card;
   overflow: hidden;
-  cursor: pointer;
   display: block;
   text-decoration: none;
   transition: box-shadow 0.2s;
@@ -61,6 +67,10 @@
   &:hover {
     box-shadow: $intranet-shadow-hover;
   }
+}
+
+.ncLink {
+  cursor: pointer;
 }
 
 .ncImg {
@@ -87,6 +97,10 @@
   line-height: 1.42;
   color: $intranet-dark;
   margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ncEx {
@@ -94,6 +108,10 @@
   color: $intranet-text-2;
   line-height: 1.6;
   margin: 0 0 11px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ncFt {

@@ -10,7 +10,7 @@ interface IQuickAction {
 }
 
 const formsIcon: React.ReactElement = (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" aria-hidden="true" focusable="false">
     <rect x="2.5" y="1.5" width="9" height="11" rx="1" />
     <line x1="4.5" y1="4.5" x2="9.5" y2="4.5" />
     <line x1="4.5" y1="6.5" x2="9.5" y2="6.5" />
@@ -19,14 +19,14 @@ const formsIcon: React.ReactElement = (
 );
 
 const documentsIcon: React.ReactElement = (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
     <path d="M4 1.5h4L11 4.5V12a1 1 0 01-1 1H4a1 1 0 01-1-1V2.5a1 1 0 011-1z" />
     <path d="M8 1.5V4.5H11" />
   </svg>
 );
 
 const eventsIcon: React.ReactElement = (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" aria-hidden="true" focusable="false">
     <rect x="2" y="3" width="10" height="9" rx="1" />
     <line x1="2" y1="6" x2="12" y2="6" />
     <line x1="5" y1="1.5" x2="5" y2="4.5" />
@@ -35,7 +35,7 @@ const eventsIcon: React.ReactElement = (
 );
 
 const defaultIcon: React.ReactElement = (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" aria-hidden="true" focusable="false">
     <circle cx="7" cy="7" r="5" />
   </svg>
 );
@@ -81,14 +81,23 @@ const DepartmentQuickActions: React.FunctionComponent<IDepartmentQuickActionsPro
 
   return (
     <section className={styles.qaStrip}>
-      <div className={styles.qaRow}>
-        {actions.map((action, i) => (
-          <a className={styles.qaBtn} href={action.url || '#'} key={i}>
-            {iconFor(action.label)}
-            {action.label}
-          </a>
-        ))}
-      </div>
+      {actions.length === 0 ? (
+        <div className={styles.empty}>No quick actions configured.</div>
+      ) : (
+        <div className={styles.qaRow}>
+          {actions.map((action, i) => (
+            <a
+              className={action.url ? styles.qaBtn : `${styles.qaBtn} ${styles.qaDisabled}`}
+              href={action.url || '#'}
+              aria-disabled={action.url ? undefined : true}
+              key={i}
+            >
+              {iconFor(action.label)}
+              {action.label}
+            </a>
+          ))}
+        </div>
+      )}
     </section>
   );
 };

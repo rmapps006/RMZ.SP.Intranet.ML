@@ -14,13 +14,17 @@ const DepartmentHero: React.FunctionComponent<IDepartmentHeroProps> = (props) =>
   const description: string = props.description || pickLocalized(ds.description, ds.descriptionAR, language);
   const ownerName: string = props.ownerName || ds.ownerName;
   const ownerRole: string = props.ownerRole || ds.ownerRole;
+  // Settings resolve async (cache seed, then a live fetch); if both name and
+  // description are still empty once that settles, show a minimal placeholder
+  // instead of an otherwise-blank hero.
+  const hasContent: boolean = !!(departmentName || description);
 
   return (
     <section className={styles.deptHero}>
       <div className={styles.deptHeroBg} />
       <div className={styles.deptHeroCt}>
         {eyebrow ? <div className={styles.deptEyebrow}>{eyebrow}</div> : null}
-        {departmentName ? <h1 className={styles.deptName}>{departmentName}</h1> : null}
+        {departmentName ? <h1 className={styles.deptName}>{departmentName}</h1> : hasContent ? null : <h1 className={styles.deptName}>Department</h1>}
         <div className={styles.deptRule} />
         {description ? <p className={styles.deptDesc}>{description}</p> : null}
         {ownerName ? (

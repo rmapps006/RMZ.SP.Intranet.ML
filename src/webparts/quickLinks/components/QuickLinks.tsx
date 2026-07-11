@@ -67,27 +67,32 @@ const QuickLinks: React.FunctionComponent<IQuickLinksProps> = (props) => {
         showTitle={props.showTitle}
         showLink={props.showViewAll}
       />
-      <div className={styles.grid}>
-        {links.map((link, idx) => (
-          <a
-            className={styles.tile}
-            href={link.url || '#'}
-            key={`${link.label}-${idx}`}
-            {...linkTarget(link.newTab || globalNewTab)}
-          >
-            <div className={styles.icon} style={{ background: link.bg, color: link.color }}>
-              {link.img ? (
-                <img className={styles.iconImg} src={link.img} alt="" aria-hidden="true" />
-              ) : link.icon ? (
-                <Icon iconName={link.icon} />
-              ) : (
-                link.abbr
-              )}
-            </div>
-            <div className={styles.label}>{link.label}</div>
-          </a>
-        ))}
-      </div>
+      {links.length === 0 ? (
+        <div className={styles.empty}>No quick links configured.</div>
+      ) : (
+        <div className={styles.grid}>
+          {links.map((link, idx) => (
+            <a
+              className={styles.tile}
+              href={link.url || '#'}
+              key={`${link.label}-${idx}`}
+              aria-label={link.label}
+              {...linkTarget(link.newTab || globalNewTab)}
+            >
+              <div className={styles.icon} style={{ background: link.bg, color: link.color }}>
+                {link.img ? (
+                  <img className={styles.iconImg} src={link.img} alt="" aria-hidden="true" />
+                ) : link.icon ? (
+                  <Icon iconName={link.icon} />
+                ) : (
+                  link.abbr
+                )}
+              </div>
+              <div className={styles.label}>{link.label}</div>
+            </a>
+          ))}
+        </div>
+      )}
     </section>
   );
 };

@@ -52,21 +52,36 @@
   }
 }
 
+.lnkDisabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .di {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 11px 18px;
   border-bottom: 1px solid $intranet-border-light;
-  cursor: pointer;
 
   &:last-child {
     border-bottom: none;
   }
+}
+
+.diActive {
+  cursor: pointer;
 
   &:hover {
     background: $intranet-bg;
   }
+}
+
+.empty {
+  padding: 24px 18px;
+  font-size: 12px;
+  color: $intranet-text-2;
+  text-align: center;
 }
 
 .dic {

@@ -39,7 +39,7 @@ const HeroGreeting: React.FunctionComponent<IHeroGreetingProps> = (props) => {
 
   return (
     <section className={styles.hero}>
-      <div className={styles.bg} />
+      <div className={styles.bg} aria-hidden="true" />
       <div className={styles.content}>
         {props.showGreeting && name ? (
           <div className={styles.greet}>

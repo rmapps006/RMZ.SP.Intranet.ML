@@ -31,7 +31,7 @@ function fileTypeClass(t: 'pdf' | 'doc' | 'xls'): string {
 }
 
 const SearchIcon: React.FunctionComponent = () => (
-  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style={{ opacity: 0.38, flexShrink: 0 }}>
+  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style={{ opacity: 0.38, flexShrink: 0 }} aria-hidden="true">
     <circle cx="6" cy="6" r="4.5" stroke="#8a8682" strokeWidth="1.4" />
     <path d="M9.5 9.5L12 12" stroke="#8a8682" strokeWidth="1.4" strokeLinecap="round" />
   </svg>
@@ -39,6 +39,7 @@ const SearchIcon: React.FunctionComponent = () => (
 
 const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
   const [policies, setPolicies] = React.useState<IPolicy[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [search, setSearch] = React.useState<string>('');
   const [dept, setDept] = React.useState<string>('All Departments');
   const settings = useSettings(props.context);
@@ -57,14 +58,19 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
 
   React.useEffect(() => {
     let active: boolean = true;
+    setLoading(true);
     getPolicies(props.context, props.policiesList)
       .then((items) => {
         if (active) {
           setPolicies(items);
+          setLoading(false);
         }
       })
       .catch(() => {
         /* service already falls back internally */
+        if (active) {
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -88,6 +94,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
           <input
             type="text"
             placeholder="Search policies…"
+            aria-label="Search policies"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -121,7 +128,9 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
           <div className={styles.hc}>Last Updated</div>
           <div className={styles.hc}>Version</div>
         </div>
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className={styles.empty}>Loading policies…</div>
+        ) : filtered.length === 0 ? (
           <div className={styles.empty}>No policies match your search.</div>
         ) : (
           filtered.map((p, i) => {
@@ -141,7 +150,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
             const key: string = `${p.title}-${i}`;
             const href: string | undefined = hrefFor(p);
             return href ? (
-              <a className={styles.row} key={key} href={href} {...linkTarget(newTab)} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <a className={`${styles.row} ${styles.rowLink}`} key={key} href={href} {...linkTarget(newTab)} style={{ textDecoration: 'none', color: 'inherit' }}>
                 {rowInner}
               </a>
             ) : (

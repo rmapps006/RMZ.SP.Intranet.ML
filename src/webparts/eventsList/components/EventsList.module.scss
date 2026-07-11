@@ -18,6 +18,13 @@
   }
 }
 
+.evtsEmpty {
+  padding: 24px 22px;
+  font-size: 12px;
+  color: $intranet-text-2;
+  text-align: center;
+}
+
 .ec {
   border: 1px solid $intranet-border;
   border-radius: 3px;
@@ -25,6 +32,11 @@
   overflow: hidden;
   box-shadow: $intranet-shadow;
   background: $intranet-white;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: $intranet-shadow-hover;
+  }
 }
 
 .ecDate {
@@ -72,6 +84,10 @@
   color: $intranet-dark;
   margin-bottom: 6px;
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .ecTime {

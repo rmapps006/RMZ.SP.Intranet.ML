@@ -135,6 +135,13 @@
   }
 }
 
+.qlEmpty {
+  border-top: 1px solid $intranet-border;
+  padding: 14px 0 2px;
+  font-size: 12px;
+  color: $intranet-text-muted;
+}
+
 .qlI {
   display: flex;
   flex-direction: column;

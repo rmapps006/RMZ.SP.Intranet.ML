@@ -58,6 +58,9 @@ function resolveLinks(json: string, central: IQuickLinkSetting[], language: Lang
 }
 
 function LinkTiles(props: { links: IQuickLink[]; newTab: boolean }): JSX.Element {
+  if (props.links.length === 0) {
+    return <div className={styles.qlEmpty}>No quick links configured.</div>;
+  }
   return (
     <div className={styles.qlG}>
       {props.links.map((link: IQuickLink, idx: number) => (
@@ -65,6 +68,7 @@ function LinkTiles(props: { links: IQuickLink[]; newTab: boolean }): JSX.Element
           className={styles.qlI}
           href={link.url || '#'}
           key={idx}
+          aria-label={link.label}
           {...linkTarget(link.newTab || props.newTab)}
         >
           <div className={styles.qlIc} style={{ background: link.bg, color: link.color }}>

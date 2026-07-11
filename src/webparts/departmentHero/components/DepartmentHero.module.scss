@@ -5,6 +5,12 @@
   position: relative;
   overflow: hidden;
   font-family: $font-body;
+
+  @media (max-width: 600px) {
+    height: auto;
+    min-height: 220px;
+    padding: 24px 0;
+  }
 }
 
 .deptHeroBg {
@@ -29,7 +35,13 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 60%, transparent 100%);
+    // Darkest edge sits behind the text block (physical left in LTR); mirrored
+    // for dir="rtl" below since the text block stays physically left regardless.
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 60%, transparent 100%);
+
+    :global([dir='rtl']) & {
+      background: linear-gradient(to left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 60%, transparent 100%);
+    }
   }
 }
 

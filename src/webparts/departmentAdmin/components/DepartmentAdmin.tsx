@@ -202,11 +202,11 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
           <PivotItem headerText="Hero">
             <p className={styles.intro}>The department banner shown by the Department Hero web part.</p>
             <TextField label="Eyebrow" value={settings.eyebrow} onChange={(_, v) => setField('eyebrow', v || '')} />
-            <TextField label="Eyebrow (Arabic)" value={settings.eyebrowAR} onChange={(_, v) => setField('eyebrowAR', v || '')} />
+            <TextField label="Eyebrow (Arabic)" value={settings.eyebrowAR} onChange={(_, v) => setField('eyebrowAR', v || '')} dir="auto" />
             <TextField label="Department name" value={settings.departmentName} onChange={(_, v) => setField('departmentName', v || '')} />
-            <TextField label="Department name (Arabic)" value={settings.departmentNameAR} onChange={(_, v) => setField('departmentNameAR', v || '')} />
+            <TextField label="Department name (Arabic)" value={settings.departmentNameAR} onChange={(_, v) => setField('departmentNameAR', v || '')} dir="auto" />
             <TextField label="Description" multiline rows={3} value={settings.description} onChange={(_, v) => setField('description', v || '')} />
-            <TextField label="Description (Arabic)" multiline rows={3} value={settings.descriptionAR} onChange={(_, v) => setField('descriptionAR', v || '')} />
+            <TextField label="Description (Arabic)" multiline rows={3} value={settings.descriptionAR} onChange={(_, v) => setField('descriptionAR', v || '')} dir="auto" />
             <TextField label="Owner name" value={settings.ownerName} onChange={(_, v) => setField('ownerName', v || '')} />
             <TextField label="Owner role" value={settings.ownerRole} onChange={(_, v) => setField('ownerRole', v || '')} />
             {saveButton}
@@ -218,7 +218,7 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
             {settings.quickActions.map((action, index) => (
               <div className={styles.qlRow} key={`qa-${index}`}>
                 <TextField ariaLabel="Label" placeholder="Label" value={action.label} onChange={(_, v) => updateAction(index, { label: v || '' })} styles={{ root: { width: 160 } }} />
-                <TextField ariaLabel="Label (Arabic)" placeholder="Label (Arabic)" value={action.labelAR} onChange={(_, v) => updateAction(index, { labelAR: v || '' })} styles={{ root: { width: 160 } }} />
+                <TextField ariaLabel="Label (Arabic)" placeholder="Label (Arabic)" value={action.labelAR} onChange={(_, v) => updateAction(index, { labelAR: v || '' })} styles={{ root: { width: 160 } }} dir="auto" />
                 <TextField ariaLabel="URL" placeholder="URL" value={action.url} onChange={(_, v) => updateAction(index, { url: v || '' })} styles={{ root: { width: 300 } }} />
                 <IconButton iconProps={{ iconName: 'Up' }} title="Move up" ariaLabel="Move up" onClick={() => moveAction(index, -1)} />
                 <IconButton iconProps={{ iconName: 'Down' }} title="Move down" ariaLabel="Move down" onClick={() => moveAction(index, 1)} />

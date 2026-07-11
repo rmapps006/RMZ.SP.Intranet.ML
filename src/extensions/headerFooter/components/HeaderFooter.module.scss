@@ -157,72 +157,6 @@ $font-body: var(--intranet-font-body, 'Public Sans', 'Segoe UI', Arial, sans-ser
   }
 }
 
-.search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: $intranet-search-bg;
-  border: 1px solid $intranet-border;
-  border-radius: 18px;
-  padding: 7px 16px;
-  width: 220px;
-  margin-inline-start: auto;
-  flex-shrink: 0;
-}
-
-.searchIcon {
-  display: flex;
-  opacity: 0.38;
-  flex-shrink: 0;
-}
-
-.searchInput {
-  font-family: $font-body;
-  font-size: 12px;
-  color: $intranet-text-2;
-  background: none;
-  border: none;
-  outline: none;
-  width: 100%;
-
-  &::placeholder {
-    color: $intranet-text-muted;
-  }
-}
-
-.bell {
-  position: relative;
-  margin-inline-start: 18px;
-  width: 33px;
-  height: 33px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: $intranet-text-2;
-  flex-shrink: 0;
-  transition: background 0.15s;
-
-  &:hover {
-    background: $intranet-search-bg;
-    color: $intranet-dark;
-  }
-}
-
-.bellDot {
-  position: absolute;
-  top: 7px;
-  inset-inline-end: 8px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: $intranet-sun;
-  border: 1.5px solid $intranet-white;
-}
-
 .avatar {
   width: 33px;
   height: 33px;
@@ -313,12 +247,6 @@ $font-body: var(--intranet-font-body, 'Public Sans', 'Segoe UI', Arial, sans-ser
   .logoDivider,
   .profName {
     display: none;
-  }
-
-  .search {
-    width: 150px;
-    min-width: 0;
-    flex-shrink: 1;
   }
 
   .intranetFooter {

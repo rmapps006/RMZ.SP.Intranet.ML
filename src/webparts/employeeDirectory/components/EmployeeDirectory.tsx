@@ -9,21 +9,21 @@ import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
 
 const SearchIcon: React.FunctionComponent = () => (
-  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className={styles.searchIcon}>
-    <circle cx="6" cy="6" r="4.5" stroke="#8a8682" strokeWidth="1.4" />
-    <path d="M9.5 9.5L12 12" stroke="#8a8682" strokeWidth="1.4" strokeLinecap="round" />
+  <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className={styles.searchIcon} aria-hidden="true">
+    <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+    <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
   </svg>
 );
 
 const EnvelopeIcon: React.FunctionComponent = () => (
-  <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
+  <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
     <rect x="1.5" y="3" width="11" height="8" rx="1" />
     <path d="M2 4l5 3.4L12 4" />
   </svg>
 );
 
 const PhoneIcon: React.FunctionComponent = () => (
-  <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round">
+  <svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" aria-hidden="true">
     <path d="M3 2.4c0 4.2 3.4 7.6 7.6 7.6l1-1.9-2.5-1-1 1C6.7 7.5 5.5 6.3 4.9 4.9l1-1-1-2.5L3 2.4z" />
   </svg>
 );
@@ -131,6 +131,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
           <input
             type="text"
             placeholder="Search the full directory by name, email, department, position…"
+            aria-label="Search the full directory by name, email, department, position"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -168,7 +169,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
           <div className={styles.dirCd} key={`${person.email || person.displayName}-${i}`}>
             <div className={styles.dirHead}>
               <InitialsAvatar name={person.displayName} size={42} gradient={person.gradient} />
-              <div>
+              <div className={styles.dirInfo}>
                 {detailUrl && person.email ? (
                   <a
                     className={styles.dirNm}

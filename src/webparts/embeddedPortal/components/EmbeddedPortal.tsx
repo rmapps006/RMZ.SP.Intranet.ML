@@ -56,6 +56,21 @@ const EmbeddedPortal: React.FunctionComponent<IEmbeddedPortalProps> = (props) =>
   // setting (Admin screen) hides it for every embed on the intranet.
   const [hideUrl, setHideUrl] = React.useState<boolean>(props.hideUrl === true);
 
+  // The relative-height floor below is too tall on narrow viewports — track a
+  // simple "narrow" media query so it can be relaxed on mobile.
+  const [isNarrowViewport, setIsNarrowViewport] = React.useState<boolean>(
+    typeof window !== 'undefined' && window.innerWidth <= 600
+  );
+
+  React.useEffect(() => {
+    const mq: MediaQueryList = window.matchMedia('(max-width: 600px)');
+    const handler = (e: MediaQueryListEvent): void => setIsNarrowViewport(e.matches);
+    mq.addEventListener('change', handler);
+    return () => {
+      mq.removeEventListener('change', handler);
+    };
+  }, []);
+
   React.useEffect(() => {
     if (props.hideUrl) {
       setHideUrl(true);
@@ -113,6 +128,7 @@ const EmbeddedPortal: React.FunctionComponent<IEmbeddedPortalProps> = (props) =>
                 fill="none"
                 stroke="#b5b5b5"
                 strokeWidth="1.3"
+                aria-hidden="true"
               >
                 <path d="M9 2h3v3M12 2l-5 5M6 3H3a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" />
               </svg>
@@ -123,7 +139,7 @@ const EmbeddedPortal: React.FunctionComponent<IEmbeddedPortalProps> = (props) =>
             src={url}
             title={props.sectionTitle || `${getCachedSettings().clientName} Portal`}
             loading="lazy"
-            style={{ height: cssHeight, minHeight: isRelativeHeight ? 700 : undefined }}
+            style={{ height: cssHeight, minHeight: isRelativeHeight ? (isNarrowViewport ? 420 : 700) : undefined }}
             sandbox={sandbox}
             allow={allow}
             referrerPolicy="strict-origin-when-cross-origin"

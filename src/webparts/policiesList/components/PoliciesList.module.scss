@@ -110,7 +110,6 @@
 .row {
   padding: 13px 22px;
   border-bottom: 1px solid rgba(181, 181, 181, 0.12);
-  cursor: pointer;
   transition: background 0.15s;
 
   &:last-child {
@@ -124,6 +123,10 @@
   @media (max-width: 700px) {
     padding: 13px 16px;
   }
+}
+
+.rowLink {
+  cursor: pointer;
 }
 
 /* Below 700px the table collapses to Title + Department; the Last Updated and

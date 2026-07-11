@@ -43,23 +43,27 @@ const DepartmentsDirectory: React.FunctionComponent<IDepartmentsDirectoryProps> 
         showTitle={props.showTitle}
         showLink={props.showViewAll}
       />
-      <div className={styles.grid}>
-        {departments.map((dept, idx) => {
-          const label: string = pickLocalized(dept.label, dept.labelAR, language);
-          const description: string = pickLocalized(dept.description, dept.descriptionAR, language);
-          return (
-            <a className={styles.card} href={dept.url || '#'} key={`${dept.label}-${idx}`} {...linkTarget(settings.openLinksInNewTab)}>
-              <div className={styles.icon} style={{ background: dept.accent || '#f5f3f0' }}>
-                {dept.icon ? <Icon iconName={dept.icon} /> : <InitialsAvatar name={label} size={40} />}
-              </div>
-              <div className={styles.body}>
-                <div className={styles.name}>{label}</div>
-                {description ? <div className={styles.desc}>{description}</div> : null}
-              </div>
-            </a>
-          );
-        })}
-      </div>
+      {departments.length === 0 ? (
+        <div className={styles.empty}>No departments configured.</div>
+      ) : (
+        <div className={styles.grid}>
+          {departments.map((dept, idx) => {
+            const label: string = pickLocalized(dept.label, dept.labelAR, language);
+            const description: string = pickLocalized(dept.description, dept.descriptionAR, language);
+            return (
+              <a className={styles.card} href={dept.url || '#'} key={`${dept.label}-${idx}`} {...linkTarget(settings.openLinksInNewTab)}>
+                <div className={styles.icon} style={{ background: dept.accent || '#f5f3f0' }}>
+                  {dept.icon ? <Icon iconName={dept.icon} aria-hidden="true" /> : <InitialsAvatar name={label} size={40} />}
+                </div>
+                <div className={styles.body}>
+                  <div className={styles.name}>{label}</div>
+                  {description ? <div className={styles.desc}>{description}</div> : null}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

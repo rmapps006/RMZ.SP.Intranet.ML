@@ -268,7 +268,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
         {links.map((item, index) => (
           <div className={styles.qlRow} key={`${which}-${index}`}>
             <TextField ariaLabel="Label" placeholder="Label" value={item.label} onChange={(_, v) => updateLink(which, index, { label: v || '' })} styles={{ root: { width: 130 } }} />
-            <TextField ariaLabel="Label (Arabic)" placeholder="Label (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateLink(which, index, { labelAR: v || '' })} styles={{ root: { width: 130 } }} />
+            <TextField ariaLabel="Label (Arabic)" placeholder="Label (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateLink(which, index, { labelAR: v || '' })} styles={{ root: { width: 130 } }} dir="auto" />
             <TextField ariaLabel="Fluent icon name" placeholder="Icon (e.g. Mail)" value={item.icon || ''} onChange={(_, v) => updateLink(which, index, { icon: v || '' })} styles={{ root: { width: 130 } }} />
             <TextField ariaLabel="Short text" placeholder="Abbr" value={item.abbr || ''} onChange={(_, v) => updateLink(which, index, { abbr: v || '' })} styles={{ root: { width: 70 } }} />
             <TextField ariaLabel="URL" placeholder="URL" value={item.url} onChange={(_, v) => updateLink(which, index, { url: v || '' })} styles={{ root: { width: 200 } }} />
@@ -392,6 +392,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
                   placeholder="Label (Arabic)"
                   value={item.labelAR || ''}
                   onChange={(_, v) => updateNav(index, { labelAR: v || '' })}
+                  dir="auto"
                 />
                 <TextField
                   className={styles.navUrl}
@@ -433,7 +434,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
             <h3 className={styles.subTitle}>Branding</h3>
             <p className={styles.intro}>Client name and logo — applied across the portal and every department site (department sites inherit these from here).</p>
             <TextField label="Client name" value={settings.clientName} onChange={(_, v) => setField('clientName', v || '')} />
-            <TextField label="Client name (Arabic)" value={settings.clientNameAR || ''} onChange={(_, v) => setField('clientNameAR', v || '')} />
+            <TextField label="Client name (Arabic)" value={settings.clientNameAR || ''} onChange={(_, v) => setField('clientNameAR', v || '')} dir="auto" />
             <TextField
               label="Logo URL"
               placeholder="e.g. /SiteAssets/logos/client-logo.png — blank uses the built-in logo"
@@ -484,11 +485,11 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
               offText="Hidden"
             />
             <TextField label="Footer copyright" placeholder="Blank = © {year} {client name}. All rights reserved." value={settings.footerCopyright} onChange={(_, v) => setField('footerCopyright', v || '')} />
-            <TextField label="Footer copyright (Arabic)" value={settings.footerCopyrightAR || ''} onChange={(_, v) => setField('footerCopyrightAR', v || '')} />
+            <TextField label="Footer copyright (Arabic)" value={settings.footerCopyrightAR || ''} onChange={(_, v) => setField('footerCopyrightAR', v || '')} dir="auto" />
             <TextField label="Footer tagline" value={settings.footerTagline} onChange={(_, v) => setField('footerTagline', v || '')} />
-            <TextField label="Footer tagline (Arabic)" value={settings.footerTaglineAR || ''} onChange={(_, v) => setField('footerTaglineAR', v || '')} />
+            <TextField label="Footer tagline (Arabic)" value={settings.footerTaglineAR || ''} onChange={(_, v) => setField('footerTaglineAR', v || '')} dir="auto" />
             <TextField label="Search placeholder" value={settings.searchPlaceholder} onChange={(_, v) => setField('searchPlaceholder', v || '')} />
-            <TextField label="Search placeholder (Arabic)" value={settings.searchPlaceholderAR || ''} onChange={(_, v) => setField('searchPlaceholderAR', v || '')} />
+            <TextField label="Search placeholder (Arabic)" value={settings.searchPlaceholderAR || ''} onChange={(_, v) => setField('searchPlaceholderAR', v || '')} dir="auto" />
             <Toggle label="Hide native SharePoint site header" checked={settings.hideSiteHeader} onChange={(_, c) => setField('hideSiteHeader', c === true)} />
             <Toggle label="Hide native site navigation only" checked={settings.hideSiteNav} onChange={(_, c) => setField('hideSiteNav', c === true)} />
             <Toggle label="Hide SharePoint command bar (view mode)" checked={settings.hideCommandBar} onChange={(_, c) => setField('hideCommandBar', c === true)} />
@@ -610,9 +611,9 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
             {settings.departments.map((item, index) => (
               <div className={styles.qlRow} key={`dept-${index}`}>
                 <TextField ariaLabel="Name" placeholder="Department name" value={item.label} onChange={(_, v) => updateDept(index, { label: v || '' })} styles={{ root: { width: 190 } }} />
-                <TextField ariaLabel="Name (Arabic)" placeholder="Department name (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateDept(index, { labelAR: v || '' })} styles={{ root: { width: 190 } }} />
+                <TextField ariaLabel="Name (Arabic)" placeholder="Department name (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateDept(index, { labelAR: v || '' })} styles={{ root: { width: 190 } }} dir="auto" />
                 <TextField ariaLabel="Description" placeholder="Short description" value={item.description} onChange={(_, v) => updateDept(index, { description: v || '' })} styles={{ root: { width: 300 } }} />
-                <TextField ariaLabel="Description (Arabic)" placeholder="Short description (Arabic)" value={item.descriptionAR || ''} onChange={(_, v) => updateDept(index, { descriptionAR: v || '' })} styles={{ root: { width: 300 } }} />
+                <TextField ariaLabel="Description (Arabic)" placeholder="Short description (Arabic)" value={item.descriptionAR || ''} onChange={(_, v) => updateDept(index, { descriptionAR: v || '' })} styles={{ root: { width: 300 } }} dir="auto" />
                 <TextField ariaLabel="Site URL" placeholder="/sites/HR" value={item.url} onChange={(_, v) => updateDept(index, { url: v || '' })} styles={{ root: { width: 180 } }} />
                 <TextField ariaLabel="Fluent icon name" placeholder="Icon" value={item.icon || ''} onChange={(_, v) => updateDept(index, { icon: v || '' })} styles={{ root: { width: 120 } }} />
                 <TextField ariaLabel="Accent" placeholder="accent" value={item.accent || ''} onChange={(_, v) => updateDept(index, { accent: v || '' })} styles={{ root: { width: 90 } }} />

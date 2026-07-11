@@ -33,6 +33,9 @@ const BUTTONS: IToolButton[] = [
  */
 const RichTextField: React.FunctionComponent<IRichTextFieldProps> = (props) => {
   const ref = React.useRef<HTMLDivElement>(null);
+  // Tracks which toggle commands are active at the caret so the Bold/Italic
+  // buttons can expose aria-pressed, not just a hover title.
+  const [activeFormats, setActiveFormats] = React.useState<{ bold: boolean; italic: boolean }>({ bold: false, italic: false });
 
   // Only re-seed when the edited item changes (resetKey), not on every keystroke,
   // so the caret isn't reset while typing.
@@ -48,6 +51,17 @@ const RichTextField: React.FunctionComponent<IRichTextFieldProps> = (props) => {
     }
   };
 
+  const updateActiveFormats = (): void => {
+    try {
+      setActiveFormats({
+        bold: document.queryCommandState('bold'),
+        italic: document.queryCommandState('italic')
+      });
+    } catch {
+      /* queryCommandState unsupported — leave the last known state */
+    }
+  };
+
   const exec = (cmd: string, value?: string): void => {
     try {
       if (ref.current) {
@@ -57,6 +71,7 @@ const RichTextField: React.FunctionComponent<IRichTextFieldProps> = (props) => {
       // basic inline formatting for a lightweight editor.
       document.execCommand(cmd, false, value);
       emit();
+      updateActiveFormats();
     } catch {
       /* ignore unsupported command */
     }
@@ -80,6 +95,7 @@ const RichTextField: React.FunctionComponent<IRichTextFieldProps> = (props) => {
             type="button"
             className={styles.rtBtn}
             title={b.title}
+            aria-pressed={b.cmd === 'bold' ? activeFormats.bold : b.cmd === 'italic' ? activeFormats.italic : undefined}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => exec(b.cmd, b.value)}
           >
@@ -109,11 +125,15 @@ const RichTextField: React.FunctionComponent<IRichTextFieldProps> = (props) => {
         ref={ref}
         className={styles.rtEditor}
         contentEditable
+        dir="auto"
         role="textbox"
         aria-multiline="true"
         aria-label={props.label}
         onInput={emit}
         onBlur={emit}
+        onKeyUp={updateActiveFormats}
+        onMouseUp={updateActiveFormats}
+        onFocus={updateActiveFormats}
       />
     </div>
   );

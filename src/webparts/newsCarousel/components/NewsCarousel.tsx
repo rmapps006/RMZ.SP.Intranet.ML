@@ -10,6 +10,7 @@ import { linkTarget } from '../../../common/util/format';
 
 const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
   const [items, setItems] = React.useState<INewsItem[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [activeCategory, setActiveCategory] = React.useState<string>('All');
 
   // Reactive settings: seeds from cache then fetches + re-renders, so central
@@ -32,14 +33,19 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
 
   React.useEffect(() => {
     let active: boolean = true;
+    setLoading(true);
     getNews(props.context, props.newsList, Math.max(maxItems, 9))
       .then((result: INewsItem[]) => {
         if (active) {
           setItems(result);
+          setLoading(false);
         }
       })
       .catch(() => {
         /* service already returns fallback */
+        if (active) {
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -72,45 +78,52 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
         ))}
       </div>
 
-      <div className={styles.newsG}>
-        {visibleItems.map((item: INewsItem, index: number) => {
-          const inner: JSX.Element = (
-            <>
-              <div
-                className={styles.ncImg}
-                style={
-                  item.imageUrl
-                    ? { backgroundImage: `url("${item.imageUrl}")`, backgroundSize: 'cover', backgroundPosition: 'center' }
-                    : { background: item.imageGradient }
-                }
-              />
-              <div className={styles.ncBd}>
-                <div className={styles.ncTag}>{item.category}</div>
-                <h3 className={styles.ncH}>{item.title}</h3>
-                {item.excerpt ? <p className={styles.ncEx}>{item.excerpt}</p> : null}
-                <div className={styles.ncFt}>
-                  <span className={styles.ncDt}>{item.date}</span>
-                  <span className={styles.ncAu}>{item.author}</span>
+      {loading ? (
+        <div className={styles.newsEmpty}>Loading news…</div>
+      ) : visibleItems.length === 0 ? (
+        <div className={styles.newsEmpty}>No news to show.</div>
+      ) : (
+        <div className={styles.newsG}>
+          {visibleItems.map((item: INewsItem, index: number) => {
+            const inner: JSX.Element = (
+              <>
+                <div
+                  className={styles.ncImg}
+                  aria-hidden="true"
+                  style={
+                    item.imageUrl
+                      ? { backgroundImage: `url("${item.imageUrl}")`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                      : { background: item.imageGradient }
+                  }
+                />
+                <div className={styles.ncBd}>
+                  <div className={styles.ncTag}>{item.category}</div>
+                  <h3 className={styles.ncH}>{item.title}</h3>
+                  {item.excerpt ? <p className={styles.ncEx}>{item.excerpt}</p> : null}
+                  <div className={styles.ncFt}>
+                    <span className={styles.ncDt}>{item.date}</span>
+                    <span className={styles.ncAu}>{item.author}</span>
+                  </div>
                 </div>
+              </>
+            );
+            const key: string = `${item.title}-${index}`;
+            const href: string | undefined = hrefFor(item);
+            return href ? (
+              <a key={key} className={`${styles.nc} ${styles.ncLink}`} href={href} {...linkTarget(newTab)}>
+                {inner}
+              </a>
+            ) : (
+              <div key={key} className={styles.nc}>
+                {inner}
               </div>
-            </>
-          );
-          const key: string = `${item.title}-${index}`;
-          const href: string | undefined = hrefFor(item);
-          return href ? (
-            <a key={key} className={styles.nc} href={href} {...linkTarget(newTab)}>
-              {inner}
-            </a>
-          ) : (
-            <div key={key} className={styles.nc}>
-              {inner}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       {showAll ? null : (
-        <div className={styles.newsNav}>
+        <div className={styles.newsNav} aria-hidden="true">
           {[0, 1, 2, 3].map((i: number) => (
             <span key={i} className={`${styles.newsDot} ${i === 0 ? styles.on : ''}`} />
           ))}

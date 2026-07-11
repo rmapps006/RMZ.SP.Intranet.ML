@@ -116,6 +116,7 @@
 .navRow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 8px 0;
   border-bottom: 1px solid $intranet-border-light;

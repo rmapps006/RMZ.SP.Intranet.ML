@@ -49,6 +49,7 @@
 .searchIcon {
   opacity: 0.38;
   flex-shrink: 0;
+  color: $intranet-text-2;
 }
 
 .dirChips {
@@ -112,7 +113,6 @@
   border: 1px solid $intranet-border;
   border-radius: 3px;
   padding: 18px 16px;
-  cursor: pointer;
   transition: all 0.15s;
   background: $intranet-white;
 
@@ -129,11 +129,18 @@
   margin-bottom: 13px;
 }
 
+.dirInfo {
+  min-width: 0;
+}
+
 .dirNm {
   font-size: 12px;
   color: $intranet-dark;
   font-weight: 500;
   margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dirRole {
@@ -141,12 +148,18 @@
   color: $intranet-text-2;
   margin-bottom: 2px;
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dirDept {
   font-size: 9px;
   color: $intranet-text-muted;
   letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dirContact {

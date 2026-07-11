@@ -52,6 +52,7 @@
   font-size: 14px;
   font-weight: 600;
   color: $intranet-text-1;
+  overflow-wrap: break-word;
 }
 
 .desc {
@@ -59,4 +60,12 @@
   font-size: 12px;
   line-height: 1.45;
   color: $intranet-text-2;
+  overflow-wrap: break-word;
+}
+
+.empty {
+  font-size: 13px;
+  color: $intranet-text-2;
+  text-align: center;
+  padding: 28px 0;
 }

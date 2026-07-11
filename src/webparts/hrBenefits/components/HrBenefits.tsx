@@ -87,6 +87,7 @@ const HrBenefits: React.FunctionComponent<IHrBenefitsProps> = (props) => {
   // Property-pane JSON acts as an override; otherwise read the HR Benefits list.
   const override = parseBenefits(props.benefitsJson);
   const [listItems, setListItems] = React.useState<IBenefit[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(override.isFallback);
 
   const settings = useSettings(props.context);
   const navKey: string = useNavKey();
@@ -98,14 +99,19 @@ const HrBenefits: React.FunctionComponent<IHrBenefitsProps> = (props) => {
       return; // a JSON override is configured — don't read the list
     }
     let active: boolean = true;
+    setLoading(true);
     getBenefits(props.context, props.benefitsList)
       .then((result: IBenefit[]) => {
         if (active) {
           setListItems(result);
+          setLoading(false);
         }
       })
       .catch(() => {
         /* keep empty */
+        if (active) {
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -125,22 +131,28 @@ const HrBenefits: React.FunctionComponent<IHrBenefitsProps> = (props) => {
   return (
     <section className={styles.benefits}>
       <SectionHeader title={props.title} linkText="All Benefits" linkUrl={props.allBenefitsUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
-      <div className={styles.grid}>
-        {items.map((b, i) => {
-          const href: string | undefined = hrefFor(b);
-          return (
-            <div className={styles.card} key={`${b.title}-${i}`}>
-              <span className={styles.icon}>{useDesignIcons ? ICONS[i] || DEFAULT_ICON : DEFAULT_ICON}</span>
-              <div className={styles.cat}>{b.category}</div>
-              <div className={styles.tt}>{b.title}</div>
-              <div className={styles.desc}>{b.description}</div>
-              <a className={styles.lnk} href={href || '#'} {...linkTarget(newTab)}>
-                {b.linkText || 'View Details'}
-              </a>
-            </div>
-          );
-        })}
-      </div>
+      {loading ? (
+        <div className={styles.empty}>Loading benefits…</div>
+      ) : items.length === 0 ? (
+        <div className={styles.empty}>No benefits to show.</div>
+      ) : (
+        <div className={styles.grid}>
+          {items.map((b, i) => {
+            const href: string | undefined = hrefFor(b);
+            return (
+              <div className={styles.card} key={`${b.title}-${i}`}>
+                <span className={styles.icon} aria-hidden="true">{useDesignIcons ? ICONS[i] || DEFAULT_ICON : DEFAULT_ICON}</span>
+                <div className={styles.cat}>{b.category}</div>
+                <div className={styles.tt}>{b.title}</div>
+                <div className={styles.desc}>{b.description}</div>
+                <a className={styles.lnk} href={href || '#'} {...linkTarget(newTab)}>
+                  {b.linkText || 'View Details'}
+                </a>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

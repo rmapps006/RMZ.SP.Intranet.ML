@@ -132,10 +132,10 @@
 .caption {
   position: absolute;
   bottom: 16px;
-  right: 26px;
+  inset-inline-end: 26px;
   font-family: monospace;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   z-index: 10;

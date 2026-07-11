@@ -156,7 +156,7 @@
   border: 1px solid #a19f9d;
   border-bottom: none;
   border-radius: 2px 2px 0 0;
-  background: #faf9f8;
+  background: $intranet-bg;
 }
 
 .rtBtn {
@@ -168,7 +168,8 @@
   color: $intranet-dark;
   font-size: 13px;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: rgba(38, 38, 38, 0.08);
   }
 }

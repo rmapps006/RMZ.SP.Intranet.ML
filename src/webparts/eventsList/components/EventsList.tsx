@@ -10,6 +10,7 @@ import { useNavKey } from '../../../common/services/useNavKey';
 
 const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
   const [items, setItems] = React.useState<IEventItem[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   // Reactive settings so central values apply on first paint (not only after
   // the cache-warming extension has run).
@@ -34,14 +35,19 @@ const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
 
   React.useEffect(() => {
     let active: boolean = true;
+    setLoading(true);
     getEvents(props.context, props.eventsList, max)
       .then((result: IEventItem[]) => {
         if (active) {
           setItems(result);
+          setLoading(false);
         }
       })
       .catch(() => {
         /* service already returns fallback */
+        if (active) {
+          setLoading(false);
+        }
       });
     return () => {
       active = false;
@@ -52,36 +58,42 @@ const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
     <section className={styles.events}>
       <SectionHeader title="Company Events" linkText="View Calendar" linkUrl={props.calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
-      <div className={styles.evtsG}>
-        {items.map((item: IEventItem, index: number) => {
-          const chip: { mo: string; dy: string } = splitDateChip(item.date);
-          const inner: JSX.Element = (
-            <>
-              <div className={styles.ecDate} style={{ background: item.accent }}>
-                <div className={styles.ecMo}>{chip.mo}</div>
-                <div className={styles.ecDy}>{chip.dy}</div>
+      {loading ? (
+        <div className={styles.evtsEmpty}>Loading events…</div>
+      ) : items.length === 0 ? (
+        <div className={styles.evtsEmpty}>No events to show.</div>
+      ) : (
+        <div className={styles.evtsG}>
+          {items.map((item: IEventItem, index: number) => {
+            const chip: { mo: string; dy: string } = splitDateChip(item.date);
+            const inner: JSX.Element = (
+              <>
+                <div className={styles.ecDate} style={{ background: item.accent }}>
+                  <div className={styles.ecMo}>{chip.mo}</div>
+                  <div className={styles.ecDy}>{chip.dy}</div>
+                </div>
+                <div className={styles.ecBd}>
+                  <div className={styles.ecTp}>{item.type}</div>
+                  <div className={styles.ecTt}>{item.title}</div>
+                  {item.time ? <div className={styles.ecTime}>{item.time}</div> : null}
+                  {item.location ? <div className={styles.ecLoc}>{item.location}</div> : null}
+                </div>
+              </>
+            );
+            const key: string = `${item.title}-${index}`;
+            const href: string | undefined = hrefFor(item);
+            return href ? (
+              <a key={key} className={styles.ec} href={href} {...linkTarget(newTab)} style={{ textDecoration: 'none', color: 'inherit' }}>
+                {inner}
+              </a>
+            ) : (
+              <div key={key} className={styles.ec}>
+                {inner}
               </div>
-              <div className={styles.ecBd}>
-                <div className={styles.ecTp}>{item.type}</div>
-                <div className={styles.ecTt}>{item.title}</div>
-                {item.time ? <div className={styles.ecTime}>{item.time}</div> : null}
-                {item.location ? <div className={styles.ecLoc}>{item.location}</div> : null}
-              </div>
-            </>
-          );
-          const key: string = `${item.title}-${index}`;
-          const href: string | undefined = hrefFor(item);
-          return href ? (
-            <a key={key} className={styles.ec} href={href} {...linkTarget(newTab)} style={{ textDecoration: 'none', color: 'inherit' }}>
-              {inner}
-            </a>
-          ) : (
-            <div key={key} className={styles.ec}>
-              {inner}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

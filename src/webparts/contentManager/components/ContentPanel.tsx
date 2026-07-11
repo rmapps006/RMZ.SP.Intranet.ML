@@ -182,6 +182,9 @@ const ContentPanel: React.FunctionComponent<IContentPanelProps> = (props) => {
 
   const renderField = (f: IFieldDef): JSX.Element => {
     const val: string = values[f.name] || '';
+    // Arabic-variant fields (TitleAR, SummaryAR, etc.) hold bidi text — let the
+    // browser resolve direction per field instead of inheriting the page's static dir.
+    const isArabicField: boolean = f.name.endsWith('AR');
     if (f.kind === 'richtext') {
       return (
         <RichTextField
@@ -226,6 +229,7 @@ const ContentPanel: React.FunctionComponent<IContentPanelProps> = (props) => {
         required={f.required}
         multiline={f.kind === 'multiline'}
         rows={f.kind === 'multiline' ? 5 : undefined}
+        dir={isArabicField ? 'auto' : undefined}
         onChange={(_, v) => setField(f.name, v || '')}
       />
     );

@@ -18,6 +18,7 @@ import {
   IBenefitDetail
 } from '../services/DetailService';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { getCurrentLanguage, isRtl } from '../../../common/services/languageService';
 
 type Loaded =
   | { kind: 'news'; data: INewsDetail }
@@ -34,6 +35,12 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
   // without a remount when moving between detail links).
   const navKey: string = useNavKey();
   const params: IDetailParams = React.useMemo(() => readDetailParams(), [navKey]);
+
+  // The page's static dir flips for Arabic, so the hardcoded arrow glyphs need to
+  // flip with it rather than always pointing the LTR way.
+  const rtl: boolean = isRtl(getCurrentLanguage());
+  const backArrow: string = rtl ? '→' : '←';
+  const linkArrow: string = rtl ? '←' : '→';
 
   React.useEffect(() => {
     let active: boolean = true;
@@ -83,7 +90,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
 
   const back: React.ReactNode = props.backUrl ? (
     <a className={styles.back} href={props.backUrl}>
-      ← Back
+      {backArrow} Back
     </a>
   ) : null;
 
@@ -123,10 +130,10 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
         <div className={styles.meta}>
           {[formatLongDate(n.date), n.source].filter((v) => !!v).join(' · ')}
         </div>
-        {n.body ? <div className={styles.body} dangerouslySetInnerHTML={{ __html: n.body }} /> : null}
+        {n.body ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: n.body }} /> : null}
         {n.linkUrl ? (
           <a className={styles.cta} href={n.linkUrl} target="_blank" rel="noopener noreferrer">
-            Read the full article →
+            Read the full article {linkArrow}
           </a>
         ) : null}
       </section>
@@ -146,7 +153,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
           {time ? <div className={styles.fact}><span>Time</span>{time}</div> : null}
           {e.location ? <div className={styles.fact}><span>Location</span>{e.location}</div> : null}
         </div>
-        {e.description ? <div className={styles.body} dangerouslySetInnerHTML={{ __html: e.description }} /> : null}
+        {e.description ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: e.description }} /> : null}
       </section>
     );
   }
@@ -167,7 +174,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
         </div>
         {viewUrl ? (
           <a className={styles.cta} href={viewUrl} target="_blank" rel="noopener noreferrer" data-interception="off">
-            Open document →
+            Open document {linkArrow}
           </a>
         ) : null}
       </section>
@@ -186,7 +193,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
           {b.eligibility ? <div className={styles.fact}><span>Eligibility</span>{b.eligibility}</div> : null}
           {b.coverage ? <div className={styles.fact}><span>Coverage</span>{b.coverage}</div> : null}
         </div>
-        {b.details ? <div className={styles.body} dangerouslySetInnerHTML={{ __html: b.details }} /> : null}
+        {b.details ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: b.details }} /> : null}
       </section>
     );
   }
@@ -210,7 +217,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
       </div>
       {m.email ? (
         <a className={styles.cta} href={`https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(m.email)}`} target="_blank" rel="noopener noreferrer">
-          Message on Teams →
+          Message on Teams {linkArrow}
         </a>
       ) : null}
     </section>
