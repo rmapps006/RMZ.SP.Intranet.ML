@@ -1,12 +1,15 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { getSP } from '../../../common/services/pnpService';
 import { IBenefit } from '../../../common/models';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 interface IRawBenefit {
   Id?: number;
   Title?: string;
+  TitleAR?: string;
   Category?: string;
   Summary?: string;
+  SummaryAR?: string;
 }
 
 /**
@@ -17,19 +20,20 @@ export async function getBenefits(context: WebPartContext, listTitle: string): P
   try {
     const items: IRawBenefit[] = await getSP(context)
       .web.lists.getByTitle(listTitle)
-      .items.select('Id', 'Title', 'Category', 'Summary')
+      .items.select('Id', 'Title', 'TitleAR', 'Category', 'Summary', 'SummaryAR')
       .top(24)();
 
     if (!items || items.length === 0) {
       return [];
     }
 
+    const language = getCurrentLanguage();
     return items.map(
       (it: IRawBenefit): IBenefit => ({
         id: it.Id,
         category: it.Category || '',
-        title: it.Title || '',
-        description: it.Summary || '',
+        title: pickLocalized(it.Title || '', it.TitleAR, language),
+        description: pickLocalized(it.Summary || '', it.SummaryAR, language),
         linkText: 'View Details'
       })
     );

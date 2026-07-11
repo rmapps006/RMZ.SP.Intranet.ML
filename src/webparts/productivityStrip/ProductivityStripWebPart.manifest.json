@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "f2e10b95-0b20-4d1f-9a62-a3bafccee72c",
+  "id": "557e81ac-8baa-4369-99e4-704875841795",
   "alias": "ProductivityStripWebPart",
   "componentType": "WebPart",
   "version": "*",

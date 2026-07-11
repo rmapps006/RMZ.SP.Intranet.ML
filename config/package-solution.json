@@ -1,14 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "Intranet Suite",
-    "id": "4775dea0-79ff-4acf-b3cc-ab985b550610",
+    "name": "RMZ Intranet Suite",
+    "id": "17bb4221-0353-40e2-9fe6-0509ce056699",
     "version": "1.3.2.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": false,
     "isDomainIsolated": false,
     "developer": {
-      "name": "Intranet Suite",
+      "name": "RMZ Intranet Suite",
       "websiteUrl": "",
       "privacyUrl": "",
       "termsOfUseUrl": "",
@@ -45,33 +45,33 @@
     ],
     "features": [
       {
-        "title": "Intranet Suite - Header & Footer",
+        "title": "RMZ Intranet Suite - Header & Footer",
         "description": "Deploys the header/footer application customizer to every page.",
-        "id": "3fd780cb-71c3-45e4-ac55-8455274c1a58",
+        "id": "0b08d894-b9a6-479d-aa50-e8bdbd11c655",
         "version": "1.3.2.0",
         "componentIds": [
-          "c4e5110d-1d14-4170-8db9-987c63c015ac",
-          "d56e274f-e609-47d7-91c1-e49f3fe74c5e",
-          "875c6113-030c-4068-bfb4-b0df80400ddc",
-          "f2e10b95-0b20-4d1f-9a62-a3bafccee72c",
-          "b975901c-fe7c-4efe-8c53-be86d2f9c691",
-          "e34006b6-56c7-4f1d-8cd6-395b909e7549",
-          "d35d3fce-bada-4a3d-b000-f80d534f8583",
-          "577e282d-a89f-48ea-baa8-b303a8865538",
-          "cdc9bdad-043b-4f8e-b1e0-2f7b4454333c",
-          "62faf2e1-930e-4cb8-acf3-6e2690952613",
-          "604a1ad1-9900-4dfe-af74-e3b26e616679",
-          "a49ab41e-0aa5-4b64-a4f9-14b4973d3fa4",
-          "f8f22084-7c6a-4165-a22d-e8c8cd178477",
-          "2fb577bd-e9fd-4a1a-9dd1-db05de8c9431",
-          "9ab0cfae-580a-4296-abe1-85ccf9a5f7a1",
-          "6fa19072-6a57-4112-8c72-e00e48512f51",
-          "843bf446-0b37-4083-8c20-3d0f8343cbbe",
-          "040fdd60-5faf-4821-a644-be801dd2beb7",
-          "c6a4ffba-77e7-4a8c-b460-726ef9dce6f2",
-          "a97c1d88-2379-4fd0-8887-963db1c86f57",
-          "fa5a4c01-9751-44ce-88d2-9ca0a1443cab",
-          "c6324e68-dcc1-469d-86f4-bea2a661e608"
+          "1083fb8f-96fc-49dc-9284-2d77402b58a9",
+          "0ad7b1b8-201e-4b92-9848-aa424526a5e5",
+          "3e7c4714-a45d-44a0-ac9c-2ab7a8320363",
+          "557e81ac-8baa-4369-99e4-704875841795",
+          "71d6cf01-a010-4201-b219-9d6882dcc243",
+          "86a3b1ee-7bbb-4d88-b6a9-b2f65ba2f737",
+          "c14e79ff-8545-4927-a621-244d4f3f6d6e",
+          "dd4fd601-bbc6-4fd5-99ee-e441aa28bc65",
+          "ea634449-8c31-4259-a63f-da400af578fb",
+          "80250f4d-704a-4320-94ea-a7b128cecec0",
+          "775846b4-4cb4-436d-a322-1a67140e0008",
+          "a7feef3f-0fb3-4a16-ba0a-d0568753e880",
+          "4468f15e-baf4-4c96-bca0-0bb11c726268",
+          "736ba5af-a5bb-46c7-93e6-40228c301976",
+          "d6dac7da-2f28-4d88-b6da-bc9188758f50",
+          "8d38e597-4694-4e47-bb4d-7cea17811c54",
+          "96e4d1e9-db96-48aa-9c37-e7212e7f7976",
+          "9d7f23e8-357a-4e0d-8afd-353ad664742d",
+          "282163ef-7520-4ab1-886a-807504da2590",
+          "eff081da-2552-43f8-b174-b5ae62c582d8",
+          "e3f3748b-536f-4ee1-bcf8-0be1a0e71437",
+          "e7767646-0e20-4cd6-ab84-5e2c44f05673"
         ],
         "assets": {
           "elementManifests": [
@@ -82,6 +82,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/intranet-suite.sppkg"
+    "zippedPackage": "solution/rmz-sp-intranet.sppkg"
   }
 }

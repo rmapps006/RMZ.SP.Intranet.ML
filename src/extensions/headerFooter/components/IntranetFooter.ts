@@ -1,17 +1,17 @@
 import styles from './HeaderFooter.module.scss';
 
-export interface IOraFooterOptions {
+export interface IIntranetFooterOptions {
   wordmark: string;
   copyright: string;
   tagline: string;
 }
 
-export class OraFooter {
-  constructor(private readonly options: IOraFooterOptions) {}
+export class IntranetFooter {
+  constructor(private readonly options: IIntranetFooterOptions) {}
 
   public render(container: HTMLElement): void {
     const footer: HTMLElement = document.createElement('div');
-    footer.className = styles.oraFooter;
+    footer.className = styles.intranetFooter;
     footer.setAttribute('role', 'contentinfo');
 
     const logo: HTMLElement = document.createElement('div');

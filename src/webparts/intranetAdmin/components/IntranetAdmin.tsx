@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styles from './OraAdmin.module.scss';
-import { IOraAdminProps } from './IOraAdminProps';
+import styles from './IntranetAdmin.module.scss';
+import { IIntranetAdminProps } from './IIntranetAdminProps';
 import { ProvisioningService, IProvisionResult } from '../services/ProvisioningService';
 import { getSP } from '../../../common/services/pnpService';
 import {
@@ -18,6 +18,8 @@ import {
   PivotItem,
   TextField,
   Toggle,
+  Dropdown,
+  IDropdownOption,
   PrimaryButton,
   DefaultButton,
   IconButton,
@@ -29,7 +31,7 @@ import {
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
-const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
+const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
   const service: SettingsService = React.useMemo(() => new SettingsService(getSP(props.context)), [props.context]);
 
   const [checking, setChecking] = React.useState<boolean>(true);
@@ -266,6 +268,7 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
         {links.map((item, index) => (
           <div className={styles.qlRow} key={`${which}-${index}`}>
             <TextField ariaLabel="Label" placeholder="Label" value={item.label} onChange={(_, v) => updateLink(which, index, { label: v || '' })} styles={{ root: { width: 130 } }} />
+            <TextField ariaLabel="Label (Arabic)" placeholder="Label (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateLink(which, index, { labelAR: v || '' })} styles={{ root: { width: 130 } }} />
             <TextField ariaLabel="Fluent icon name" placeholder="Icon (e.g. Mail)" value={item.icon || ''} onChange={(_, v) => updateLink(which, index, { icon: v || '' })} styles={{ root: { width: 130 } }} />
             <TextField ariaLabel="Short text" placeholder="Abbr" value={item.abbr || ''} onChange={(_, v) => updateLink(which, index, { abbr: v || '' })} styles={{ root: { width: 70 } }} />
             <TextField ariaLabel="URL" placeholder="URL" value={item.url} onChange={(_, v) => updateLink(which, index, { url: v || '' })} styles={{ root: { width: 200 } }} />
@@ -384,6 +387,13 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
                   onChange={(_, v) => updateNav(index, { label: v || '' })}
                 />
                 <TextField
+                  className={styles.navLabel}
+                  ariaLabel="Label (Arabic)"
+                  placeholder="Label (Arabic)"
+                  value={item.labelAR || ''}
+                  onChange={(_, v) => updateNav(index, { labelAR: v || '' })}
+                />
+                <TextField
                   className={styles.navUrl}
                   ariaLabel="URL"
                   value={item.url}
@@ -410,9 +420,20 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
 
           <PivotItem headerText="General">
             <p className={styles.intro}>Header, footer and embedded-portal options applied across the intranet.</p>
+            <h3 className={styles.subTitle}>Language</h3>
+            <Dropdown
+              label="Default language"
+              selectedKey={settings.defaultLanguage}
+              options={[
+                { key: 'en', text: 'English' },
+                { key: 'ar', text: 'Arabic' }
+              ]}
+              onChange={(_, option?: IDropdownOption) => setField('defaultLanguage', (option ? option.key : 'en') as IIntranetSettings['defaultLanguage'])}
+            />
             <h3 className={styles.subTitle}>Branding</h3>
             <p className={styles.intro}>Client name and logo — applied across the portal and every department site (department sites inherit these from here).</p>
             <TextField label="Client name" value={settings.clientName} onChange={(_, v) => setField('clientName', v || '')} />
+            <TextField label="Client name (Arabic)" value={settings.clientNameAR || ''} onChange={(_, v) => setField('clientNameAR', v || '')} />
             <TextField
               label="Logo URL"
               placeholder="e.g. /SiteAssets/logos/client-logo.png — blank uses the built-in logo"
@@ -463,8 +484,11 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
               offText="Hidden"
             />
             <TextField label="Footer copyright" placeholder="Blank = © {year} {client name}. All rights reserved." value={settings.footerCopyright} onChange={(_, v) => setField('footerCopyright', v || '')} />
+            <TextField label="Footer copyright (Arabic)" value={settings.footerCopyrightAR || ''} onChange={(_, v) => setField('footerCopyrightAR', v || '')} />
             <TextField label="Footer tagline" value={settings.footerTagline} onChange={(_, v) => setField('footerTagline', v || '')} />
+            <TextField label="Footer tagline (Arabic)" value={settings.footerTaglineAR || ''} onChange={(_, v) => setField('footerTaglineAR', v || '')} />
             <TextField label="Search placeholder" value={settings.searchPlaceholder} onChange={(_, v) => setField('searchPlaceholder', v || '')} />
+            <TextField label="Search placeholder (Arabic)" value={settings.searchPlaceholderAR || ''} onChange={(_, v) => setField('searchPlaceholderAR', v || '')} />
             <Toggle label="Hide native SharePoint site header" checked={settings.hideSiteHeader} onChange={(_, c) => setField('hideSiteHeader', c === true)} />
             <Toggle label="Hide native site navigation only" checked={settings.hideSiteNav} onChange={(_, c) => setField('hideSiteNav', c === true)} />
             <Toggle label="Hide SharePoint command bar (view mode)" checked={settings.hideCommandBar} onChange={(_, c) => setField('hideCommandBar', c === true)} />
@@ -551,7 +575,7 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
             {settings.directoryDomains.map((item, index) => (
               <div className={styles.qlRow} key={`dom-${index}`}>
                 <TextField ariaLabel="Company label" placeholder="Company (chip label)" value={item.label} onChange={(_, v) => updateDomain(index, { label: v || '' })} styles={{ root: { width: 200 } }} />
-                <TextField ariaLabel="Email domain" placeholder="email domain e.g. ora-uae.com" value={item.domain} onChange={(_, v) => updateDomain(index, { domain: v || '' })} styles={{ root: { width: 260 } }} />
+                <TextField ariaLabel="Email domain" placeholder="email domain e.g. example.com" value={item.domain} onChange={(_, v) => updateDomain(index, { domain: v || '' })} styles={{ root: { width: 260 } }} />
                 <IconButton iconProps={{ iconName: 'Up' }} title="Move up" ariaLabel="Move up" onClick={() => moveDomain(index, -1)} />
                 <IconButton iconProps={{ iconName: 'Down' }} title="Move down" ariaLabel="Move down" onClick={() => moveDomain(index, 1)} />
                 <IconButton iconProps={{ iconName: 'Delete' }} title="Remove" ariaLabel="Remove" onClick={() => removeDomain(index)} />
@@ -586,7 +610,9 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
             {settings.departments.map((item, index) => (
               <div className={styles.qlRow} key={`dept-${index}`}>
                 <TextField ariaLabel="Name" placeholder="Department name" value={item.label} onChange={(_, v) => updateDept(index, { label: v || '' })} styles={{ root: { width: 190 } }} />
+                <TextField ariaLabel="Name (Arabic)" placeholder="Department name (Arabic)" value={item.labelAR || ''} onChange={(_, v) => updateDept(index, { labelAR: v || '' })} styles={{ root: { width: 190 } }} />
                 <TextField ariaLabel="Description" placeholder="Short description" value={item.description} onChange={(_, v) => updateDept(index, { description: v || '' })} styles={{ root: { width: 300 } }} />
+                <TextField ariaLabel="Description (Arabic)" placeholder="Short description (Arabic)" value={item.descriptionAR || ''} onChange={(_, v) => updateDept(index, { descriptionAR: v || '' })} styles={{ root: { width: 300 } }} />
                 <TextField ariaLabel="Site URL" placeholder="/sites/HR" value={item.url} onChange={(_, v) => updateDept(index, { url: v || '' })} styles={{ root: { width: 180 } }} />
                 <TextField ariaLabel="Fluent icon name" placeholder="Icon" value={item.icon || ''} onChange={(_, v) => updateDept(index, { icon: v || '' })} styles={{ root: { width: 120 } }} />
                 <TextField ariaLabel="Accent" placeholder="accent" value={item.accent || ''} onChange={(_, v) => updateDept(index, { accent: v || '' })} styles={{ root: { width: 90 } }} />
@@ -607,4 +633,4 @@ const OraAdmin: React.FunctionComponent<IOraAdminProps> = (props) => {
   );
 };
 
-export default OraAdmin;
+export default IntranetAdmin;

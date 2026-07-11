@@ -38,7 +38,7 @@ function isCurrentPage(linkUrl: string | undefined): boolean {
 
 export const SectionHeader: React.FunctionComponent<ISectionHeaderProps> = (props) => {
   // Global "View All" default from the Admin screen (read synchronously from
-  // cache). The accent colour is themed via the --ora-accent CSS variable that
+  // cache). The accent colour is themed via the --intranet-accent CSS variable that
   // the header/footer extension injects, so it is not handled here.
   const globalShowViewAll: boolean = getCachedSettings().showViewAll !== false;
 

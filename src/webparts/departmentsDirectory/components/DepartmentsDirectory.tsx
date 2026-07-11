@@ -5,6 +5,7 @@ import { IDepartmentsDirectoryProps } from './IDepartmentsDirectoryProps';
 import { SectionHeader } from '../../../common/components/SectionHeader';
 import { InitialsAvatar } from '../../../common/components/InitialsAvatar';
 import { IDepartmentEntry } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 import { useSettings } from '../../../common/services/useSettings';
 import { linkTarget } from '../../../common/util/format';
 
@@ -27,6 +28,7 @@ const DepartmentsDirectory: React.FunctionComponent<IDepartmentsDirectoryProps> 
   // Reactive read: seeds from cache, then fetches + re-renders so the grid never
   // stays empty just because the cache-warming extension hadn't finished yet.
   const settings = useSettings(props.context);
+  const language: Language = getCurrentLanguage();
   const override: IDepartmentEntry[] = parseOverride(props.departmentsJson);
   const departments: IDepartmentEntry[] = (override.length > 0 ? override : settings.departments || []).filter(
     (d) => !!d.label
@@ -42,17 +44,21 @@ const DepartmentsDirectory: React.FunctionComponent<IDepartmentsDirectoryProps> 
         showLink={props.showViewAll}
       />
       <div className={styles.grid}>
-        {departments.map((dept, idx) => (
-          <a className={styles.card} href={dept.url || '#'} key={`${dept.label}-${idx}`} {...linkTarget(settings.openLinksInNewTab)}>
-            <div className={styles.icon} style={{ background: dept.accent || '#f5f3f0' }}>
-              {dept.icon ? <Icon iconName={dept.icon} /> : <InitialsAvatar name={dept.label} size={40} />}
-            </div>
-            <div className={styles.body}>
-              <div className={styles.name}>{dept.label}</div>
-              {dept.description ? <div className={styles.desc}>{dept.description}</div> : null}
-            </div>
-          </a>
-        ))}
+        {departments.map((dept, idx) => {
+          const label: string = pickLocalized(dept.label, dept.labelAR, language);
+          const description: string = pickLocalized(dept.description, dept.descriptionAR, language);
+          return (
+            <a className={styles.card} href={dept.url || '#'} key={`${dept.label}-${idx}`} {...linkTarget(settings.openLinksInNewTab)}>
+              <div className={styles.icon} style={{ background: dept.accent || '#f5f3f0' }}>
+                {dept.icon ? <Icon iconName={dept.icon} /> : <InitialsAvatar name={label} size={40} />}
+              </div>
+              <div className={styles.body}>
+                <div className={styles.name}>{label}</div>
+                {description ? <div className={styles.desc}>{description}</div> : null}
+              </div>
+            </a>
+          );
+        })}
       </div>
     </section>
   );

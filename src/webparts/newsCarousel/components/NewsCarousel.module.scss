@@ -1,8 +1,8 @@
 @import '../../../common/styles/tokens';
 
 .news {
-  @include ora-pad;
-  background: $ora-white;
+  @include intranet-pad;
+  background: $intranet-white;
   font-family: $font-body;
 }
 
@@ -18,13 +18,13 @@
 .ncat {
   font-size: 10px;
   padding: 5px 14px;
-  border: 1px solid $ora-border;
+  border: 1px solid $intranet-border;
   border-radius: 15px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   cursor: pointer;
   letter-spacing: 0.04em;
   transition: all 0.15s;
-  background: $ora-white;
+  background: $intranet-white;
   font-family: $font-body;
   line-height: 1.4;
 
@@ -33,9 +33,9 @@
   }
 
   &.on {
-    background: $ora-dark;
+    background: $intranet-dark;
     color: #fff;
-    border-color: $ora-dark;
+    border-color: $intranet-dark;
   }
 }
 
@@ -51,7 +51,7 @@
 }
 
 .nc {
-  @include ora-card;
+  @include intranet-card;
   overflow: hidden;
   cursor: pointer;
   display: block;
@@ -59,7 +59,7 @@
   transition: box-shadow 0.2s;
 
   &:hover {
-    box-shadow: $ora-shadow-hover;
+    box-shadow: $intranet-shadow-hover;
   }
 }
 
@@ -76,7 +76,7 @@
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: $ora-silver;
+  color: $intranet-silver;
   margin-bottom: 6px;
 }
 
@@ -85,13 +85,13 @@
   font-weight: 300;
   font-size: 15px;
   line-height: 1.42;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin: 0 0 8px;
 }
 
 .ncEx {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   line-height: 1.6;
   margin: 0 0 11px;
 }
@@ -105,7 +105,7 @@
 .ncDt,
 .ncAu {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
 }
 
 .newsNav {
@@ -122,10 +122,10 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: $ora-border;
+  background: $intranet-border;
   cursor: pointer;
 
   &.on {
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
   }
 }

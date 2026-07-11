@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "ora-header-footer-application-customizer": {
+    "header-footer-application-customizer": {
       "components": [
         {
-          "entrypoint": "./lib/extensions/oraHeaderFooter/ORAHeaderFooterApplicationCustomizer.js",
-          "manifest": "./src/extensions/oraHeaderFooter/ORAHeaderFooterApplicationCustomizer.manifest.json"
+          "entrypoint": "./lib/extensions/headerFooter/HeaderFooterApplicationCustomizer.js",
+          "manifest": "./src/extensions/headerFooter/HeaderFooterApplicationCustomizer.manifest.json"
         }
       ]
     },
@@ -82,11 +82,11 @@
         }
       ]
     },
-    "ora-admin-web-part": {
+    "intranet-admin-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/oraAdmin/OraAdminWebPart.js",
-          "manifest": "./src/webparts/oraAdmin/OraAdminWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/intranetAdmin/IntranetAdminWebPart.js",
+          "manifest": "./src/webparts/intranetAdmin/IntranetAdminWebPart.manifest.json"
         }
       ]
     },
@@ -181,7 +181,7 @@
   },
   "externals": {},
   "localizedResources": {
-    "ORAHeaderFooterApplicationCustomizerStrings": "lib/extensions/oraHeaderFooter/loc/{locale}.js",
+    "HeaderFooterApplicationCustomizerStrings": "lib/extensions/headerFooter/loc/{locale}.js",
     "HeroGreetingWebPartStrings": "lib/webparts/heroGreeting/loc/{locale}.js",
     "EmbeddedPortalWebPartStrings": "lib/webparts/embeddedPortal/loc/{locale}.js",
     "ProductivityStripWebPartStrings": "lib/webparts/productivityStrip/loc/{locale}.js",
@@ -191,7 +191,7 @@
     "PoliciesListWebPartStrings": "lib/webparts/policiesList/loc/{locale}.js",
     "SharedDocumentsWebPartStrings": "lib/webparts/sharedDocuments/loc/{locale}.js",
     "EmployeeDirectoryWebPartStrings": "lib/webparts/employeeDirectory/loc/{locale}.js",
-    "OraAdminWebPartStrings": "lib/webparts/oraAdmin/loc/{locale}.js",
+    "IntranetAdminWebPartStrings": "lib/webparts/intranetAdmin/loc/{locale}.js",
     "DepartmentHeroWebPartStrings": "lib/webparts/departmentHero/loc/{locale}.js",
     "DepartmentQuickActionsWebPartStrings": "lib/webparts/departmentQuickActions/loc/{locale}.js",
     "DepartmentDocumentsWebPartStrings": "lib/webparts/departmentDocuments/loc/{locale}.js",

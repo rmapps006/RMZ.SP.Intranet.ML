@@ -18,6 +18,7 @@ import {
   NAV_URL_FIELD,
   NAV_ORDER_FIELD,
   NAV_NEWTAB_FIELD,
+  NAV_LABEL_AR_FIELD,
   DEFAULT_SETTINGS,
   DEFAULT_NAV
 } from '../../../common/services/SettingsService';
@@ -37,9 +38,9 @@ interface IPartDef {
   Name?: string;
 }
 
-const HEADER_FOOTER_COMPONENT_ID: string = 'c4e5110d-1d14-4170-8db9-987c63c015ac';
-const DETAIL_VIEW_COMPONENT_ID: string = 'fa5a4c01-9751-44ce-88d2-9ca0a1443cab';
-const CONTENT_MANAGER_COMPONENT_ID: string = 'c6324e68-dcc1-469d-86f4-bea2a661e608';
+const HEADER_FOOTER_COMPONENT_ID: string = '1083fb8f-96fc-49dc-9284-2d77402b58a9';
+const DETAIL_VIEW_COMPONENT_ID: string = 'e3f3748b-536f-4ee1-bcf8-0be1a0e71437';
+const CONTENT_MANAGER_COMPONENT_ID: string = 'e7767646-0e20-4cd6-ab84-5e2c44f05673';
 
 const HEADER_FOOTER_PROPERTIES: string = JSON.stringify({
   navItems: [
@@ -95,6 +96,10 @@ export class ProvisioningService {
           'HR'
         ]);
         await this._ensureMultilineField(listTitle, 'Description');
+        // Arabic translations — same content, rendered when the visitor's language is Arabic.
+        await this._ensureTextField(listTitle, 'TitleAR');
+        await this._ensureTextField(listTitle, 'LocationAR');
+        await this._ensureMultilineField(listTitle, 'DescriptionAR');
       })
     );
 
@@ -111,6 +116,8 @@ export class ProvisioningService {
           'Legal'
         ]);
         await this._ensureTextField(listTitle, 'PolicyVersion');
+        // Arabic translation of the policy title (the version/department taxonomy stays English).
+        await this._ensureTextField(listTitle, 'TitleAR');
       })
     );
 
@@ -128,6 +135,10 @@ export class ProvisioningService {
         // Paste a hosted image URL here to show a picture on the news card.
         await this._ensureTextField(listTitle, 'ImageUrl');
         await this._ensureMultilineField(listTitle, 'Body');
+        // Arabic translations — same content, rendered when the visitor's language is Arabic.
+        await this._ensureTextField(listTitle, 'TitleAR');
+        await this._ensureTextField(listTitle, 'SourceAR');
+        await this._ensureMultilineField(listTitle, 'BodyAR');
       })
     );
 
@@ -145,6 +156,12 @@ export class ProvisioningService {
         await this._ensureTextField(listTitle, 'Eligibility');
         await this._ensureTextField(listTitle, 'Coverage');
         await this._ensureMultilineField(listTitle, 'Details');
+        // Arabic translations — same content, rendered when the visitor's language is Arabic.
+        await this._ensureTextField(listTitle, 'TitleAR');
+        await this._ensureTextField(listTitle, 'SummaryAR');
+        await this._ensureTextField(listTitle, 'EligibilityAR');
+        await this._ensureTextField(listTitle, 'CoverageAR');
+        await this._ensureMultilineField(listTitle, 'DetailsAR');
       })
     );
 
@@ -337,8 +354,8 @@ export class ProvisioningService {
       // ClientSideComponentId/Properties are accepted by the REST API but are not
       // part of the PnP IUserCustomActionInfo type, so cast through unknown.
       const action: Record<string, string> = {
-        Title: 'ORAHeaderFooter',
-        Name: 'ORAHeaderFooter',
+        Title: 'IntranetHeaderFooter',
+        Name: 'IntranetHeaderFooter',
         Location: 'ClientSideExtension.ApplicationCustomizer',
         ClientSideComponentId: HEADER_FOOTER_COMPONENT_ID,
         ClientSideComponentProperties: HEADER_FOOTER_PROPERTIES
@@ -408,12 +425,16 @@ export class ProvisioningService {
       if (!(await this._fieldExists(NAV_LIST, NAV_NEWTAB_FIELD))) {
         await this.sp.web.lists.getByTitle(NAV_LIST).fields.addBoolean(NAV_NEWTAB_FIELD);
       }
+      if (!(await this._fieldExists(NAV_LIST, NAV_LABEL_AR_FIELD))) {
+        await this.sp.web.lists.getByTitle(NAV_LIST).fields.addText(NAV_LABEL_AR_FIELD);
+      }
       const count: number = (await this.sp.web.lists.getByTitle(NAV_LIST).items.top(1)()).length;
       if (count === 0) {
         let order: number = 1;
         for (const link of DEFAULT_NAV) {
           await this.sp.web.lists.getByTitle(NAV_LIST).items.add({
             Title: link.label,
+            [NAV_LABEL_AR_FIELD]: link.labelAR || '',
             [NAV_URL_FIELD]: link.url,
             [NAV_ORDER_FIELD]: order,
             [NAV_NEWTAB_FIELD]: link.newTab
@@ -451,25 +472,25 @@ export class ProvisioningService {
       {
         file: 'News',
         title: 'News & Announcements',
-        partId: 'b975901c-fe7c-4efe-8c53-be86d2f9c691',
+        partId: '71d6cf01-a010-4201-b219-9d6882dcc243',
         props: { newsList: options.newsList, archiveUrl: '', maxItems: 24, showTitle: true, showViewAll: false }
       },
       {
         file: 'Events',
         title: 'Company Events',
-        partId: 'e34006b6-56c7-4f1d-8cd6-395b909e7549',
+        partId: '86a3b1ee-7bbb-4d88-b6a9-b2f65ba2f737',
         props: { eventsList: options.eventsList, calendarUrl: '', maxItems: '24', showTitle: true, showViewAll: false }
       },
       {
         file: 'Directory',
         title: 'Employee Directory',
-        partId: '62faf2e1-930e-4cb8-acf3-6e2690952613',
+        partId: '80250f4d-704a-4320-94ea-a7b128cecec0',
         props: { fullDirectoryUrl: '', pageSize: 100, showTitle: true, showViewAll: false }
       },
       {
         file: 'Policies',
         title: 'Policies & Procedures',
-        partId: '577e282d-a89f-48ea-baa8-b303a8865538',
+        partId: 'dd4fd601-bbc6-4fd5-99ee-e441aa28bc65',
         props: { policiesList: options.policiesList, allPoliciesUrl: '', showTitle: true, showViewAll: false }
       },
       {

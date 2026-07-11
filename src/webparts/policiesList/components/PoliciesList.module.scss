@@ -1,8 +1,8 @@
 @import '../../../common/styles/tokens';
 
 .policies {
-  @include ora-pad;
-  background: $ora-white;
+  @include intranet-pad;
+  background: $intranet-white;
   font-family: $font-body;
 }
 
@@ -18,8 +18,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
   padding: 9px 16px;
   width: 300px;
@@ -32,7 +32,7 @@
   input {
     font-family: $font-body;
     font-size: 12px;
-    color: $ora-text-2;
+    color: $intranet-text-2;
     background: none;
     border: none;
     outline: none;
@@ -49,13 +49,13 @@
 .chip {
   font-size: 10px;
   padding: 5px 13px;
-  border: 1px solid $ora-border;
+  border: 1px solid $intranet-border;
   border-radius: 15px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   cursor: pointer;
   letter-spacing: 0.04em;
   transition: all 0.15s;
-  background: $ora-white;
+  background: $intranet-white;
 
   &:hover:not(.on) {
     border-color: rgba(227, 203, 168, 0.6);
@@ -63,17 +63,17 @@
 }
 
 .on {
-  background: $ora-dark;
+  background: $intranet-dark;
   color: #fff;
-  border-color: $ora-dark;
+  border-color: $intranet-dark;
 }
 
 .table {
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
   overflow: hidden;
-  box-shadow: $ora-shadow;
+  box-shadow: $intranet-shadow;
 }
 
 .hrow,
@@ -91,7 +91,7 @@
 
 .hrow {
   padding: 12px 22px;
-  border-bottom: 1px solid $ora-border;
+  border-bottom: 1px solid $intranet-border;
   background: #faf8f5;
 
   @media (max-width: 700px) {
@@ -103,7 +103,7 @@
   font-size: 9px;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   font-weight: 600;
 }
 
@@ -118,7 +118,7 @@
   }
 
   &:hover {
-    background: $ora-bg;
+    background: $intranet-bg;
   }
 
   @media (max-width: 700px) {
@@ -146,7 +146,7 @@
 
 .nm {
   font-size: 12px;
-  color: $ora-dark;
+  color: $intranet-dark;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -163,12 +163,12 @@
 
 .date {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
 }
 
 .ver {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.04em;
 }
@@ -189,7 +189,7 @@
 
 .pdf {
   background: rgba(234, 139, 110, 0.12);
-  color: $ora-sun;
+  color: $intranet-sun;
 }
 
 .doc {
@@ -205,6 +205,6 @@
 .empty {
   padding: 24px 22px;
   font-size: 12px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   text-align: center;
 }

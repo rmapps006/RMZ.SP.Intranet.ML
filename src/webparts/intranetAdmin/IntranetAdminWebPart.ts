@@ -8,11 +8,11 @@ import {
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
-import * as strings from 'OraAdminWebPartStrings';
-import OraAdmin from './components/OraAdmin';
-import { IOraAdminProps } from './components/IOraAdminProps';
+import * as strings from 'IntranetAdminWebPartStrings';
+import IntranetAdmin from './components/IntranetAdmin';
+import { IIntranetAdminProps } from './components/IIntranetAdminProps';
 
-export interface IOraAdminWebPartProps {
+export interface IIntranetAdminWebPartProps {
   eventsList: string;
   policiesList: string;
   newsList: string;
@@ -25,9 +25,9 @@ export interface IOraAdminWebPartProps {
   createViewAllPages: boolean;
 }
 
-export default class OraAdminWebPart extends BaseClientSideWebPart<IOraAdminWebPartProps> {
+export default class IntranetAdminWebPart extends BaseClientSideWebPart<IIntranetAdminWebPartProps> {
   public render(): void {
-    const element: React.ReactElement<IOraAdminProps> = React.createElement(OraAdmin, {
+    const element: React.ReactElement<IIntranetAdminProps> = React.createElement(IntranetAdmin, {
       context: this.context,
       eventsList: this.properties.eventsList || 'Events',
       policiesList: this.properties.policiesList || 'Policies',

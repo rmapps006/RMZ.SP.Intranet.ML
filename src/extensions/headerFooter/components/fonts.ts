@@ -1,7 +1,7 @@
 import { RALEWAY_WOFF2_BASE64, PUBLIC_SANS_WOFF2_BASE64 } from './fontData';
 
 /**
- * Loads the ORA brand fonts (Raleway + Public Sans) from woff2 data BUNDLED
+ * Loads the Intranet brand fonts (Raleway + Public Sans) from woff2 data BUNDLED
  * inside the solution — no external CDN dependency.
  *
  * Both families are variable fonts, so a single woff2 per family covers the
@@ -9,7 +9,7 @@ import { RALEWAY_WOFF2_BASE64, PUBLIC_SANS_WOFF2_BASE64 } from './fontData';
  * The fonts are embedded as base64 data URIs (see fontData.ts) and injected
  * once per page via a <style> element.
  */
-const FONTS_MARKER: string = 'ora-brand-fonts';
+const FONTS_MARKER: string = 'intranet-brand-fonts';
 
 function dataUri(base64: string): string {
   return `data:font/woff2;base64,${base64}`;

@@ -1,12 +1,12 @@
 {
   "@microsoft/generator-sharepoint": {
     "version": "1.22.1",
-    "libraryName": "intranet-suite",
-    "libraryId": "4775dea0-79ff-4acf-b3cc-ab985b550610",
+    "libraryName": "rmz-sp-intranet",
+    "libraryId": "17bb4221-0353-40e2-9fe6-0509ce056699",
     "environment": "spo",
     "packageManager": "npm",
-    "solutionName": "intranet-suite",
-    "solutionShortDescription": "Intranet Suite - global header & footer and intranet web parts",
+    "solutionName": "rmz-sp-intranet",
+    "solutionShortDescription": "RMZ Intranet Suite - global header & footer and intranet web parts",
     "skipFeatureDeployment": false,
     "isCreatingSolution": true,
     "nodeVersion": "22.22.2",

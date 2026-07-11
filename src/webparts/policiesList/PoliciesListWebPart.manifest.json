@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "577e282d-a89f-48ea-baa8-b303a8865538",
+  "id": "dd4fd601-bbc6-4fd5-99ee-e441aa28bc65",
   "alias": "PoliciesListWebPart",
   "componentType": "WebPart",
   "version": "*",

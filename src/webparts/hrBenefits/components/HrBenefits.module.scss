@@ -1,8 +1,8 @@
 @import '../../../common/styles/tokens';
 
 .benefits {
-  @include ora-pad;
-  background: $ora-white;
+  @include intranet-pad;
+  background: $intranet-white;
   font-family: $font-body;
 }
 
@@ -18,11 +18,11 @@
 }
 
 .card {
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
   padding: 22px 20px;
-  box-shadow: $ora-shadow;
+  box-shadow: $intranet-shadow;
   cursor: pointer;
   transition: box-shadow 0.2s;
   position: relative;
@@ -39,7 +39,7 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -54,7 +54,7 @@
   width: 34px;
   height: 34px;
   margin-bottom: 13px;
-  color: $ora-silver;
+  color: $intranet-silver;
 
   svg {
     display: block;
@@ -67,7 +67,7 @@
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: $ora-silver;
+  color: $intranet-silver;
   margin-bottom: 6px;
 }
 
@@ -75,24 +75,24 @@
   font-family: $font-head;
   font-weight: 300;
   font-size: 15px;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin-bottom: 8px;
   line-height: 1.3;
 }
 
 .desc {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   line-height: 1.62;
   margin-bottom: 12px;
 }
 
 .lnk {
   font-size: 10px;
-  color: $ora-dark;
+  color: $intranet-dark;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--ora-accent, #{$ora-sand});
+  border-bottom: 1px solid var(--intranet-accent, #{$intranet-sand});
   display: inline-block;
   padding-bottom: 1px;
   text-decoration: none;

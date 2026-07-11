@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from './DepartmentQuickActions.module.scss';
 import { IDepartmentQuickActionsProps } from './IDepartmentQuickActionsProps';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 
 interface IQuickAction {
   label: string;
@@ -72,10 +73,11 @@ function parseActions(json: string): IQuickAction[] {
 const DepartmentQuickActions: React.FunctionComponent<IDepartmentQuickActionsProps> = (props) => {
   // Property-pane JSON wins; otherwise use the central Department Admin quick links.
   const ds = useDepartmentSettings(props.context);
+  const language: Language = getCurrentLanguage();
   const actions: IQuickAction[] =
     props.actionsJson && props.actionsJson.trim().length > 0
       ? parseActions(props.actionsJson)
-      : (ds.quickActions || []).map((a) => ({ label: a.label || '', url: a.url || '' }));
+      : (ds.quickActions || []).map((a) => ({ label: pickLocalized(a.label || '', a.labelAR, language), url: a.url || '' }));
 
   return (
     <section className={styles.qaStrip}>

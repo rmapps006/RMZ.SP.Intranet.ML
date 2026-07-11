@@ -3,13 +3,15 @@ import styles from './DepartmentHero.module.scss';
 import { IDepartmentHeroProps } from './IDepartmentHeroProps';
 import { InitialsAvatar } from '../../../common/components/InitialsAvatar';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 
 const DepartmentHero: React.FunctionComponent<IDepartmentHeroProps> = (props) => {
   // Property-pane values win; otherwise fall back to the central Department Admin settings.
   const ds = useDepartmentSettings(props.context);
-  const eyebrow: string = props.eyebrow || ds.eyebrow;
-  const departmentName: string = props.departmentName || ds.departmentName;
-  const description: string = props.description || ds.description;
+  const language: Language = getCurrentLanguage();
+  const eyebrow: string = props.eyebrow || pickLocalized(ds.eyebrow, ds.eyebrowAR, language);
+  const departmentName: string = props.departmentName || pickLocalized(ds.departmentName, ds.departmentNameAR, language);
+  const description: string = props.description || pickLocalized(ds.description, ds.descriptionAR, language);
   const ownerName: string = props.ownerName || ds.ownerName;
   const ownerRole: string = props.ownerRole || ds.ownerRole;
 

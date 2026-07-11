@@ -10,10 +10,10 @@ import { ClientsideWebpart } from '@pnp/sp/clientside-pages';
 import { PermissionKind } from '@pnp/sp/security';
 import { IUserCustomActionInfo } from '@pnp/sp/user-custom-actions';
 
-/** Component ID of the ORAHeaderFooter application customizer (shared with the main site). */
-const HEADER_FOOTER_COMPONENT_ID: string = 'c4e5110d-1d14-4170-8db9-987c63c015ac';
+/** Component ID of the IntranetHeaderFooter application customizer (shared with the main site). */
+const HEADER_FOOTER_COMPONENT_ID: string = '1083fb8f-96fc-49dc-9284-2d77402b58a9';
 /** Component ID of the Content Manager web part (contributor dashboard). */
-const CONTENT_MANAGER_COMPONENT_ID: string = 'c6324e68-dcc1-469d-86f4-bea2a661e608';
+const CONTENT_MANAGER_COMPONENT_ID: string = 'e7767646-0e20-4cd6-ab84-5e2c44f05673';
 
 /** Minimal shape of a client-side web part definition from getClientsideWebParts. */
 interface IPartDef {
@@ -31,6 +31,7 @@ export const DEPT_SETTINGS_VALUE_FIELD: string = 'SettingValue';
 /** A single quick-link button shown in the department Quick Links row. */
 export interface IDepartmentQuickAction {
   label: string;
+  labelAR?: string;
   url: string;
 }
 
@@ -45,8 +46,11 @@ export interface IDepartmentSettings {
   mainSiteUrl: string;
   // Hero
   departmentName: string;
+  departmentNameAR?: string;
   eyebrow: string;
+  eyebrowAR?: string;
   description: string;
+  descriptionAR?: string;
   ownerName: string;
   ownerRole: string;
   // Quick Links row (Forms / Documents / Events …)
@@ -73,14 +77,17 @@ export interface IDepartmentSettings {
 export const DEFAULT_DEPARTMENT_SETTINGS: IDepartmentSettings = {
   mainSiteUrl: '',
   departmentName: '',
+  departmentNameAR: '',
   eyebrow: 'Department',
+  eyebrowAR: '',
   description: '',
+  descriptionAR: '',
   ownerName: '',
   ownerRole: '',
   quickActions: [
-    { label: 'Forms', url: '' },
-    { label: 'Documents', url: '' },
-    { label: 'Events', url: '' }
+    { label: 'Forms', labelAR: 'النماذج', url: '' },
+    { label: 'Documents', labelAR: 'المستندات', url: '' },
+    { label: 'Events', labelAR: 'الفعاليات', url: '' }
   ],
   newsList: 'News',
   allNewsUrl: '',
@@ -97,7 +104,7 @@ export const DEFAULT_DEPARTMENT_SETTINGS: IDepartmentSettings = {
 };
 
 const CACHE_TTL_MS: number = 120000; // 2 minutes
-const DEPT_CACHE_KEY: string = 'ora.deptsettings.v1';
+const DEPT_CACHE_KEY: string = 'intranet.deptsettings.v1';
 
 interface ICacheEnvelope<T> {
   ts: number;
@@ -181,7 +188,7 @@ export class DepartmentSettingsService {
       exists = false;
     }
     if (!exists) {
-      await this.sp.web.lists.add(DEPT_SETTINGS_LIST, 'ORA department configuration (managed by Department Admin).', 100, false, {
+      await this.sp.web.lists.add(DEPT_SETTINGS_LIST, 'Department configuration (managed by Department Admin).', 100, false, {
         Hidden: true,
         OnQuickLaunch: false
       });
@@ -193,7 +200,7 @@ export class DepartmentSettingsService {
   }
 
   /**
-   * Registers the ORA header/footer application customizer on this (department)
+   * Registers the Intranet header/footer application customizer on this (department)
    * site so it renders the shared navigation/header/footer. Idempotent — skips
    * if already registered. Returns true if it newly registered.
    */
@@ -208,8 +215,8 @@ export class DepartmentSettingsService {
     // ClientSideComponentId/Properties are accepted by the REST API but are not
     // part of the PnP IUserCustomActionInfo type, so cast through unknown.
     const action: Record<string, string> = {
-      Title: 'ORAHeaderFooter',
-      Name: 'ORAHeaderFooter',
+      Title: 'IntranetHeaderFooter',
+      Name: 'IntranetHeaderFooter',
       Location: 'ClientSideExtension.ApplicationCustomizer',
       ClientSideComponentId: HEADER_FOOTER_COMPONENT_ID,
       ClientSideComponentProperties: '{}'
@@ -277,6 +284,10 @@ export class DepartmentSettingsService {
     // Paste a hosted image URL here to show a picture on the news card.
     await this.ensureField(newsList, 'ImageUrl', () => news.fields.addText('ImageUrl', { MaxLength: 500 }));
     await this.ensureField(newsList, 'Body', () => news.fields.addMultilineText('Body', { RichText: true }));
+    // Arabic translations — same content, rendered when the visitor's language is Arabic.
+    await this.ensureField(newsList, 'TitleAR', () => news.fields.addText('TitleAR'));
+    await this.ensureField(newsList, 'SourceAR', () => news.fields.addText('SourceAR'));
+    await this.ensureField(newsList, 'BodyAR', () => news.fields.addMultilineText('BodyAR', { RichText: true }));
 
     await this.ensureContentList(eventsList, 100);
     const events = this.sp.web.lists.getByTitle(eventsList);
@@ -285,6 +296,10 @@ export class DepartmentSettingsService {
     await this.ensureField(eventsList, 'Location', () => events.fields.addText('Location'));
     await this.ensureField(eventsList, 'Category', () => events.fields.addChoice('Category', { Choices: ['Town Hall', 'Learning', 'Wellness', 'Training', 'General'] }));
     await this.ensureField(eventsList, 'Description', () => events.fields.addMultilineText('Description', { RichText: true }));
+    // Arabic translations — same content, rendered when the visitor's language is Arabic.
+    await this.ensureField(eventsList, 'TitleAR', () => events.fields.addText('TitleAR'));
+    await this.ensureField(eventsList, 'LocationAR', () => events.fields.addText('LocationAR'));
+    await this.ensureField(eventsList, 'DescriptionAR', () => events.fields.addMultilineText('DescriptionAR', { RichText: true }));
 
     await this.ensureContentList(formsLib, 101);
     await this.ensureContentList(docsLib, 101);

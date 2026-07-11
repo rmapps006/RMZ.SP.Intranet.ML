@@ -1,8 +1,8 @@
 @import '../../../common/styles/tokens';
 
 .prod {
-  background: $ora-white;
-  border-bottom: 1px solid $ora-border;
+  background: $intranet-white;
+  border-bottom: 1px solid $intranet-border;
   padding: 22px 60px;
   position: relative;
   font-family: $font-body;
@@ -25,8 +25,8 @@
 }
 
 .pc {
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
   padding: 18px 22px;
   position: relative;
@@ -36,7 +36,7 @@
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   margin-bottom: 11px;
 }
 
@@ -50,19 +50,19 @@
   font-family: $font-head;
   font-size: 15px;
   font-weight: 400;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin-bottom: 3px;
 }
 
 .pcRole {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   margin-bottom: 2px;
 }
 
 .pcDept {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
 }
 
 .calTop {
@@ -76,19 +76,19 @@
   font-family: $font-head;
   font-weight: 100;
   font-size: 38px;
-  color: $ora-dark;
+  color: $intranet-dark;
   line-height: 1;
 }
 
 .calDn {
   font-size: 13px;
   font-weight: 500;
-  color: $ora-dark;
+  color: $intranet-dark;
 }
 
 .calMo {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   letter-spacing: 0.06em;
 }
 
@@ -97,21 +97,21 @@
   align-items: center;
   gap: 10px;
   padding: 6px 0;
-  border-top: 1px solid $ora-border;
+  border-top: 1px solid $intranet-border;
   font-size: 12px;
-  color: $ora-dark;
+  color: $intranet-dark;
 }
 
 .calEmpty {
-  border-top: 1px solid $ora-border;
+  border-top: 1px solid $intranet-border;
   padding: 14px 0 2px;
   font-size: 12px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
 }
 
 .calT {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   width: 42px;
   flex-shrink: 0;
 }
@@ -141,8 +141,8 @@
   align-items: center;
   gap: 11px;
   padding: 20px 10px;
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 12px;
   cursor: pointer;
   text-decoration: none;
@@ -150,7 +150,7 @@
 
   &:hover {
     transform: translateY(-3px);
-    border-color: var(--ora-accent, #{$ora-sand});
+    border-color: var(--intranet-accent, #{$intranet-sand});
     box-shadow: 0 8px 20px rgba(38, 38, 38, 0.1);
   }
 }
@@ -183,7 +183,7 @@
 .qlLb {
   font-size: 12px;
   font-weight: 600;
-  color: $ora-text-1;
+  color: $intranet-text-1;
   text-align: center;
   letter-spacing: 0.01em;
 }

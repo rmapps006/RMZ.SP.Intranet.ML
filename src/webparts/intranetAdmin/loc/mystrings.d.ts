@@ -1,4 +1,4 @@
-declare interface IOraAdminWebPartStrings {
+declare interface IIntranetAdminWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   EventsListLabel: string;
@@ -12,7 +12,7 @@ declare interface IOraAdminWebPartStrings {
   SeedSampleDataLabel: string;
 }
 
-declare module 'OraAdminWebPartStrings' {
-  const strings: IOraAdminWebPartStrings;
+declare module 'IntranetAdminWebPartStrings' {
+  const strings: IIntranetAdminWebPartStrings;
   export = strings;
 }

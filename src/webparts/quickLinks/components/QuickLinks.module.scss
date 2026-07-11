@@ -1,7 +1,7 @@
 @import '../../../common/styles/tokens';
 
 .quickLinks {
-  @include ora-pad;
+  @include intranet-pad;
   font-family: $font-body;
 }
 
@@ -25,16 +25,16 @@
   align-items: center;
   gap: 8px;
   padding: 16px 8px;
-  border: 1px solid $ora-border;
+  border: 1px solid $intranet-border;
   border-radius: 4px;
-  background: $ora-white;
+  background: $intranet-white;
   text-decoration: none;
   transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
 
   &:hover {
-    box-shadow: $ora-shadow;
+    box-shadow: $intranet-shadow;
     transform: translateY(-2px);
-    border-color: var(--ora-accent, #{$ora-sand});
+    border-color: var(--intranet-accent, #{$intranet-sand});
   }
 }
 
@@ -59,6 +59,6 @@
 
 .label {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   text-align: center;
 }

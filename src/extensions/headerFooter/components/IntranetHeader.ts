@@ -1,5 +1,6 @@
 import styles from './HeaderFooter.module.scss';
 import { ICurrentUser } from '../services/GraphUserService';
+import { Language } from '../../../common/services/languageService';
 
 export interface INavItem {
   label: string;
@@ -7,7 +8,7 @@ export interface INavItem {
   newTab?: boolean;
 }
 
-export interface IOraHeaderOptions {
+export interface IIntranetHeaderOptions {
   navItems: INavItem[];
   searchPlaceholder: string;
   searchAriaLabel: string;
@@ -19,6 +20,10 @@ export interface IOraHeaderOptions {
   webAbsoluteUrl: string;
   currentPath: string;
   user: ICurrentUser;
+  /** Active display language — used to label/drive the language toggle. */
+  language: Language;
+  /** Invoked when the visitor clicks the language toggle (switches en <-> ar). */
+  onLanguageToggle: () => void;
 }
 
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -56,11 +61,11 @@ function isActive(itemUrl: string, currentPath: string): boolean {
   return path === target || path.indexOf(target) === 0;
 }
 
-export class OraHeader {
-  constructor(private readonly options: IOraHeaderOptions) {}
+export class IntranetHeader {
+  constructor(private readonly options: IIntranetHeaderOptions) {}
 
   public render(container: HTMLElement): void {
-    const header: HTMLElement = el('div', styles.oraHeader);
+    const header: HTMLElement = el('div', styles.intranetHeader);
     header.setAttribute('role', 'banner');
 
     header.appendChild(el('div', styles.accentBar));
@@ -122,8 +127,11 @@ export class OraHeader {
   private renderUser(): HTMLElement {
     const fragment: HTMLElement = el('div', styles.logo);
     fragment.style.flexShrink = '0';
-    // Search/bell removed — pin the profile block to the right edge.
-    fragment.style.marginLeft = 'auto';
+    // Search/bell removed — pin the profile block to the trailing edge (right in
+    // LTR, left in RTL — margin-inline-start respects the document's dir).
+    fragment.style.marginInlineStart = 'auto';
+
+    fragment.appendChild(this.renderLanguageToggle());
 
     const avatar: HTMLElement = el('div', styles.avatar, this.options.user.initials);
     avatar.setAttribute('aria-hidden', 'true');
@@ -131,5 +139,17 @@ export class OraHeader {
 
     fragment.appendChild(el('span', styles.profName, this.options.user.displayName));
     return fragment;
+  }
+
+  /** English/Arabic switch — labelled with the language it switches *to*. */
+  private renderLanguageToggle(): HTMLElement {
+    const isArabic: boolean = this.options.language === 'ar';
+    const button: HTMLButtonElement = document.createElement('button');
+    button.type = 'button';
+    button.className = styles.langToggle;
+    button.textContent = isArabic ? 'English' : 'العربية';
+    button.setAttribute('aria-label', isArabic ? 'Switch to English' : 'التبديل إلى العربية');
+    button.addEventListener('click', () => this.options.onLanguageToggle());
+    return button;
   }
 }

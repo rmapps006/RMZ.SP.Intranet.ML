@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "e34006b6-56c7-4f1d-8cd6-395b909e7549",
+  "id": "86a3b1ee-7bbb-4d88-b6a9-b2f65ba2f737",
   "alias": "EventsListWebPart",
   "componentType": "WebPart",
   "version": "*",

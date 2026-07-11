@@ -8,9 +8,11 @@ import { imageFieldUrl } from '../util/format';
 export interface IRawNewsItem {
   Id?: number;
   Title?: string;
+  TitleAR?: string;
   Category?: string;
   NewsDate?: string;
   Source?: string;
+  SourceAR?: string;
   LinkUrl?: string;
   ImageUrl?: string;
   Created?: string;
@@ -23,7 +25,7 @@ export interface IRawNewsItem {
  */
 export async function readNewsRaw(context: WebPartContext, listTitle: string, top: number): Promise<IRawNewsItem[]> {
   const list = getSP(context).web.lists.getByTitle(listTitle);
-  const base: string[] = ['Id', 'Title', 'Category', 'NewsDate', 'Source', 'LinkUrl', 'Created'];
+  const base: string[] = ['Id', 'Title', 'TitleAR', 'Category', 'NewsDate', 'Source', 'SourceAR', 'LinkUrl', 'Created'];
   const attempts: string[][] = [[...base, 'ImageUrl'], base];
   for (let i = 0; i < attempts.length; i++) {
     try {

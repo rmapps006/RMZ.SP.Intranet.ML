@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "b975901c-fe7c-4efe-8c53-be86d2f9c691",
+  "id": "71d6cf01-a010-4201-b219-9d6882dcc243",
   "alias": "NewsCarouselWebPart",
   "componentType": "WebPart",
   "version": "*",

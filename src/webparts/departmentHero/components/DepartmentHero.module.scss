@@ -52,7 +52,7 @@
   font-weight: 400;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--ora-accent, #{$ora-sand});
+  color: var(--intranet-accent, #{$intranet-sand});
   margin-bottom: 12px;
 }
 
@@ -73,7 +73,7 @@
 .deptRule {
   width: 40px;
   height: 1px;
-  background: var(--ora-accent, #{$ora-sand});
+  background: var(--intranet-accent, #{$intranet-sand});
   margin-bottom: 14px;
 }
 

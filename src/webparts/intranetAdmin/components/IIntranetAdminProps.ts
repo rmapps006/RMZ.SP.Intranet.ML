@@ -1,6 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 
-export interface IOraAdminProps {
+export interface IIntranetAdminProps {
   context: WebPartContext;
   eventsList: string;
   policiesList: string;

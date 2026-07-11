@@ -1,30 +1,30 @@
-// ORA UAE design tokens (from design/v1-homepage.html :root)
-$ora-white: #ffffff;
-$ora-silver: #b5b5b5;
-$ora-sand: #e3cba8;
-$ora-sand-dark: var(--ora-accent-dark, #c4a880);
-$ora-dark: #262626;
-$ora-sun: #ea8b6e;
-$ora-ocean: #a4e0e6;
-$ora-bg: #fafaf8;
-$ora-border: rgba(181, 181, 181, 0.26);
-$ora-text-1: #262626;
-$ora-text-2: #8a8682;
-$ora-text-muted: #b5b5b5;
-$ora-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
-$ora-search-bg: #f3f1ed;
-$font-head: var(--ora-font-head, 'Raleway', 'Segoe UI', sans-serif);
-$font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
+// Intranet design tokens (from design/v1-homepage.html :root)
+$intranet-white: #ffffff;
+$intranet-silver: #b5b5b5;
+$intranet-sand: #e3cba8;
+$intranet-sand-dark: var(--intranet-accent-dark, #c4a880);
+$intranet-dark: #262626;
+$intranet-sun: #ea8b6e;
+$intranet-ocean: #a4e0e6;
+$intranet-bg: #fafaf8;
+$intranet-border: rgba(181, 181, 181, 0.26);
+$intranet-text-1: #262626;
+$intranet-text-2: #8a8682;
+$intranet-text-muted: #b5b5b5;
+$intranet-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
+$intranet-search-bg: #f3f1ed;
+$font-head: var(--intranet-font-head, 'Raleway', 'Segoe UI', sans-serif);
+$font-body: var(--intranet-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 
 // Bundled web fonts are loaded by the extension at runtime (see fonts.ts).
 
 /* ====================== HEADER ====================== */
-.oraHeader {
+.intranetHeader {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: $ora-white;
-  border-bottom: 1px solid $ora-border;
+  background: $intranet-white;
+  border-bottom: 1px solid $intranet-border;
   font-family: $font-body;
   box-sizing: border-box;
 
@@ -37,7 +37,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 .accentBar {
   height: 3px;
   width: 100%;
-  background: linear-gradient(90deg, var(--ora-accent, #{$ora-sand}) 0%, rgba(227, 203, 168, 0.3) 100%);
+  background: linear-gradient(90deg, var(--intranet-accent, #{$intranet-sand}) 0%, rgba(227, 203, 168, 0.3) 100%);
 }
 
 .inner {
@@ -61,7 +61,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   }
 
   &:hover .logoSub {
-    color: var(--ora-accent, #{$ora-sand});
+    color: var(--intranet-accent, #{$intranet-sand});
   }
 }
 
@@ -76,7 +76,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   font-weight: 500;
   font-size: 13px;
   letter-spacing: 0.26em;
-  color: $ora-text-1;
+  color: $intranet-text-1;
   text-transform: uppercase;
   transition: color 0.16s ease;
 }
@@ -87,8 +87,8 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   background: linear-gradient(
     to bottom,
     transparent,
-    var(--ora-accent, #{$ora-sand}) 25%,
-    var(--ora-accent, #{$ora-sand}) 75%,
+    var(--intranet-accent, #{$intranet-sand}) 25%,
+    var(--intranet-accent, #{$intranet-sand}) 75%,
     transparent
   );
   margin: 0 20px;
@@ -104,7 +104,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   position: relative;
   font-size: 13px;
   font-weight: 500;
-  color: $ora-text-1;
+  color: $intranet-text-1;
   text-decoration: none;
   padding: 0 16px;
   height: 64px;
@@ -125,7 +125,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
     bottom: 16px;
     height: 2px;
     border-radius: 2px;
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
     transform: scaleX(0);
     transform-origin: center;
     transition: transform 0.18s ease;
@@ -133,7 +133,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 
   &:hover,
   &:focus-visible {
-    color: $ora-dark;
+    color: $intranet-dark;
     text-decoration: none;
     background: rgba(38, 38, 38, 0.04);
   }
@@ -145,7 +145,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 }
 
 .navLinkActive {
-  color: $ora-dark;
+  color: $intranet-dark;
   font-weight: 600;
 
   &::after {
@@ -161,12 +161,12 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   display: flex;
   align-items: center;
   gap: 8px;
-  background: $ora-search-bg;
-  border: 1px solid $ora-border;
+  background: $intranet-search-bg;
+  border: 1px solid $intranet-border;
   border-radius: 18px;
   padding: 7px 16px;
   width: 220px;
-  margin-left: auto;
+  margin-inline-start: auto;
   flex-shrink: 0;
 }
 
@@ -179,20 +179,20 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 .searchInput {
   font-family: $font-body;
   font-size: 12px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   background: none;
   border: none;
   outline: none;
   width: 100%;
 
   &::placeholder {
-    color: $ora-text-muted;
+    color: $intranet-text-muted;
   }
 }
 
 .bell {
   position: relative;
-  margin-left: 18px;
+  margin-inline-start: 18px;
   width: 33px;
   height: 33px;
   border-radius: 50%;
@@ -202,54 +202,76 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   flex-shrink: 0;
   transition: background 0.15s;
 
   &:hover {
-    background: $ora-search-bg;
-    color: $ora-dark;
+    background: $intranet-search-bg;
+    color: $intranet-dark;
   }
 }
 
 .bellDot {
   position: absolute;
   top: 7px;
-  right: 8px;
+  inset-inline-end: 8px;
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: $ora-sun;
-  border: 1.5px solid $ora-white;
+  background: $intranet-sun;
+  border: 1.5px solid $intranet-white;
 }
 
 .avatar {
   width: 33px;
   height: 33px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ora-accent, #{$ora-sand}), $ora-sand-dark);
+  background: linear-gradient(135deg, var(--intranet-accent, #{$intranet-sand}), $intranet-sand-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: $font-head;
   font-size: 12px;
   font-weight: 400;
-  color: $ora-white;
-  margin-left: 12px;
+  color: $intranet-white;
+  margin-inline-start: 12px;
   flex-shrink: 0;
   text-transform: uppercase;
 }
 
 .profName {
   font-size: 12px;
-  color: $ora-dark;
-  margin-left: 8px;
+  color: $intranet-dark;
+  margin-inline-start: 8px;
   white-space: nowrap;
 }
 
+.langToggle {
+  font-family: $font-body;
+  font-size: 12px;
+  font-weight: 500;
+  color: $intranet-text-1;
+  background: none;
+  border: 1px solid $intranet-border;
+  border-radius: 14px;
+  padding: 5px 12px;
+  margin-inline-end: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.16s ease, background 0.16s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: $intranet-dark;
+    background: rgba(38, 38, 38, 0.04);
+  }
+}
+
 /* ====================== FOOTER ====================== */
-.oraFooter {
-  background: $ora-dark;
+.intranetFooter {
+  background: $intranet-dark;
   padding: 28px 60px;
   display: flex;
   align-items: center;
@@ -299,7 +321,7 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
     flex-shrink: 1;
   }
 
-  .oraFooter {
+  .intranetFooter {
     padding: 20px;
     flex-wrap: wrap;
     gap: 8px;

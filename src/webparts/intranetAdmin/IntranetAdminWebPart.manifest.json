@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "604a1ad1-9900-4dfe-af74-e3b26e616679",
-  "alias": "OraAdminWebPart",
+  "id": "775846b4-4cb4-436d-a322-1a67140e0008",
+  "alias": "IntranetAdminWebPart",
   "componentType": "WebPart",
   "version": "*",
   "manifestVersion": 2,

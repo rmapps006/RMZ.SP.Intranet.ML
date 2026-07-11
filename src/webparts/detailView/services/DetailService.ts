@@ -2,6 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { getSP } from '../../../common/services/pnpService';
 import { getGraphClient } from '../../../common/services/graphService';
 import { imageFieldUrl } from '../../../common/util/format';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 export type DetailType = 'news' | 'event' | 'policy' | 'employee' | 'benefit';
 
@@ -77,12 +78,15 @@ export function readDetailParams(): IDetailParams {
 
 interface IRawNews {
   Title?: string;
+  TitleAR?: string;
   Category?: string;
   NewsDate?: string;
   Source?: string;
+  SourceAR?: string;
   LinkUrl?: string;
   ImageUrl?: string;
   Body?: string;
+  BodyAR?: string;
   Created?: string;
 }
 
@@ -90,7 +94,7 @@ export async function getNewsDetail(context: WebPartContext, listTitle: string, 
   try {
     const listItem = getSP(context).web.lists.getByTitle(listTitle).items.getById(id);
     // Normal fields via the items endpoint; tolerate a legacy text ImageUrl.
-    const base: string[] = ['Title', 'Category', 'NewsDate', 'Source', 'LinkUrl', 'Body', 'Created'];
+    const base: string[] = ['Title', 'TitleAR', 'Category', 'NewsDate', 'Source', 'SourceAR', 'LinkUrl', 'Body', 'BodyAR', 'Created'];
     const attempts: string[][] = [[...base, 'ImageUrl'], base];
     let item: IRawNews | undefined;
     for (let i = 0; i < attempts.length; i++) {
@@ -106,14 +110,15 @@ export async function getNewsDetail(context: WebPartContext, listTitle: string, 
     if (!item) {
       return undefined;
     }
+    const language = getCurrentLanguage();
     return {
-      title: item.Title || '',
+      title: pickLocalized(item.Title || '', item.TitleAR, language),
       category: item.Category || '',
       date: item.NewsDate || item.Created || '',
-      source: item.Source || '',
+      source: pickLocalized(item.Source || '', item.SourceAR, language),
       linkUrl: item.LinkUrl || undefined,
       imageUrl: imageFieldUrl(item.ImageUrl),
-      body: item.Body || undefined
+      body: pickLocalized(item.Body || '', item.BodyAR, language) || undefined
     };
   } catch {
     return undefined;
@@ -122,10 +127,12 @@ export async function getNewsDetail(context: WebPartContext, listTitle: string, 
 
 interface IRawEvent {
   Title?: string;
+  TitleAR?: string;
   Category?: string;
   EventDate?: string;
   EndDate?: string;
   Location?: string;
+  LocationAR?: string;
   Description?: string;
 }
 
@@ -134,13 +141,14 @@ export async function getEventDetail(context: WebPartContext, listTitle: string,
     const item: IRawEvent = await getSP(context)
       .web.lists.getByTitle(listTitle)
       .items.getById(id)
-      .select('Title', 'Category', 'EventDate', 'EndDate', 'Location', 'Description')();
+      .select('Title', 'TitleAR', 'Category', 'EventDate', 'EndDate', 'Location', 'LocationAR', 'Description')();
+    const language = getCurrentLanguage();
     return {
-      title: item.Title || '',
+      title: pickLocalized(item.Title || '', item.TitleAR, language),
       category: item.Category || '',
       start: item.EventDate,
       end: item.EndDate,
-      location: item.Location || '',
+      location: pickLocalized(item.Location || '', item.LocationAR, language),
       description: item.Description || undefined
     };
   } catch {
@@ -150,6 +158,7 @@ export async function getEventDetail(context: WebPartContext, listTitle: string,
 
 interface IRawPolicy {
   Title?: string;
+  TitleAR?: string;
   Department?: string;
   PolicyVersion?: string;
   Modified?: string;
@@ -178,13 +187,13 @@ export async function getPolicyDetail(context: WebPartContext, listTitle: string
   // Policies is a document library, so the item is the file itself (FileRef).
   // Still tolerate a legacy custom list that used a DocumentUrl field or a list
   // attachment — try the richest shape first and drop fields that don't exist.
-  const fileFields: string[] = ['Title', 'Department', 'PolicyVersion', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType'];
+  const fileFields: string[] = ['Title', 'TitleAR', 'Department', 'PolicyVersion', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType'];
   const attempts: Array<{ select: string[]; expand: string[] }> = [
     // Document-library case first (the current shape) — the file is FileRef.
     { select: fileFields, expand: [] },
     // Legacy custom list that used a DocumentUrl field or a list attachment.
     { select: [...fileFields, 'DocumentUrl', 'AttachmentFiles/ServerRelativeUrl'], expand: ['AttachmentFiles'] },
-    { select: ['Title', 'Department', 'PolicyVersion', 'Modified'], expand: [] }
+    { select: ['Title', 'TitleAR', 'Department', 'PolicyVersion', 'Modified'], expand: [] }
   ];
   for (let i = 0; i < attempts.length; i++) {
     try {
@@ -193,7 +202,7 @@ export async function getPolicyDetail(context: WebPartContext, listTitle: string
       const attachment: string | undefined =
         item.AttachmentFiles && item.AttachmentFiles.length > 0 ? item.AttachmentFiles[0].ServerRelativeUrl : undefined;
       const leaf: string = item.FileLeafRef || '';
-      const title: string = item.Title || (leaf ? leaf.replace(/\.[^.]+$/, '') : '');
+      const title: string = pickLocalized(item.Title || (leaf ? leaf.replace(/\.[^.]+$/, '') : ''), item.TitleAR, getCurrentLanguage());
       return {
         title: title,
         department: item.Department || '',
@@ -213,11 +222,16 @@ export async function getPolicyDetail(context: WebPartContext, listTitle: string
 
 interface IRawBenefit {
   Title?: string;
+  TitleAR?: string;
   Category?: string;
   Summary?: string;
+  SummaryAR?: string;
   Eligibility?: string;
+  EligibilityAR?: string;
   Coverage?: string;
+  CoverageAR?: string;
   Details?: string;
+  DetailsAR?: string;
 }
 
 export async function getBenefitDetail(context: WebPartContext, listTitle: string, id: number): Promise<IBenefitDetail | undefined> {
@@ -225,14 +239,15 @@ export async function getBenefitDetail(context: WebPartContext, listTitle: strin
     const item: IRawBenefit = await getSP(context)
       .web.lists.getByTitle(listTitle)
       .items.getById(id)
-      .select('Title', 'Category', 'Summary', 'Eligibility', 'Coverage', 'Details')();
+      .select('Title', 'TitleAR', 'Category', 'Summary', 'SummaryAR', 'Eligibility', 'EligibilityAR', 'Coverage', 'CoverageAR', 'Details', 'DetailsAR')();
+    const language = getCurrentLanguage();
     return {
-      title: item.Title || '',
+      title: pickLocalized(item.Title || '', item.TitleAR, language),
       category: item.Category || '',
-      summary: item.Summary || undefined,
-      eligibility: item.Eligibility || undefined,
-      coverage: item.Coverage || undefined,
-      details: item.Details || undefined
+      summary: pickLocalized(item.Summary || '', item.SummaryAR, language) || undefined,
+      eligibility: pickLocalized(item.Eligibility || '', item.EligibilityAR, language) || undefined,
+      coverage: pickLocalized(item.Coverage || '', item.CoverageAR, language) || undefined,
+      details: pickLocalized(item.Details || '', item.DetailsAR, language) || undefined
     };
   } catch {
     return undefined;

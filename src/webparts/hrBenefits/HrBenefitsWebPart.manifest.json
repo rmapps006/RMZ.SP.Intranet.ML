@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "d35d3fce-bada-4a3d-b000-f80d534f8583",
+  "id": "c14e79ff-8545-4927-a621-244d4f3f6d6e",
   "alias": "HrBenefitsWebPart",
   "componentType": "WebPart",
   "version": "*",

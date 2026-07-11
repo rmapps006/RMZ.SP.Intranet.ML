@@ -1,13 +1,13 @@
 @import '../../../common/styles/tokens';
 
 .admin {
-  @include ora-pad;
-  background: $ora-white;
+  @include intranet-pad;
+  background: $intranet-white;
   font-family: $font-body;
 }
 
 .panel {
-  @include ora-card;
+  @include intranet-card;
   max-width: 720px;
   padding: 28px 30px;
 }
@@ -16,7 +16,7 @@
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: $ora-silver;
+  color: $intranet-silver;
   margin-bottom: 8px;
 }
 
@@ -25,13 +25,13 @@
   font-weight: 200;
   font-size: 24px;
   letter-spacing: 0.06em;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin: 0 0 10px;
 }
 
 .intro {
   font-size: 12px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   line-height: 1.7;
   margin-bottom: 20px;
 }
@@ -40,9 +40,9 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: $ora-dark;
-  border: 1px solid $ora-dark;
-  color: $ora-white;
+  background: $intranet-dark;
+  border: 1px solid $intranet-dark;
+  color: $intranet-white;
   font-family: $font-body;
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -63,7 +63,7 @@
 
 .results {
   margin-top: 22px;
-  border-top: 1px solid $ora-border;
+  border-top: 1px solid $intranet-border;
 }
 
 .row {
@@ -71,7 +71,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 12px 0;
-  border-bottom: 1px solid $ora-border-light;
+  border-bottom: 1px solid $intranet-border-light;
 }
 
 .dot {
@@ -87,28 +87,28 @@
 }
 
 .skipped {
-  background: $ora-silver;
+  background: $intranet-silver;
 }
 
 .error {
-  background: $ora-sun;
+  background: $intranet-sun;
 }
 
 .rowName {
   font-size: 12px;
-  color: $ora-dark;
+  color: $intranet-dark;
   font-weight: 500;
   margin-bottom: 2px;
 }
 
 .rowMsg {
   font-size: 11px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
 }
 
 .hint {
   font-size: 11px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   margin-top: 16px;
   line-height: 1.6;
 }
@@ -118,7 +118,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 0;
-  border-bottom: 1px solid $ora-border-light;
+  border-bottom: 1px solid $intranet-border-light;
 }
 
 .navLabel {
@@ -143,12 +143,12 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 8px 0;
-  border-bottom: 1px solid $ora-border-light;
+  border-bottom: 1px solid $intranet-border-light;
 }
 
 .subTitle {
   margin: 18px 0 6px;
   font-size: 14px;
   font-weight: 600;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 }

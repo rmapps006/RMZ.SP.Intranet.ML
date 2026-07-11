@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "875c6113-030c-4068-bfb4-b0df80400ddc",
+  "id": "3e7c4714-a45d-44a0-ac9c-2ab7a8320363",
   "alias": "EmbeddedPortalWebPart",
   "componentType": "WebPart",
   "version": "*",
@@ -17,7 +17,7 @@
       "description": { "default": "Embeds an external portal in a framed mock-browser card." },
       "officeFabricIconFontName": "Globe",
       "properties": {
-        "portalUrl": "https://www.orauae.com",
+        "portalUrl": "https://www.example.com",
         "frameHeight": "520",
         "sectionTitle": "Embedded Portal",
         "linkText": "Open in new tab",

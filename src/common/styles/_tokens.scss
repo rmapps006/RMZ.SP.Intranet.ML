@@ -1,30 +1,30 @@
-// ORA UAE shared design tokens (from design/v1-homepage.html :root)
+// Intranet shared design tokens (from design/v1-homepage.html :root)
 // Import into any web part SCSS module with:  @import '../../../common/styles/tokens';
 
-$ora-white: #ffffff;
-$ora-silver: #b5b5b5;
-$ora-sand: #e3cba8;
-$ora-sand-dark: var(--ora-accent-dark, #c4a880);
-$ora-dark: #262626;
-$ora-sun: #ea8b6e;
-$ora-ocean: #a4e0e6;
-$ora-bg: #fafaf8;
-$ora-alt-bg: #f5f3f0;
-$ora-border: rgba(181, 181, 181, 0.26);
-$ora-border-light: rgba(181, 181, 181, 0.12);
-$ora-text-1: #262626;
-$ora-text-2: #8a8682;
-$ora-text-muted: #b5b5b5;
-$ora-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
-$ora-shadow-hover: 0 4px 24px rgba(38, 38, 38, 0.1);
+$intranet-white: #ffffff;
+$intranet-silver: #b5b5b5;
+$intranet-sand: #e3cba8;
+$intranet-sand-dark: var(--intranet-accent-dark, #c4a880);
+$intranet-dark: #262626;
+$intranet-sun: #ea8b6e;
+$intranet-ocean: #a4e0e6;
+$intranet-bg: #fafaf8;
+$intranet-alt-bg: #f5f3f0;
+$intranet-border: rgba(181, 181, 181, 0.26);
+$intranet-border-light: rgba(181, 181, 181, 0.12);
+$intranet-text-1: #262626;
+$intranet-text-2: #8a8682;
+$intranet-text-muted: #b5b5b5;
+$intranet-shadow: 0 2px 16px rgba(38, 38, 38, 0.06);
+$intranet-shadow-hover: 0 4px 24px rgba(38, 38, 38, 0.1);
 
 // CSS-variable-backed so the fonts can be re-themed from Admin at runtime; the
-// ORA families remain the compile-time fallback when no override is set.
-$font-head: var(--ora-font-head, 'Raleway', 'Segoe UI', sans-serif);
-$font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
+// default families remain the compile-time fallback when no override is set.
+$font-head: var(--intranet-font-head, 'Raleway', 'Segoe UI', sans-serif);
+$font-body: var(--intranet-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 
 // Section outer padding (.pad in the design)
-@mixin ora-pad {
+@mixin intranet-pad {
   padding: 52px 60px;
 
   @media (max-width: 900px) {
@@ -33,8 +33,8 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 }
 
 // Alternate band background with the faint vertical rule overlay (.bg-alt)
-@mixin ora-bg-alt {
-  background: $ora-alt-bg;
+@mixin intranet-bg-alt {
+  background: $intranet-alt-bg;
   position: relative;
 
   &::before {
@@ -53,9 +53,9 @@ $font-body: var(--ora-font-body, 'Public Sans', 'Segoe UI', Arial, sans-serif);
 }
 
 // Card surface (.nc / .ben-cd / .dp etc.)
-@mixin ora-card {
-  background: $ora-white;
-  border: 1px solid $ora-border;
+@mixin intranet-card {
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
-  box-shadow: $ora-shadow;
+  box-shadow: $intranet-shadow;
 }

@@ -1,7 +1,7 @@
 @import '../../../common/styles/tokens';
 
 .departments {
-  @include ora-pad;
+  @include intranet-pad;
   font-family: $font-body;
 }
 
@@ -16,15 +16,15 @@
   align-items: flex-start;
   gap: 14px;
   padding: 18px 18px;
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 10px;
   text-decoration: none;
   transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
 
   &:hover {
     transform: translateY(-3px);
-    border-color: var(--ora-accent, #{$ora-sand});
+    border-color: var(--intranet-accent, #{$intranet-sand});
     box-shadow: 0 8px 20px rgba(38, 38, 38, 0.1);
   }
 }
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 
   i {
     font-size: 22px;
@@ -51,12 +51,12 @@
 .name {
   font-size: 14px;
   font-weight: 600;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 }
 
 .desc {
   margin-top: 4px;
   font-size: 12px;
   line-height: 1.45;
-  color: $ora-text-2;
+  color: $intranet-text-2;
 }

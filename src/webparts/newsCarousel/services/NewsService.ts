@@ -2,6 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { INewsItem } from '../../../common/models';
 import { formatLongDate } from '../../../common/util/format';
 import { readNewsRaw, newsImageUrl, IRawNewsItem } from '../../../common/services/newsRead';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 // Gradient backgrounds for the news image blocks (from design/v1-homepage.html).
 const NEWS_GRADIENTS: string[] = [
@@ -34,12 +35,13 @@ export async function getNews(context: WebPartContext, newsList: string, top: nu
       return FALLBACK_NEWS;
     }
 
+    const language = getCurrentLanguage();
     return items.map((item: IRawNewsItem, index: number): INewsItem => ({
       id: item.Id,
-      title: item.Title || '',
+      title: pickLocalized(item.Title || '', item.TitleAR, language),
       category: item.Category || 'General',
       date: formatLongDate(item.NewsDate || item.Created),
-      author: item.Source || '',
+      author: pickLocalized(item.Source || '', item.SourceAR, language),
       url: item.LinkUrl || undefined,
       imageUrl: newsImageUrl(item),
       imageGradient: NEWS_GRADIENTS[index % NEWS_GRADIENTS.length]

@@ -14,7 +14,7 @@
   font-weight: 200;
   font-size: 26px;
   letter-spacing: 0.1em;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin: 0;
 
   &::before {
@@ -22,7 +22,7 @@
     display: inline-block;
     width: 22px;
     height: 1px;
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
     margin-right: 12px;
     vertical-align: middle;
   }
@@ -30,13 +30,13 @@
 
 .link {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.15s;
 
   &:hover {
-    color: $ora-dark;
+    color: $intranet-dark;
   }
 }

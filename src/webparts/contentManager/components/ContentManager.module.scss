@@ -2,7 +2,7 @@
 
 .cm {
   font-family: $font-body;
-  color: $ora-dark;
+  color: $intranet-dark;
   padding: 8px 2px;
 }
 
@@ -14,7 +14,7 @@
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: $ora-silver;
+  color: $intranet-silver;
 }
 
 .title {
@@ -26,7 +26,7 @@
 
 .intro {
   font-size: 13px;
-  color: $ora-silver;
+  color: $intranet-silver;
   margin: 0 0 6px;
 }
 
@@ -70,7 +70,7 @@
 .fieldLabel {
   font-size: 14px;
   font-weight: 600;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin-bottom: 4px;
 }
 
@@ -114,7 +114,7 @@
 
 .rowMeta {
   font-size: 12px;
-  color: $ora-silver;
+  color: $intranet-silver;
   margin-top: 2px;
 }
 
@@ -130,7 +130,7 @@
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
-  color: $ora-dark;
+  color: $intranet-dark;
 
   &:hover {
     background: rgba(38, 38, 38, 0.07);
@@ -139,7 +139,7 @@
 
 .empty {
   font-size: 13px;
-  color: $ora-silver;
+  color: $intranet-silver;
   padding: 14px 2px;
 }
 
@@ -165,7 +165,7 @@
   cursor: pointer;
   padding: 5px 8px;
   border-radius: 3px;
-  color: $ora-dark;
+  color: $intranet-dark;
   font-size: 13px;
 
   &:hover {
@@ -186,7 +186,7 @@
 
   &:focus {
     outline: none;
-    border-color: $ora-sand-dark;
+    border-color: $intranet-sand-dark;
   }
 
   p {

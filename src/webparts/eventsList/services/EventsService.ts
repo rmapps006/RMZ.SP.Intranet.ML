@@ -2,6 +2,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { getSP } from '../../../common/services/pnpService';
 import { IEventItem } from '../../../common/models';
 import { formatClock } from '../../../common/util/format';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 // Date-chip background colours, cycled per card (from design/v1-homepage.html).
 export const EVENT_ACCENTS: string[] = [
@@ -17,9 +18,11 @@ const FALLBACK_EVENTS: IEventItem[] = [];
 interface IRawEventItem {
   Id?: number;
   Title?: string;
+  TitleAR?: string;
   EventDate?: string;
   EndDate?: string;
   Location?: string;
+  LocationAR?: string;
   Category?: string;
 }
 
@@ -46,7 +49,10 @@ export async function getEvents(
     const sp = getSP(context);
     const list = sp.web.lists.getByTitle(eventsList);
     const [items, rootFolder] = await Promise.all([
-      list.items.select('Id', 'Title', 'EventDate', 'EndDate', 'Location', 'Category').orderBy('EventDate', true).top(maxItems)(),
+      list.items
+        .select('Id', 'Title', 'TitleAR', 'EventDate', 'EndDate', 'Location', 'LocationAR', 'Category')
+        .orderBy('EventDate', true)
+        .top(maxItems)(),
       list.rootFolder.select('ServerRelativeUrl')()
     ]);
 
@@ -55,15 +61,16 @@ export async function getEvents(
     }
 
     const listUrl: string = (rootFolder && rootFolder.ServerRelativeUrl) || '';
+    const language = getCurrentLanguage();
 
     return (items as IRawEventItem[]).map((item: IRawEventItem, index: number): IEventItem => {
       return {
         id: item.Id,
-        title: item.Title || '',
+        title: pickLocalized(item.Title || '', item.TitleAR, language),
         type: item.Category || '',
         date: item.EventDate || '',
         time: buildTimeRange(item.EventDate, item.EndDate),
-        location: item.Location || '',
+        location: pickLocalized(item.Location || '', item.LocationAR, language),
         accent: EVENT_ACCENTS[index % EVENT_ACCENTS.length],
         url: listUrl && item.Id !== undefined ? `${listUrl}/DispForm.aspx?ID=${item.Id}` : undefined
       };

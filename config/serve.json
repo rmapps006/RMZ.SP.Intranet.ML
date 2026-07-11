@@ -6,7 +6,7 @@
     "default": {
       "pageUrl": "https://enter-your-SharePoint-site/_layouts/workbench.aspx",
       "customActions": {
-        "c4e5110d-1d14-4170-8db9-987c63c015ac": {
+        "1083fb8f-96fc-49dc-9284-2d77402b58a9": {
           "location": "ClientSideExtension.ApplicationCustomizer",
           "properties": {
             "navItems": [
@@ -20,7 +20,7 @@
               { "label": "Approvals", "url": "/SitePages/Approvals.aspx" }
             ],
             "searchPlaceholder": "Search intranet…",
-            "copyright": "© 2026 ORA UAE. All rights reserved.",
+            "copyright": "© 2026 Intranet. All rights reserved.",
             "tagline": "Reimagining Time",
             "hideSiteHeader": true,
             "hideCommandBar": true

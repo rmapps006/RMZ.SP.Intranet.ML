@@ -1,8 +1,8 @@
 @import '../../../common/styles/tokens';
 
 .docs {
-  @include ora-bg-alt;
-  @include ora-pad;
+  @include intranet-bg-alt;
+  @include intranet-pad;
   font-family: $font-body;
 }
 
@@ -19,13 +19,13 @@
 }
 
 .dp {
-  @include ora-card;
+  @include intranet-card;
   overflow: hidden;
 }
 
 .dpHd {
   padding: 14px 18px;
-  border-bottom: 1px solid $ora-border;
+  border-bottom: 1px solid $intranet-border;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,19 +36,19 @@
   font-weight: 300;
   font-size: 14px;
   letter-spacing: 0.05em;
-  color: $ora-dark;
+  color: $intranet-dark;
 }
 
 .lnk {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.15s;
 
   &:hover {
-    color: $ora-dark;
+    color: $intranet-dark;
   }
 }
 
@@ -57,7 +57,7 @@
   align-items: center;
   gap: 12px;
   padding: 11px 18px;
-  border-bottom: 1px solid $ora-border-light;
+  border-bottom: 1px solid $intranet-border-light;
   cursor: pointer;
 
   &:last-child {
@@ -65,7 +65,7 @@
   }
 
   &:hover {
-    background: $ora-bg;
+    background: $intranet-bg;
   }
 }
 
@@ -85,7 +85,7 @@
 
 .pdf {
   background: rgba(234, 139, 110, 0.12);
-  color: $ora-sun;
+  color: $intranet-sun;
 }
 
 .doc {
@@ -105,7 +105,7 @@
 
 .diNm {
   font-size: 12px;
-  color: $ora-dark;
+  color: $intranet-dark;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -114,7 +114,7 @@
 
 .diMeta {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
 }
 
 .diBadge {

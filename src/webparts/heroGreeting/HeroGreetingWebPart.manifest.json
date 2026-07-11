@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "d56e274f-e609-47d7-91c1-e49f3fe74c5e",
+  "id": "0ad7b1b8-201e-4b92-9848-aa424526a5e5",
   "alias": "HeroGreetingWebPart",
   "componentType": "WebPart",
   "version": "*",

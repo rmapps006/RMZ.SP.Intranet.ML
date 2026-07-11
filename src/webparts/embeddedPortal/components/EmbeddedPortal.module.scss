@@ -1,7 +1,7 @@
 @import '../../../common/styles/tokens';
 
 .embeddedPortal {
-  @include ora-bg-alt;
+  @include intranet-bg-alt;
   font-family: $font-body;
   padding: 52px 60px;
 
@@ -30,7 +30,7 @@
   font-weight: 200;
   font-size: 26px;
   letter-spacing: 0.1em;
-  color: $ora-dark;
+  color: $intranet-dark;
   margin: 0;
 
   &::before {
@@ -38,7 +38,7 @@
     display: inline-block;
     width: 22px;
     height: 1px;
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
     margin-right: 12px;
     vertical-align: middle;
   }
@@ -46,25 +46,25 @@
 
 .link {
   font-size: 10px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   transition: color 0.15s;
 
   &:hover {
-    color: $ora-dark;
+    color: $intranet-dark;
   }
 }
 
 .frameCard {
   position: relative;
   z-index: 1;
-  border: 1px solid $ora-border;
+  border: 1px solid $intranet-border;
   border-radius: 3px;
   overflow: hidden;
-  box-shadow: $ora-shadow;
-  background: $ora-white;
+  box-shadow: $intranet-shadow;
+  background: $intranet-white;
 }
 
 .chrome {
@@ -72,7 +72,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  border-bottom: 1px solid $ora-border;
+  border-bottom: 1px solid $intranet-border;
   background: #faf8f5;
 }
 
@@ -102,11 +102,11 @@
 .pill {
   flex: 1;
   background: #f3f1ed;
-  border: 1px solid $ora-border;
+  border: 1px solid $intranet-border;
   border-radius: 12px;
   padding: 5px 14px;
   font-size: 11px;
-  color: $ora-text-muted;
+  color: $intranet-text-muted;
   letter-spacing: 0.03em;
 }
 

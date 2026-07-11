@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
   <!--
-    Tenant-wide deployment of the ORAHeaderFooter application customizer.
+    Tenant-wide deployment of the IntranetHeaderFooter application customizer.
     The Properties value below is the default configuration; site owners /
     admins can override it per environment (e.g. via PnP PowerShell
     Set-PnPApplicationCustomizer or the tenant App Catalog).
   -->
   <ClientSideComponentInstance
-    Title="ORAHeaderFooter"
+    Title="IntranetHeaderFooter"
     Location="ClientSideExtension.ApplicationCustomizer"
-    ComponentId="c4e5110d-1d14-4170-8db9-987c63c015ac"
-    Properties="{&quot;navItems&quot;:[{&quot;label&quot;:&quot;Home&quot;,&quot;url&quot;:&quot;/&quot;},{&quot;label&quot;:&quot;Departments&quot;,&quot;url&quot;:&quot;/SitePages/Departments.aspx&quot;},{&quot;label&quot;:&quot;Policies&quot;,&quot;url&quot;:&quot;/SitePages/Policies.aspx&quot;},{&quot;label&quot;:&quot;Documents&quot;,&quot;url&quot;:&quot;/SitePages/Documents.aspx&quot;},{&quot;label&quot;:&quot;News&quot;,&quot;url&quot;:&quot;/SitePages/News.aspx&quot;},{&quot;label&quot;:&quot;Events&quot;,&quot;url&quot;:&quot;/SitePages/Events.aspx&quot;},{&quot;label&quot;:&quot;Onboarding&quot;,&quot;url&quot;:&quot;/SitePages/Onboarding.aspx&quot;},{&quot;label&quot;:&quot;Approvals&quot;,&quot;url&quot;:&quot;/SitePages/Approvals.aspx&quot;}],&quot;searchPlaceholder&quot;:&quot;Search intranet…&quot;,&quot;copyright&quot;:&quot;© 2026 ORA UAE. All rights reserved.&quot;,&quot;tagline&quot;:&quot;Reimagining Time&quot;,&quot;hideSiteHeader&quot;:true,&quot;hideCommandBar&quot;:true}">
+    ComponentId="1083fb8f-96fc-49dc-9284-2d77402b58a9"
+    Properties="{&quot;navItems&quot;:[{&quot;label&quot;:&quot;Home&quot;,&quot;url&quot;:&quot;/&quot;},{&quot;label&quot;:&quot;Departments&quot;,&quot;url&quot;:&quot;/SitePages/Departments.aspx&quot;},{&quot;label&quot;:&quot;Policies&quot;,&quot;url&quot;:&quot;/SitePages/Policies.aspx&quot;},{&quot;label&quot;:&quot;Documents&quot;,&quot;url&quot;:&quot;/SitePages/Documents.aspx&quot;},{&quot;label&quot;:&quot;News&quot;,&quot;url&quot;:&quot;/SitePages/News.aspx&quot;},{&quot;label&quot;:&quot;Events&quot;,&quot;url&quot;:&quot;/SitePages/Events.aspx&quot;},{&quot;label&quot;:&quot;Onboarding&quot;,&quot;url&quot;:&quot;/SitePages/Onboarding.aspx&quot;},{&quot;label&quot;:&quot;Approvals&quot;,&quot;url&quot;:&quot;/SitePages/Approvals.aspx&quot;}],&quot;searchPlaceholder&quot;:&quot;Search intranet…&quot;,&quot;copyright&quot;:&quot;© 2026 Intranet. All rights reserved.&quot;,&quot;tagline&quot;:&quot;Reimagining Time&quot;,&quot;hideSiteHeader&quot;:true,&quot;hideCommandBar&quot;:true}">
   </ClientSideComponentInstance>
 </Elements>

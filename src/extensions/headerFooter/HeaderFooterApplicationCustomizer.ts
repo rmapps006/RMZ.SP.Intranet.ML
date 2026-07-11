@@ -8,20 +8,21 @@ import {
 import { spfi, SPFI, SPFx } from '@pnp/sp';
 import '@pnp/sp/webs';
 
-import * as strings from 'ORAHeaderFooterApplicationCustomizerStrings';
+import * as strings from 'HeaderFooterApplicationCustomizerStrings';
 
 import { GraphUserService, ICurrentUser } from './services/GraphUserService';
-import { OraHeader, INavItem } from './components/OraHeader';
-import { OraFooter } from './components/OraFooter';
+import { IntranetHeader, INavItem } from './components/IntranetHeader';
+import { IntranetFooter } from './components/IntranetFooter';
 import { ensureBrandFonts } from './components/fonts';
 import { SettingsService, IIntranetSettings, DEFAULT_SETTINGS, INavLink } from '../../common/services/SettingsService';
 import { DepartmentSettingsService } from '../../common/services/DepartmentSettingsService';
 import { getInitials } from '../../common/util/format';
+import { Language, initializeLanguage, setLanguage, pickLocalized } from '../../common/services/languageService';
 
-const LOG_SOURCE: string = 'ORAHeaderFooterApplicationCustomizer';
+const LOG_SOURCE: string = 'HeaderFooterApplicationCustomizer';
 
 // Bundled logo asset (emitted to the solution CDN at build time).
-const LOGO_URL: string = require('./assets/ora-logo.png');
+const LOGO_URL: string = require('./assets/logo.png');
 
 /**
  * Returns a darker shade of a hex colour (for the secondary/gradient accent when
@@ -56,7 +57,7 @@ const DEFAULT_NAV: INavItem[] = [
   { label: 'Approvals', url: '/SitePages/Approvals.aspx' }
 ];
 
-export interface IORAHeaderFooterApplicationCustomizerProperties {
+export interface IHeaderFooterApplicationCustomizerProperties {
   /** Navigation links. Configurable per environment via component properties. */
   navItems?: INavItem[];
   /** Placeholder text for the header search box. */
@@ -65,7 +66,7 @@ export interface IORAHeaderFooterApplicationCustomizerProperties {
   copyright?: string;
   /** Footer right-hand tagline. */
   tagline?: string;
-  /** Hide the native SharePoint site header (logo/title + site nav) below the ORA header. Default true. */
+  /** Hide the native SharePoint site header (logo/title + site nav) below the Intranet header. Default true. */
   hideSiteHeader?: boolean;
   /** Hide only the native site navigation (keep the SharePoint site logo/title). Default false. */
   hideSiteNav?: boolean;
@@ -73,7 +74,7 @@ export interface IORAHeaderFooterApplicationCustomizerProperties {
   hideCommandBar?: boolean;
 }
 
-export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicationCustomizer<IORAHeaderFooterApplicationCustomizerProperties> {
+export default class HeaderFooterApplicationCustomizer extends BaseApplicationCustomizer<IHeaderFooterApplicationCustomizerProperties> {
   private _sp: SPFI;
   private _topPlaceholder: PlaceholderContent | undefined;
   private _bottomPlaceholder: PlaceholderContent | undefined;
@@ -81,9 +82,10 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
   private _logoAlt: string = strings.LogoAlt;
   private _settings: IIntranetSettings = DEFAULT_SETTINGS;
   private _navLinks: INavLink[] = [];
+  private _language: Language = 'en';
 
   public async onInit(): Promise<void> {
-    Log.info(LOG_SOURCE, 'Initializing ORA UAE header/footer');
+    Log.info(LOG_SOURCE, 'Initializing Intranet header/footer');
 
     this._sp = spfi().using(SPFx(this.context));
 
@@ -129,6 +131,11 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
     this._user = user;
     this._logoAlt = webTitle || strings.LogoAlt;
     this._settings = settings;
+    // Seeds the browser's language preference from the site default on first
+    // visit (a no-op once the visitor has toggled explicitly) and applies
+    // dir="rtl"/lang="ar" to the document so the whole page — including every
+    // web part on it — renders in the resolved language/direction.
+    this._language = initializeLanguage(settings.defaultLanguage);
     // Load a custom font stylesheet (e.g. Google Fonts) if the client configured one.
     this._applyCustomFontStylesheet();
     // On a department site the shared nav points at the Main Site's pages, so
@@ -151,12 +158,12 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
 
   /**
    * When the client has configured a custom font stylesheet URL (e.g. Google
-   * Fonts), inject it once so the font families set via --ora-font-* actually
-   * load. Blank leaves the bundled ORA fonts (no external request). Idempotent.
+   * Fonts), inject it once so the font families set via --intranet-font-* actually
+   * load. Blank leaves the bundled Intranet fonts (no external request). Idempotent.
    */
   private _applyCustomFontStylesheet(): void {
     const url: string = (this._settings.fontStylesheetUrl || '').trim();
-    const id: string = 'ora-custom-font';
+    const id: string = 'intranet-custom-font';
     const existing: HTMLElement | null = document.getElementById(id);
     if (!url) {
       if (existing) {
@@ -178,7 +185,7 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
   }
 
   /**
-   * Injects CSS to hide native SharePoint chrome below the ORA header, so it
+   * Injects CSS to hide native SharePoint chrome below the Intranet header, so it
    * doesn't duplicate our header/nav. Toggled via web part properties.
    */
   private _applyChromeOverrides(): void {
@@ -196,16 +203,16 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
     const isEditMode: boolean = /[?&]Mode=Edit/i.test(window.location.href);
 
     const rules: string[] = [];
-    // Theme accent + fonts — consumed by web part SCSS via var(--ora-accent / --ora-font-*, …).
+    // Theme accent + fonts — consumed by web part SCSS via var(--intranet-accent / --intranet-font-*, …).
     // Fallback matches DEFAULT_SETTINGS.accentColor so first paint doesn't flash a different colour.
     const accent: string = this._settings.accentColor || '#b88a4a';
     const accentDark: string = (this._settings.accentColorDark || '').trim() || darken(accent, 0.18);
-    const rootVars: string[] = [`--ora-accent:${accent};`, `--ora-accent-dark:${accentDark};`];
+    const rootVars: string[] = [`--intranet-accent:${accent};`, `--intranet-accent-dark:${accentDark};`];
     if ((this._settings.fontHead || '').trim()) {
-      rootVars.push(`--ora-font-head:${this._settings.fontHead.trim()};`);
+      rootVars.push(`--intranet-font-head:${this._settings.fontHead.trim()};`);
     }
     if ((this._settings.fontBody || '').trim()) {
-      rootVars.push(`--ora-font-body:${this._settings.fontBody.trim()};`);
+      rootVars.push(`--intranet-font-body:${this._settings.fontBody.trim()};`);
     }
     rules.push(`:root{${rootVars.join('')}}`);
     if (hideSiteHeader) {
@@ -263,7 +270,7 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
       }
     }
 
-    const existing: HTMLElement | null = document.getElementById('ora-chrome-overrides');
+    const existing: HTMLElement | null = document.getElementById('intranet-chrome-overrides');
     if (existing) {
       existing.parentNode?.removeChild(existing);
     }
@@ -272,7 +279,7 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
     }
 
     const style: HTMLStyleElement = document.createElement('style');
-    style.id = 'ora-chrome-overrides';
+    style.id = 'intranet-chrome-overrides';
     style.appendChild(document.createTextNode(rules.join('')));
     document.head.appendChild(style);
   }
@@ -338,7 +345,13 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
     }
 
     // Prefer the live navigation list; fall back to component properties, then defaults.
-    const liveNav: INavItem[] = this._navLinks.map((n) => ({ label: n.label, url: n.url, newTab: n.newTab }));
+    // Labels are resolved to the active language here (Arabic falls back to the
+    // English label when no translation was entered).
+    const liveNav: INavItem[] = this._navLinks.map((n) => ({
+      label: pickLocalized(n.label, n.labelAR, this._language),
+      url: n.url,
+      newTab: n.newTab
+    }));
     const navItems: INavItem[] =
       liveNav.length > 0
         ? liveNav
@@ -346,18 +359,27 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
         ? this.properties.navItems
         : DEFAULT_NAV;
 
-    const header: OraHeader = new OraHeader({
+    const searchPlaceholder: string = pickLocalized(
+      this._settings.searchPlaceholder || this.properties.searchPlaceholder || strings.SearchPlaceholder,
+      this._settings.searchPlaceholderAR,
+      this._language
+    );
+    const logoAlt: string = pickLocalized(this._settings.clientName || this._logoAlt, this._settings.clientNameAR, this._language);
+
+    const header: IntranetHeader = new IntranetHeader({
       navItems,
-      searchPlaceholder: this._settings.searchPlaceholder || this.properties.searchPlaceholder || strings.SearchPlaceholder,
+      searchPlaceholder,
       searchAriaLabel: strings.SearchAriaLabel,
       notificationsLabel: strings.NotificationsLabel,
       logoUrl: this._settings.logoUrl || LOGO_URL,
-      logoAlt: this._settings.clientName || this._logoAlt,
+      logoAlt,
       subLabel: this._settings.logoSubLabel,
       homeUrl: this.context.pageContext.web.absoluteUrl,
       webAbsoluteUrl: this.context.pageContext.web.absoluteUrl,
       currentPath: window.location.pathname,
-      user: this._user
+      user: this._user,
+      language: this._language,
+      onLanguageToggle: () => setLanguage(this._language === 'ar' ? 'en' : 'ar')
     });
     header.render(this._topPlaceholder.domElement);
   }
@@ -389,15 +411,15 @@ export default class ORAHeaderFooterApplicationCustomizer extends BaseApplicatio
 
     const clientName: string = this._settings.clientName || strings.LogoAlt;
     const defaultCopyright: string = `© ${new Date().getFullYear()} ${clientName}. All rights reserved.`;
-    const footer: OraFooter = new OraFooter({
-      wordmark: clientName,
-      copyright: this._settings.footerCopyright || defaultCopyright,
-      tagline: this._settings.footerTagline || ''
+    const footer: IntranetFooter = new IntranetFooter({
+      wordmark: pickLocalized(clientName, this._settings.clientNameAR, this._language),
+      copyright: pickLocalized(this._settings.footerCopyright || defaultCopyright, this._settings.footerCopyrightAR, this._language),
+      tagline: pickLocalized(this._settings.footerTagline || '', this._settings.footerTaglineAR, this._language)
     });
     footer.render(host);
   }
 
   private _onDispose = (): void => {
-    Log.info(LOG_SOURCE, 'Disposed ORA UAE header/footer placeholders');
+    Log.info(LOG_SOURCE, 'Disposed Intranet header/footer placeholders');
   };
 }

@@ -1,6 +1,7 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { INewsItem } from '../../../common/models';
 import { readNewsRaw, newsImageUrl, IRawNewsItem } from '../../../common/services/newsRead';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 // News card image gradients, cycled per card (from design/department-page.html).
 export const NEWS_GRADIENTS: string[] = [
@@ -27,12 +28,13 @@ export async function getDepartmentNews(context: WebPartContext, newsList: strin
       return FALLBACK_NEWS;
     }
 
+    const language = getCurrentLanguage();
     return items.map((item: IRawNewsItem, index: number): INewsItem => ({
       id: item.Id,
-      title: item.Title || '',
+      title: pickLocalized(item.Title || '', item.TitleAR, language),
       category: item.Category || '',
       date: item.NewsDate || item.Created || '',
-      author: item.Source || '',
+      author: pickLocalized(item.Source || '', item.SourceAR, language),
       url: item.LinkUrl || undefined,
       imageUrl: newsImageUrl(item),
       imageGradient: NEWS_GRADIENTS[index % NEWS_GRADIENTS.length],

@@ -1,11 +1,13 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { getSP } from '../../../common/services/pnpService';
 import { IPolicy } from '../../../common/models';
+import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 
 // Raw shape returned from the Policies document library.
 interface IPolicyFileRow {
   Id?: number;
   Title?: string;
+  TitleAR?: string;
   Department?: string;
   Modified?: string;
   PolicyVersion?: string;
@@ -43,7 +45,7 @@ export async function getPolicies(context: WebPartContext, listTitle: string): P
   try {
     const rows: IPolicyFileRow[] = await getSP(context)
       .web.lists.getByTitle(listTitle)
-      .items.select('Id', 'Title', 'Department', 'Modified', 'PolicyVersion', 'FileLeafRef', 'FileRef', 'FileSystemObjectType')
+      .items.select('Id', 'Title', 'TitleAR', 'Department', 'Modified', 'PolicyVersion', 'FileLeafRef', 'FileRef', 'FileSystemObjectType')
       .filter('FSObjType eq 0')
       .top(200)();
 
@@ -51,11 +53,12 @@ export async function getPolicies(context: WebPartContext, listTitle: string): P
       return FALLBACK_POLICIES;
     }
 
+    const language = getCurrentLanguage();
     return rows.map((it: IPolicyFileRow): IPolicy => {
       const leaf: string = it.FileLeafRef || '';
       return {
         id: it.Id,
-        title: it.Title || stripExtension(leaf),
+        title: pickLocalized(it.Title || stripExtension(leaf), it.TitleAR, language),
         department: it.Department || '',
         updated: it.Modified || '',
         version: it.PolicyVersion || '',

@@ -1,4 +1,4 @@
-// Shared data models for the ORA UAE homepage web parts.
+// Shared data models for the Intranet homepage web parts.
 
 export interface IPerson {
   displayName: string;

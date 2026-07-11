@@ -5,8 +5,8 @@
 }
 
 .panel {
-  background: $ora-white;
-  border: 1px solid $ora-border;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
   border-radius: 4px;
   padding: 24px 28px 28px;
 }
@@ -15,7 +15,7 @@
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ora-accent, #{$ora-sand});
+  color: var(--intranet-accent, #{$intranet-sand});
 }
 
 .title {
@@ -23,12 +23,12 @@
   font-family: $font-head;
   font-weight: 300;
   font-size: 26px;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 }
 
 .intro {
   font-size: 13px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   margin: 8px 0 14px;
   max-width: 720px;
 }
@@ -37,7 +37,7 @@
   margin: 18px 0 6px;
   font-size: 14px;
   font-weight: 600;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 }
 
 .actions {
@@ -52,5 +52,5 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 8px 0;
-  border-bottom: 1px solid $ora-border-light;
+  border-bottom: 1px solid $intranet-border-light;
 }

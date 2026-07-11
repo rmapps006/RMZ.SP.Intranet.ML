@@ -5,6 +5,7 @@ import '@pnp/sp/fields';
 import '@pnp/sp/items';
 import '@pnp/sp/security';
 import { PermissionKind } from '@pnp/sp/security';
+import { Language } from './languageService';
 
 /** Title of the key/value list that stores the central intranet configuration. */
 export const SETTINGS_LIST: string = 'Intranet Settings';
@@ -19,17 +20,20 @@ export const SETTINGS_VALUE_FIELD: string = 'SettingValue';
 export const NAV_URL_FIELD: string = 'NavUrl';
 export const NAV_ORDER_FIELD: string = 'SortOrder';
 export const NAV_NEWTAB_FIELD: string = 'OpenInNewTab';
+/** Arabic translation of the nav item's label (Title holds the English label). */
+export const NAV_LABEL_AR_FIELD: string = 'LabelAR';
 
 /** A single top-navigation link, edited from the Admin screen. */
 export interface INavLink {
   label: string;
+  labelAR?: string;
   url: string;
   newTab: boolean;
 }
 
 /**
  * A company email-domain filter for the Employee Directory. The label is the
- * chip text; the domain (e.g. "ora-uae.com") scopes which users are shown and
+ * chip text; the domain (e.g. "example.com") scopes which users are shown and
  * is matched against each user's mail / userPrincipalName.
  */
 export interface IDirectoryDomain {
@@ -43,7 +47,9 @@ export interface IDirectoryDomain {
  */
 export interface IDepartmentEntry {
   label: string;
+  labelAR?: string;
   description: string;
+  descriptionAR?: string;
   url: string;
   icon?: string; // Fluent UI (Office) icon name; falls back to initials
   accent?: string; // tile icon background
@@ -55,6 +61,7 @@ export interface IDepartmentEntry {
  */
 export interface IQuickLinkSetting {
   label: string;
+  labelAR?: string;
   img?: string; // image/logo URL or data URI; takes priority over icon and abbr
   icon?: string; // Fluent UI (Office) icon name; takes priority over abbr
   abbr?: string; // short text shown when no icon/img is set
@@ -70,19 +77,26 @@ export interface IQuickLinkSetting {
  * extension and the home-page web parts.
  */
 export interface IIntranetSettings {
+  // Language — default UI language for first-time visitors; a visitor's own
+  // toggle choice (see languageService) overrides this on their device.
+  defaultLanguage: Language;
   // Branding — client name and logo, applied across the portal and department sites
   clientName: string; // brand/wordmark shown in footer, header alt and admin/content eyebrows
+  clientNameAR?: string; // Arabic brand/wordmark; blank = falls back to clientName
   logoUrl: string; // header logo image URL; blank = bundled default logo
   logoSubLabel: string; // small text beside the header logo; blank = hidden
-  fontHead: string; // heading font family; blank = bundled ORA font (Raleway)
-  fontBody: string; // body font family; blank = bundled ORA font (Public Sans)
+  fontHead: string; // heading font family; blank = bundled default font (Raleway)
+  fontBody: string; // body font family; blank = bundled default font (Public Sans)
   fontStylesheetUrl: string; // optional stylesheet URL (e.g. Google Fonts) to load a custom font
   // Footer
   footerVisible: boolean;
   footerCopyright: string;
+  footerCopyrightAR?: string;
   footerTagline: string;
+  footerTaglineAR?: string;
   // Header / native chrome
   searchPlaceholder: string;
+  searchPlaceholderAR?: string;
   hideSiteHeader: boolean;
   hideSiteNav: boolean;
   hideCommandBar: boolean;
@@ -111,16 +125,21 @@ export interface IIntranetSettings {
 
 /** Defaults used when the settings list / item is missing or a key is absent. */
 export const DEFAULT_SETTINGS: IIntranetSettings = {
-  clientName: 'ORA UAE',
+  defaultLanguage: 'en',
+  clientName: 'Intranet',
+  clientNameAR: '',
   logoUrl: '',
-  logoSubLabel: 'UAE',
+  logoSubLabel: '',
   fontHead: '',
   fontBody: '',
   fontStylesheetUrl: '',
   footerVisible: true,
   footerCopyright: '', // blank → the footer derives "© {year} {clientName}. All rights reserved."
+  footerCopyrightAR: '',
   footerTagline: '',
+  footerTaglineAR: '',
   searchPlaceholder: 'Search intranet…',
+  searchPlaceholderAR: '',
   hideSiteHeader: true,
   hideSiteNav: false,
   hideCommandBar: true,
@@ -143,19 +162,19 @@ export const DEFAULT_SETTINGS: IIntranetSettings = {
 
 /** Default navigation links seeded by provisioning and used as a fallback. */
 export const DEFAULT_NAV: INavLink[] = [
-  { label: 'Home', url: '/', newTab: false },
-  { label: 'Departments', url: '/SitePages/Departments.aspx', newTab: false },
-  { label: 'Policies', url: '/SitePages/Policies.aspx', newTab: false },
-  { label: 'Documents', url: '/SitePages/Documents.aspx', newTab: false },
-  { label: 'News', url: '/SitePages/News.aspx', newTab: false },
-  { label: 'Events', url: '/SitePages/Events.aspx', newTab: false },
-  { label: 'Onboarding', url: '/SitePages/Onboarding.aspx', newTab: false },
-  { label: 'Approvals', url: '/SitePages/Approvals.aspx', newTab: false }
+  { label: 'Home', labelAR: 'الرئيسية', url: '/', newTab: false },
+  { label: 'Departments', labelAR: 'الإدارات', url: '/SitePages/Departments.aspx', newTab: false },
+  { label: 'Policies', labelAR: 'السياسات', url: '/SitePages/Policies.aspx', newTab: false },
+  { label: 'Documents', labelAR: 'المستندات', url: '/SitePages/Documents.aspx', newTab: false },
+  { label: 'News', labelAR: 'الأخبار', url: '/SitePages/News.aspx', newTab: false },
+  { label: 'Events', labelAR: 'الفعاليات', url: '/SitePages/Events.aspx', newTab: false },
+  { label: 'Onboarding', labelAR: 'التأهيل', url: '/SitePages/Onboarding.aspx', newTab: false },
+  { label: 'Approvals', labelAR: 'الموافقات', url: '/SitePages/Approvals.aspx', newTab: false }
 ];
 
 const CACHE_TTL_MS: number = 120000; // 2 minutes — long enough to avoid per-page reads.
-const SETTINGS_CACHE_KEY: string = 'ora.settings.v1';
-const NAV_CACHE_KEY: string = 'ora.nav.v1';
+const SETTINGS_CACHE_KEY: string = 'intranet.settings.v1';
+const NAV_CACHE_KEY: string = 'intranet.nav.v1';
 
 interface ICacheEnvelope<T> {
   ts: number;
@@ -266,7 +285,7 @@ export class SettingsService {
     try {
       const rows: Record<string, unknown>[] = await this.sp.web.lists
         .getByTitle(NAV_LIST)
-        .items.select('Title', NAV_URL_FIELD, NAV_ORDER_FIELD, NAV_NEWTAB_FIELD)
+        .items.select('Title', NAV_URL_FIELD, NAV_ORDER_FIELD, NAV_NEWTAB_FIELD, NAV_LABEL_AR_FIELD)
         .orderBy(NAV_ORDER_FIELD, true)
         .top(50)();
 
@@ -274,6 +293,7 @@ export class SettingsService {
         .filter((r) => !!r.Title && !!r[NAV_URL_FIELD])
         .map((r) => ({
           label: String(r.Title),
+          labelAR: r[NAV_LABEL_AR_FIELD] ? String(r[NAV_LABEL_AR_FIELD]) : '',
           url: String(r[NAV_URL_FIELD]),
           newTab: r[NAV_NEWTAB_FIELD] === true
         }));
@@ -318,6 +338,7 @@ export class SettingsService {
       }
       await list.items.add({
         Title: link.label,
+        [NAV_LABEL_AR_FIELD]: link.labelAR || '',
         [NAV_URL_FIELD]: link.url,
         [NAV_ORDER_FIELD]: order,
         [NAV_NEWTAB_FIELD]: link.newTab === true

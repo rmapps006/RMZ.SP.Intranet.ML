@@ -4,6 +4,7 @@ import styles from './ProductivityStrip.module.scss';
 import { IProductivityStripProps } from './IProductivityStripProps';
 import { getTodaySchedule, IScheduleItem } from '../services/ProductivityService';
 import { IQuickLinkSetting } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
@@ -20,13 +21,13 @@ interface IQuickLink {
   newTab?: boolean;
 }
 
-const ORA_OCEAN: string = '#a4e0e6';
-const ORA_SAND: string = '#e3cba8';
+const ACCENT_OCEAN: string = '#a4e0e6';
+const ACCENT_SAND: string = '#e3cba8';
 
 /** Normalises a raw tile (from JSON or central settings) into a renderable tile. */
-function normalizeLink(q: IQuickLinkSetting): IQuickLink {
+function normalizeLink(q: IQuickLinkSetting, language: Language): IQuickLink {
   return {
-    label: q.label || '',
+    label: pickLocalized(q.label || '', q.labelAR, language),
     abbr: q.abbr || (q.label ? q.label.charAt(0).toUpperCase() : '•'),
     img: q.img || undefined,
     icon: q.icon || undefined,
@@ -42,18 +43,18 @@ function normalizeLink(q: IQuickLinkSetting): IQuickLink {
  * per-instance override; otherwise the centrally-managed set (edited in the
  * Admin screen) is used.
  */
-function resolveLinks(json: string, central: IQuickLinkSetting[]): IQuickLink[] {
+function resolveLinks(json: string, central: IQuickLinkSetting[], language: Language): IQuickLink[] {
   if (json && json.trim().length > 0) {
     try {
       const parsed: unknown = JSON.parse(json);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return (parsed as IQuickLinkSetting[]).map(normalizeLink);
+        return (parsed as IQuickLinkSetting[]).map((q) => normalizeLink(q, language));
       }
     } catch {
       /* fall through to central settings */
     }
   }
-  return (central || []).map(normalizeLink);
+  return (central || []).map((q) => normalizeLink(q, language));
 }
 
 function LinkTiles(props: { links: IQuickLink[]; newTab: boolean }): JSX.Element {
@@ -86,6 +87,7 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
   const [schedule, setSchedule] = React.useState<IScheduleItem[]>([]);
   const settings = useSettings(props.context);
   const navKey: string = useNavKey();
+  const language: Language = getCurrentLanguage();
 
   const maxEvents: number = (() => {
     const parsed: number = parseInt(props.maxEvents, 10);
@@ -108,7 +110,7 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
     };
   }, [props.context, maxEvents, navKey]);
 
-  const quickLinks: IQuickLink[] = resolveLinks(props.quickLinksJson, settings.quickLinks);
+  const quickLinks: IQuickLink[] = resolveLinks(props.quickLinksJson, settings.quickLinks, language);
 
   // "Today" and the schedule follow the viewer's own local timezone.
   const now: Date = new Date();
@@ -137,7 +139,7 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
                 <div className={styles.calT}>{item.time}</div>
                 <div
                   className={styles.calDot}
-                  style={{ background: idx % 2 === 0 ? ORA_OCEAN : ORA_SAND }}
+                  style={{ background: idx % 2 === 0 ? ACCENT_OCEAN : ACCENT_SAND }}
                 />
                 <div>{item.subject}</div>
               </div>

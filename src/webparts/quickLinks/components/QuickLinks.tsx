@@ -4,6 +4,7 @@ import styles from './QuickLinks.module.scss';
 import { IQuickLinksProps } from './IQuickLinksProps';
 import { SectionHeader } from '../../../common/components/SectionHeader';
 import { getCachedSettings, IQuickLinkSetting } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 import { linkTarget } from '../../../common/util/format';
 
 /** A single quick-access tile. */
@@ -19,9 +20,9 @@ interface IQuickLink {
 }
 
 /** Normalises a raw tile (from JSON or central settings) into a renderable tile. */
-function normalizeLink(q: IQuickLinkSetting): IQuickLink {
+function normalizeLink(q: IQuickLinkSetting, language: Language): IQuickLink {
   return {
-    label: q.label || '',
+    label: pickLocalized(q.label || '', q.labelAR, language),
     abbr: q.abbr || (q.label ? q.label.charAt(0).toUpperCase() : '•'),
     img: q.img || undefined,
     icon: q.icon || undefined,
@@ -37,22 +38,23 @@ function normalizeLink(q: IQuickLinkSetting): IQuickLink {
  * per-instance override; otherwise the centrally-managed Quick Links (edited
  * in the Admin screen) are used.
  */
-function resolveLinks(json: string): IQuickLink[] {
+function resolveLinks(json: string, language: Language): IQuickLink[] {
   if (json && json.trim().length > 0) {
     try {
       const parsed: unknown = JSON.parse(json);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return (parsed as IQuickLinkSetting[]).map(normalizeLink);
+        return (parsed as IQuickLinkSetting[]).map((q) => normalizeLink(q, language));
       }
     } catch {
       /* fall through to central settings */
     }
   }
-  return (getCachedSettings().quickLinks || []).map(normalizeLink);
+  return (getCachedSettings().quickLinks || []).map((q) => normalizeLink(q, language));
 }
 
 const QuickLinks: React.FunctionComponent<IQuickLinksProps> = (props) => {
-  const links: IQuickLink[] = resolveLinks(props.linksJson);
+  const language: Language = getCurrentLanguage();
+  const links: IQuickLink[] = resolveLinks(props.linksJson, language);
   // The central setting forces a new tab; a per-tile newTab can still opt in.
   const globalNewTab: boolean = getCachedSettings().openLinksInNewTab;
 

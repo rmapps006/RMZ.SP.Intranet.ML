@@ -1,13 +1,13 @@
 @import '../../../common/styles/tokens';
 
 .detail {
-  @include ora-pad;
+  @include intranet-pad;
   font-family: $font-body;
   max-width: 860px;
 }
 
 .muted {
-  color: $ora-text-2;
+  color: $intranet-text-2;
   font-size: 14px;
   padding: 24px 0;
 }
@@ -15,12 +15,12 @@
 .back {
   display: inline-block;
   font-size: 12px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   text-decoration: none;
   margin-bottom: 16px;
 
   &:hover {
-    color: var(--ora-accent, #{$ora-sand});
+    color: var(--intranet-accent, #{$intranet-sand});
   }
 }
 
@@ -36,7 +36,7 @@
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ora-accent, #{$ora-sand});
+  color: var(--intranet-accent, #{$intranet-sand});
   margin-bottom: 6px;
 }
 
@@ -45,20 +45,20 @@
   font-weight: 300;
   font-size: 34px;
   line-height: 1.15;
-  color: $ora-text-1;
+  color: $intranet-text-1;
   margin: 0 0 10px;
 }
 
 .meta {
   font-size: 13px;
-  color: $ora-text-2;
+  color: $intranet-text-2;
   margin-bottom: 20px;
 }
 
 .body {
   font-size: 15px;
   line-height: 1.7;
-  color: $ora-text-1;
+  color: $intranet-text-1;
 
   p {
     margin: 0 0 14px;
@@ -74,8 +74,8 @@
 
 .fact {
   font-size: 14px;
-  color: $ora-text-1;
-  border: 1px solid $ora-border;
+  color: $intranet-text-1;
+  border: 1px solid $intranet-border;
   border-radius: 6px;
   padding: 12px 14px;
 
@@ -84,12 +84,12 @@
     font-size: 10px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: $ora-text-2;
+    color: $intranet-text-2;
     margin-bottom: 4px;
   }
 
   a {
-    color: var(--ora-accent, #{$ora-sand});
+    color: var(--intranet-accent, #{$intranet-sand});
     text-decoration: none;
   }
 }
@@ -105,14 +105,14 @@
   display: inline-block;
   margin-top: 12px;
   padding: 10px 18px;
-  border: 1px solid var(--ora-accent, #{$ora-sand});
+  border: 1px solid var(--intranet-accent, #{$intranet-sand});
   border-radius: 4px;
   font-size: 13px;
-  color: $ora-text-1;
+  color: $intranet-text-1;
   text-decoration: none;
 
   &:hover {
-    background: var(--ora-accent, #{$ora-sand});
+    background: var(--intranet-accent, #{$intranet-sand});
     color: #fff;
   }
 }

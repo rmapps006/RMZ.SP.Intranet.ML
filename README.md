@@ -1,6 +1,24 @@
-# RMZ.SP.ORA-UAE.Intranet
+# RMZ Intranet Suite
 
-SharePoint Online intranet for **ORA UAE**, built with SPFx.
+SharePoint Online intranet built with SPFx. Client name, logo, visual theme
+(accent colours + fonts) and the default language are configurable from the
+Admin web part — nothing here is tied to a specific client's branding.
+
+## Language / RTL
+
+The portal is bilingual (English/Arabic). A toggle in the global header lets a
+visitor switch language at any time (persisted per-browser); the site also has
+a configurable default language for first-time visitors (Admin → General →
+Default language). Switching to Arabic sets `dir="rtl"`/`lang="ar"` on the
+page, mirrors the header/footer chrome, and every list-backed web part
+(News, Events, Policies, HR Benefits, department News/Events) renders its
+Arabic column when one has been filled in, falling back to the English value
+otherwise. Setup/provisioning creates matching `*AR` columns (`TitleAR`,
+`DescriptionAR`, `BodyAR`, `LocationAR`, `SummaryAR`, …) alongside the
+existing English columns on every list it provisions — see
+[`DEPLOYMENT.md`](./DEPLOYMENT.md) for the full column list. Editors fill in
+both languages from the same Content Manager / Admin forms; there is a single
+set of list items per content type, not a parallel Arabic list.
 
 ## Tech stack
 
@@ -18,23 +36,22 @@ Approved designs live in [`design/`](./design) (homepage, department page, depar
 
 ## Components
 
-### `ORAHeaderFooter` — Application Customizer
+### `HeaderFooterApplicationCustomizer` — Application Customizer
 
-Injects the ORA-branded **global header and footer** on every SharePoint page
-(`Top` and `Bottom` placeholders).
+Injects a configurable branded **global header and footer** on every
+SharePoint page (`Top` and `Bottom` placeholders).
 
 **Header** (`.hdr` in `design/v1-homepage.html`)
-- ORA logo (bundled `ora-logo.png`) + `UAE` wordmark, links to home
+- Logo (bundled `logo.png` by default, overridable) + optional sub-label, links to home
 - Top navigation — Home, Departments, Policies, Documents, News, Events, Onboarding, Approvals
 - Active link highlighted with the sand underline; re-evaluated on client-side navigation
-- Rounded search box (`#f3f1ed`); Enter runs a site search
-- Notification bell with sun-accent dot indicator
+- Language toggle (English ⇄ العربية) — persists per browser and flips the whole page to `dir="rtl"`
 - User avatar (initials) + display name — resolved from **Microsoft Graph** (`/me`, `User.Read`)
 - 3px sand gradient top border; header is sticky on scroll
 
 **Footer** (`.ftr` in `design/v1-homepage.html`)
 - Dark `#262626` background
-- Left: `ORA UAE` wordmark (Raleway 200) · Centre: copyright · Right: `Reimagining Time`
+- Left: `Intranet` wordmark (Raleway 200) · Centre: copyright · Right: `Reimagining Time`
 
 **Configuration** — the nav links and footer text are component properties, so URLs
 can be set per environment:
@@ -43,7 +60,7 @@ can be set per environment:
 |---|---|---|
 | `navItems` | `{ label, url }[]` | the 8 links above (server-relative) |
 | `searchPlaceholder` | `string` | `Search intranet…` |
-| `copyright` | `string` | `© 2026 ORA UAE. All rights reserved.` |
+| `copyright` | `string` | `© 2026 Intranet. All rights reserved.` |
 | `tagline` | `string` | `Reimagining Time` |
 
 Defaults for tenant-wide deployment are set in
@@ -52,14 +69,14 @@ overrides can be applied via PnP PowerShell `Set-PnPApplicationCustomizer`.
 
 > **Fonts:** Raleway + Public Sans are **bundled** in the solution (no CDN
 > dependency). The latin variable-font `.woff2` files live in
-> `src/extensions/oraHeaderFooter/assets/fonts/` and are embedded as base64 in
+> `src/extensions/headerFooter/assets/fonts/` and are embedded as base64 in
 > `components/fontData.ts`, injected once per page as `@font-face` rules by
 > `components/fonts.ts`. Regenerate `fontData.ts` with `base64 -w0 <file>.woff2`.
 
 ### Homepage web parts
 
 Eleven React web parts assemble the approved homepage (`design/v1-homepage.html`),
-all under the **ORA UAE** toolbox group and styled from the shared design tokens
+all under the **Intranet** toolbox group and styled from the shared design tokens
 (`src/common/styles/_tokens.scss`). Each data-backed web part reads live data and
 **falls back to the design sample data** when the source is empty/unavailable, so
 everything renders in the workbench before lists exist.
@@ -103,7 +120,7 @@ same shared design system, all full-width and responsive:
 
 | Web part | Purpose |
 |---|---|
-| Intranet Setup (Admin) | One-click PnP provisioning of the Events/Policies lists, Templates library, and Site Pages Category column; registers the header/footer on the site; optional sample-data seeding. |
+| Intranet Setup (Admin) | One-click PnP provisioning of every list/library the web parts use (English **and** Arabic columns), registers the header/footer on the site, edits central settings (branding, theme, default language, navigation, quick links, departments), and optional sample-data seeding. |
 
 ## Develop
 
@@ -112,7 +129,7 @@ npm install
 gulp serve            # set pageUrl in config/serve.json first
 gulp build            # compile + lint
 gulp bundle --ship    # production bundle
-gulp package-solution --ship   # produces sharepoint/solution/intranet-suite.sppkg
+gulp package-solution --ship   # produces sharepoint/solution/rmz-sp-intranet.sppkg
 ```
 
 ### Deploy (per-site scope)
@@ -120,13 +137,18 @@ gulp package-solution --ship   # produces sharepoint/solution/intranet-suite.spp
 The solution is configured for **per-site** deployment (`skipFeatureDeployment: false`),
 so the header/footer only appears on sites where the app is explicitly added.
 
-1. Upload `sharepoint/solution/intranet-suite.sppkg` to the tenant App Catalog
+1. Upload `sharepoint/solution/rmz-sp-intranet.sppkg` to the tenant App Catalog
    (`/sites/appcatalog` → **Apps for SharePoint**). Do **not** tick "make available
    to all sites".
 2. Approve the **Microsoft Graph `User.Read`** permission request in the SharePoint
    admin centre → **Advanced → API access** (Global or SharePoint admin).
-3. On each target site: **Settings → Add an app → ORA UAE Intranet**. This activates
+3. On each target site: **Settings → Add an app → RMZ Intranet Suite**. This activates
    the feature and provisions the `ClientSideComponentInstance` on that site only.
 
 Per-site nav/footer overrides (without redeploying) can be applied with PnP PowerShell
 `Set-PnPApplicationCustomizer -Identity <id> -ClientSideComponentProperties '...'`.
+
+> This solution was rebranded from an earlier client-specific build: the SPFx
+> solution/feature ID and every component ID were regenerated, so it installs
+> and operates independently of that original package — both can coexist in
+> the same tenant without conflict.
