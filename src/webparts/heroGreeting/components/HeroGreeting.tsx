@@ -2,10 +2,23 @@ import * as React from 'react';
 import styles from './HeroGreeting.module.scss';
 import { IHeroGreetingProps } from './IHeroGreetingProps';
 import { getGraphClient } from '../../../common/services/graphService';
+import { getCurrentLanguage } from '../../../common/services/languageService';
 
-// Greeting follows the viewer's own local time.
+// Greeting follows the viewer's own local time. Not admin-authored content
+// (unlike the rest of this web part's text), so the translation is built in
+// rather than a configurable *AR property.
 function timeGreeting(): string {
+  const language = getCurrentLanguage();
   const h: number = new Date().getHours();
+  if (language === 'ar') {
+    if (h < 12) {
+      return 'صباح الخير';
+    }
+    if (h < 17) {
+      return 'مساء الخير';
+    }
+    return 'مساء الخير';
+  }
   if (h < 12) {
     return 'Good morning';
   }
@@ -67,7 +80,9 @@ const HeroGreeting: React.FunctionComponent<IHeroGreetingProps> = (props) => {
           </a>
         ) : null}
       </div>
-      <div className={styles.caption}>Hero image · Premium Architecture Photography</div>
+      <div className={styles.caption}>
+        {getCurrentLanguage() === 'ar' ? 'صورة الغلاف · تصوير معماري راقٍ' : 'Hero image · Premium Architecture Photography'}
+      </div>
     </section>
   );
 };

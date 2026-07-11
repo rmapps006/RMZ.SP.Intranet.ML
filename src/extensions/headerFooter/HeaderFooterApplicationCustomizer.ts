@@ -17,7 +17,7 @@ import { ensureBrandFonts } from './components/fonts';
 import { SettingsService, IIntranetSettings, DEFAULT_SETTINGS, INavLink } from '../../common/services/SettingsService';
 import { DepartmentSettingsService } from '../../common/services/DepartmentSettingsService';
 import { getInitials } from '../../common/util/format';
-import { Language, initializeLanguage, setLanguage, pickLocalized } from '../../common/services/languageService';
+import { Language, initializeLanguage, setLanguage, pickLocalized, applyDocumentDirection } from '../../common/services/languageService';
 
 const LOG_SOURCE: string = 'HeaderFooterApplicationCustomizer';
 
@@ -323,6 +323,13 @@ export default class HeaderFooterApplicationCustomizer extends BaseApplicationCu
   }
 
   private _render(): void {
+    // SharePoint's own page chrome manages `dir`/`lang` on <html> based on the
+    // site's language settings and can reassert it after our initial onInit
+    // set, on this same page load or on later client-side navigation — so we
+    // re-apply it every render, and additionally set `dir` directly on our own
+    // placeholder host elements below so our chrome mirrors correctly even if
+    // something else wins the fight over <html>.
+    applyDocumentDirection(this._language);
     this._renderHeader();
     this._renderFooter();
   }
@@ -340,6 +347,7 @@ export default class HeaderFooterApplicationCustomizer extends BaseApplicationCu
 
     // Clear previous content so the active-link state reflects the current page.
     const host: HTMLElement = this._topPlaceholder.domElement;
+    host.setAttribute('dir', this._language === 'ar' ? 'rtl' : 'ltr');
     while (host.firstChild) {
       host.removeChild(host.firstChild);
     }
@@ -396,6 +404,7 @@ export default class HeaderFooterApplicationCustomizer extends BaseApplicationCu
     }
 
     const host: HTMLElement = this._bottomPlaceholder.domElement;
+    host.setAttribute('dir', this._language === 'ar' ? 'rtl' : 'ltr');
 
     // Footer can be hidden centrally from the Admin screen.
     if (this._settings.footerVisible === false) {
