@@ -46,6 +46,9 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
   const [results, setResults] = React.useState<IProvisionResult[]>([]);
   const [done, setDone] = React.useState<boolean>(false);
   const [seedSampleData, setSeedSampleData] = React.useState<boolean>(props.seedSampleData === true);
+  // Destructive: wipes the News/Events/Benefits lists before re-seeding. Never
+  // defaults on; only meaningful when seedSampleData is also on.
+  const [resetSampleData, setResetSampleData] = React.useState<boolean>(false);
 
   const [settingsSave, setSettingsSave] = React.useState<SaveState>('idle');
   const [navSave, setNavSave] = React.useState<SaveState>('idle');
@@ -78,6 +81,17 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
   }, [service]);
 
   const run = React.useCallback(async (): Promise<void> => {
+    // Reset permanently deletes existing content — confirm before proceeding.
+    const willReset: boolean = seedSampleData && resetSampleData;
+    if (willReset) {
+      const ok: boolean = window.confirm(
+        `Reset will permanently DELETE all existing items in the "${props.newsList}", "${props.eventsList}" and ` +
+          `"${props.benefitsList}" lists on this site, then re-add the sample data. This cannot be undone.\n\nContinue?`
+      );
+      if (!ok) {
+        return;
+      }
+    }
     setRunning(true);
     setDone(false);
     setResults([]);
@@ -93,6 +107,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
         pagesLibrary: props.pagesLibrary,
         registerHeaderFooter: props.registerHeaderFooter,
         seedSampleData: seedSampleData,
+        resetSampleData: willReset,
         createViewAllPages: props.createViewAllPages
       });
       setResults(res);
@@ -102,7 +117,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
       setRunning(false);
       setDone(true);
     }
-  }, [props, seedSampleData]);
+  }, [props, seedSampleData, resetSampleData]);
 
   const setField = <K extends keyof IIntranetSettings>(key: K, value: IIntranetSettings[K]): void => {
     setSettings((prev) => ({ ...prev, [key]: value }));
@@ -346,12 +361,31 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
             <Toggle
               label="Seed sample data (adds example News, Events, Policies and HR Benefits when each list is empty)"
               checked={seedSampleData}
-              onChange={(_, c) => setSeedSampleData(c === true)}
+              onChange={(_, c) => {
+                setSeedSampleData(c === true);
+                if (c !== true) {
+                  setResetSampleData(false); // reset only applies alongside seeding
+                }
+              }}
               onText="On"
               offText="Off"
             />
+            <Toggle
+              label="Reset before seeding — permanently delete existing News, Events and HR Benefits items first, then re-add the sample data"
+              checked={resetSampleData}
+              disabled={!seedSampleData}
+              onChange={(_, c) => setResetSampleData(c === true)}
+              onText="On"
+              offText="Off"
+            />
+            {seedSampleData && resetSampleData ? (
+              <div className={styles.warn} role="alert">
+                ⚠ Reset is destructive: all existing items in the News, Events and HR Benefits lists will be deleted
+                before the sample data is re-added. You will be asked to confirm.
+              </div>
+            ) : null}
             <button className={styles.btn} onClick={run} disabled={running} type="button">
-              {running ? 'Running setup…' : 'Run setup'}
+              {running ? (seedSampleData && resetSampleData ? 'Resetting…' : 'Running setup…') : seedSampleData && resetSampleData ? 'Reset & run setup' : 'Run setup'}
             </button>
             {results.length > 0 ? (
               <div className={styles.results}>

@@ -70,6 +70,13 @@ export interface IProvisioningOptions {
   pagesLibrary: string;
   registerHeaderFooter: boolean;
   seedSampleData: boolean;
+  /**
+   * When true (and seedSampleData is also true), every existing item in the
+   * seeded content lists (News, Events, HR Benefits) is deleted before the
+   * sample data is re-added — a destructive "reset to sample content". Ignored
+   * when seedSampleData is false. Defaults to false.
+   */
+  resetSampleData: boolean;
   createViewAllPages: boolean;
 }
 
@@ -177,6 +184,13 @@ export class ProvisioningService {
     }
 
     if (options.seedSampleData) {
+      // Reset first (when requested): wipe the seeded content lists so the seed
+      // methods — which skip a non-empty list — re-add a clean sample set.
+      if (options.resetSampleData) {
+        results.push(await this._clearList(options.eventsList));
+        results.push(await this._clearList(options.newsList));
+        results.push(await this._clearList(options.benefitsList));
+      }
       results.push(await this._seedEvents(options.eventsList));
       // Policies is a document library — seeding needs real files, so it's
       // skipped; upload policy documents to the library instead.
@@ -594,6 +608,43 @@ export class ProvisioningService {
       page.addSection().addControl(part);
       await page.save();
       return { name, status: 'ok', message: 'Created with the web part (View All hidden).' };
+    } catch (error) {
+      return { name, status: 'error', message: this._msg(error) };
+    }
+  }
+
+  /**
+   * Deletes every item in a list — used by the reset option before re-seeding.
+   * Pages through the list (100 at a time) so it works past the default view
+   * threshold, with a safety cap so a misbehaving delete can never loop
+   * forever. Idempotent: a missing or already-empty list is a no-op.
+   */
+  private async _clearList(listTitle: string): Promise<IProvisionResult> {
+    const name: string = `${listTitle} · reset`;
+    try {
+      if (!(await this._listExists(listTitle))) {
+        return { name, status: 'skipped', message: 'List does not exist yet — nothing to reset.' };
+      }
+      const list = this.sp.web.lists.getByTitle(listTitle);
+      let deleted: number = 0;
+      // SharePoint frees ids as we delete, so keep pulling the first page until
+      // none remain. The guard bounds this to 200 pages (20k items) as a
+      // backstop against an unexpected non-terminating delete.
+      for (let guard = 0; guard < 200; guard++) {
+        const rows: { Id: number }[] = await list.items.select('Id').top(100)();
+        if (!rows || rows.length === 0) {
+          break;
+        }
+        for (const row of rows) {
+          await list.items.getById(row.Id).delete();
+          deleted += 1;
+        }
+      }
+      return {
+        name,
+        status: 'ok',
+        message: deleted > 0 ? `Deleted ${deleted} existing item(s) before re-seeding.` : 'No existing items to delete.'
+      };
     } catch (error) {
       return { name, status: 'error', message: this._msg(error) };
     }

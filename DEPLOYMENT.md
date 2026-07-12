@@ -81,8 +81,15 @@ On each target site:
    - **View All pages** (News, Events, Directory, Policies) with the matching web
      part pre-placed and its "View All" link switched off (toggle on by default)
    - **Registers the global header & footer** on the site (toggle on by default)
-   - Optionally **seeds sample data** (toggle off by default)
-   Re-running is safe — existing items are detected and left untouched.
+   - Optionally **seeds sample data** (toggle off by default) — adds example
+     News, Events and HR Benefits (English + Arabic) only when each list is empty
+   - Optionally **resets before seeding** (toggle off by default; only available
+     when "seed sample data" is on) — **permanently deletes** all existing items
+     in the News, Events and HR Benefits lists, then re-adds a clean sample set.
+     This is destructive and asks for confirmation before running; use it to
+     refresh demo content, not on a site holding real content.
+   Re-running is safe — existing items are detected and left untouched (unless
+   the reset toggle is on).
 3. **Reload** the page — the header (sand top bar, logo, nav, language toggle,
    avatar) and dark footer should appear.
 
