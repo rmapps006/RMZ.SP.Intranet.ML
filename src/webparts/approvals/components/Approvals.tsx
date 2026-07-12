@@ -4,6 +4,8 @@ import { IApprovalsProps } from './IApprovalsProps';
 import { SectionHeader } from '../../../common/components/SectionHeader';
 import { getApprovals, IApprovalsData, IApprovalItem, ApprovalStatus } from '../services/ApprovalsService';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { getCurrentLanguage, isRtl, pickLocalized, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 
 const EMPTY_DATA: IApprovalsData = { myPending: [], awaitingMe: [] };
 
@@ -11,6 +13,7 @@ const Approvals: React.FunctionComponent<IApprovalsProps> = (props) => {
   const [data, setData] = React.useState<IApprovalsData>(EMPTY_DATA);
   const [loading, setLoading] = React.useState<boolean>(true);
   const navKey: string = useNavKey();
+  const language: Language = getCurrentLanguage();
 
   React.useEffect(() => {
     let active: boolean = true;
@@ -60,7 +63,7 @@ const Approvals: React.FunctionComponent<IApprovalsProps> = (props) => {
           </a>
         </div>
         {loading ? (
-          <div className={styles.appEmpty}>Loading…</div>
+          <div className={styles.appEmpty}>{t('loading', language)}</div>
         ) : items.length === 0 ? (
           <div className={styles.appEmpty}>{emptyText}</div>
         ) : (
@@ -80,12 +83,24 @@ const Approvals: React.FunctionComponent<IApprovalsProps> = (props) => {
   };
 
   return (
-    <section className={styles.approvals}>
+    <section className={styles.approvals} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.viewAllUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.appsG}>
-        {renderPanel('My Pending Requests', 'New Request', props.newRequestUrl, data.myPending, 'No pending requests.')}
-        {renderPanel('Awaiting My Approval', 'Review All', props.reviewAllUrl, data.awaitingMe, 'Nothing awaiting your approval.')}
+        {renderPanel(
+          pickLocalized('My Pending Requests', 'طلباتي', language),
+          pickLocalized('New Request', 'طلب جديد', language),
+          props.newRequestUrl,
+          data.myPending,
+          pickLocalized('No pending requests.', 'لا توجد طلبات معلّقة.', language)
+        )}
+        {renderPanel(
+          pickLocalized('Awaiting My Approval', 'بانتظار موافقتي', language),
+          pickLocalized('Review All', 'مراجعة الكل', language),
+          props.reviewAllUrl,
+          data.awaitingMe,
+          pickLocalized('Nothing awaiting your approval.', 'لا شيء بانتظار موافقتك.', language)
+        )}
       </div>
     </section>
   );

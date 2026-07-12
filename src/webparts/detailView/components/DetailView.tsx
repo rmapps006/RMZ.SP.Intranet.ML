@@ -18,7 +18,8 @@ import {
   IBenefitDetail
 } from '../services/DetailService';
 import { useNavKey } from '../../../common/services/useNavKey';
-import { getCurrentLanguage, isRtl } from '../../../common/services/languageService';
+import { getCurrentLanguage, isRtl, pickLocalized, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 
 type Loaded =
   | { kind: 'news'; data: INewsDetail }
@@ -38,7 +39,8 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
 
   // The page's static dir flips for Arabic, so the hardcoded arrow glyphs need to
   // flip with it rather than always pointing the LTR way.
-  const rtl: boolean = isRtl(getCurrentLanguage());
+  const language: Language = getCurrentLanguage();
+  const rtl: boolean = isRtl(language);
   const backArrow: string = rtl ? '→' : '←';
   const linkArrow: string = rtl ? '←' : '→';
 
@@ -90,21 +92,21 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
 
   const back: React.ReactNode = props.backUrl ? (
     <a className={styles.back} href={props.backUrl}>
-      {backArrow} Back
+      {backArrow} {pickLocalized('Back', 'رجوع', language)}
     </a>
   ) : null;
 
   if (loading) {
     return (
-      <section className={styles.detail}>
-        <div className={styles.muted}>Loading…</div>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
+        <div className={styles.muted}>{t('loading', language)}</div>
       </section>
     );
   }
 
   if (!params.type) {
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         <div className={styles.muted}>No item specified. Open this page from a News, Event, Policy, Benefit or Directory link.</div>
       </section>
     );
@@ -112,9 +114,9 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
 
   if (!result) {
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         {back}
-        <div className={styles.muted}>This item could not be found.</div>
+        <div className={styles.muted}>{pickLocalized('This item could not be found.', 'تعذّر العثور على هذا العنصر.', language)}</div>
       </section>
     );
   }
@@ -122,7 +124,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
   if (result.kind === 'news') {
     const n: INewsDetail = result.data;
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         {back}
         {n.imageUrl ? <div className={styles.hero} style={{ backgroundImage: `url("${n.imageUrl}")` }} /> : null}
         {n.category ? <div className={styles.eyebrow}>{n.category}</div> : null}
@@ -133,7 +135,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
         {n.body ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: n.body }} /> : null}
         {n.linkUrl ? (
           <a className={styles.cta} href={n.linkUrl} target="_blank" rel="noopener noreferrer">
-            Read the full article {linkArrow}
+            {pickLocalized('Read the full article', 'اقرأ المقال كاملاً', language)} {linkArrow}
           </a>
         ) : null}
       </section>
@@ -144,14 +146,14 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
     const e: IEventDetail = result.data;
     const time: string = [formatClock(e.start), formatClock(e.end)].filter((v) => !!v).join(' – ');
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         {back}
         {e.category ? <div className={styles.eyebrow}>{e.category}</div> : null}
         <h1 className={styles.title}>{e.title}</h1>
         <div className={styles.factGrid}>
-          {e.start ? <div className={styles.fact}><span>Date</span>{formatLongDate(e.start)}</div> : null}
-          {time ? <div className={styles.fact}><span>Time</span>{time}</div> : null}
-          {e.location ? <div className={styles.fact}><span>Location</span>{e.location}</div> : null}
+          {e.start ? <div className={styles.fact}><span>{pickLocalized('Date', 'التاريخ', language)}</span>{formatLongDate(e.start)}</div> : null}
+          {time ? <div className={styles.fact}><span>{pickLocalized('Time', 'الوقت', language)}</span>{time}</div> : null}
+          {e.location ? <div className={styles.fact}><span>{pickLocalized('Location', 'الموقع', language)}</span>{e.location}</div> : null}
         </div>
         {e.description ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: e.description }} /> : null}
       </section>
@@ -162,19 +164,19 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
     const p: IPolicyDetail = result.data;
     const viewUrl: string | undefined = browserViewUrl(p.documentUrl);
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         {back}
-        <div className={styles.eyebrow}>Policy</div>
+        <div className={styles.eyebrow}>{pickLocalized('Policy', 'السياسة', language)}</div>
         <h1 className={styles.title}>{p.title}</h1>
         <div className={styles.factGrid}>
-          {p.department ? <div className={styles.fact}><span>Department</span>{p.department}</div> : null}
-          {p.version ? <div className={styles.fact}><span>Version</span>{p.version}</div> : null}
-          {p.fileType ? <div className={styles.fact}><span>Type</span>{p.fileType.toUpperCase()}</div> : null}
-          {p.modified ? <div className={styles.fact}><span>Updated</span>{formatLongDate(p.modified)}</div> : null}
+          {p.department ? <div className={styles.fact}><span>{t('department', language)}</span>{p.department}</div> : null}
+          {p.version ? <div className={styles.fact}><span>{t('version', language)}</span>{p.version}</div> : null}
+          {p.fileType ? <div className={styles.fact}><span>{pickLocalized('Type', 'النوع', language)}</span>{p.fileType.toUpperCase()}</div> : null}
+          {p.modified ? <div className={styles.fact}><span>{t('lastUpdated', language)}</span>{formatLongDate(p.modified)}</div> : null}
         </div>
         {viewUrl ? (
           <a className={styles.cta} href={viewUrl} target="_blank" rel="noopener noreferrer" data-interception="off">
-            Open document {linkArrow}
+            {pickLocalized('Open document', 'فتح المستند', language)} {linkArrow}
           </a>
         ) : null}
       </section>
@@ -184,14 +186,14 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
   if (result.kind === 'benefit') {
     const b: IBenefitDetail = result.data;
     return (
-      <section className={styles.detail}>
+      <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
         {back}
-        <div className={styles.eyebrow}>{b.category || 'Benefit'}</div>
+        <div className={styles.eyebrow}>{b.category || pickLocalized('Benefit', 'ميزة', language)}</div>
         <h1 className={styles.title}>{b.title}</h1>
         {b.summary ? <div className={styles.meta}>{b.summary}</div> : null}
         <div className={styles.factGrid}>
-          {b.eligibility ? <div className={styles.fact}><span>Eligibility</span>{b.eligibility}</div> : null}
-          {b.coverage ? <div className={styles.fact}><span>Coverage</span>{b.coverage}</div> : null}
+          {b.eligibility ? <div className={styles.fact}><span>{pickLocalized('Eligibility', 'الأهلية', language)}</span>{b.eligibility}</div> : null}
+          {b.coverage ? <div className={styles.fact}><span>{pickLocalized('Coverage', 'التغطية', language)}</span>{b.coverage}</div> : null}
         </div>
         {b.details ? <div className={styles.body} dir="auto" dangerouslySetInnerHTML={{ __html: b.details }} /> : null}
       </section>
@@ -210,14 +212,14 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
         </div>
       </div>
       <div className={styles.factGrid}>
-        {m.email ? <div className={styles.fact}><span>Email</span><a href={`mailto:${m.email}`}>{m.email}</a></div> : null}
-        {m.phone ? <div className={styles.fact}><span>Phone</span>{m.phone}</div> : null}
-        {m.mobile ? <div className={styles.fact}><span>Mobile</span>{m.mobile}</div> : null}
-        {m.office ? <div className={styles.fact}><span>Office</span>{m.office}</div> : null}
+        {m.email ? <div className={styles.fact}><span>{pickLocalized('Email', 'البريد الإلكتروني', language)}</span><a href={`mailto:${m.email}`}>{m.email}</a></div> : null}
+        {m.phone ? <div className={styles.fact}><span>{pickLocalized('Phone', 'الهاتف', language)}</span>{m.phone}</div> : null}
+        {m.mobile ? <div className={styles.fact}><span>{pickLocalized('Mobile', 'الجوال', language)}</span>{m.mobile}</div> : null}
+        {m.office ? <div className={styles.fact}><span>{pickLocalized('Office', 'المكتب', language)}</span>{m.office}</div> : null}
       </div>
       {m.email ? (
         <a className={styles.cta} href={`https://teams.microsoft.com/l/chat/0/0?users=${encodeURIComponent(m.email)}`} target="_blank" rel="noopener noreferrer">
-          Message on Teams {linkArrow}
+          {pickLocalized('Message on Teams', 'مراسلة عبر تيمز', language)} {linkArrow}
         </a>
       ) : null}
     </section>

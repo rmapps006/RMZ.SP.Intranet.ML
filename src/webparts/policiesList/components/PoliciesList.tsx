@@ -7,6 +7,8 @@ import { IPolicy } from '../../../common/models';
 import { getPolicies } from '../services/PoliciesService';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 
 const DEPARTMENTS: string[] = ['All Departments', 'HR', 'Finance', 'IT', 'Operations', 'Marketing', 'Legal'];
 
@@ -46,6 +48,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
   const navKey: string = useNavKey();
   const newTab: boolean = settings.openLinksInNewTab;
   const detailUrl: string = settings.detailPageUrl;
+  const language: Language = getCurrentLanguage();
 
   // Prefer the shared Detail page (?type=policy) when configured, else the OOTB
   // display form.
@@ -85,7 +88,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
   });
 
   return (
-    <section className={styles.policies}>
+    <section className={styles.policies} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.allPoliciesUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.top}>
@@ -93,8 +96,8 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
           <SearchIcon />
           <input
             type="text"
-            placeholder="Search policies…"
-            aria-label="Search policies"
+            placeholder={t('searchPolicies', language)}
+            aria-label={t('searchPolicies', language)}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -115,7 +118,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
                 }
               }}
             >
-              {d}
+              {localizeChoice(d, language)}
             </div>
           ))}
         </div>
@@ -123,15 +126,15 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
 
       <div className={styles.table}>
         <div className={styles.hrow}>
-          <div className={styles.hc}>Policy Title</div>
-          <div className={styles.hc}>Department</div>
-          <div className={styles.hc}>Last Updated</div>
-          <div className={styles.hc}>Version</div>
+          <div className={styles.hc}>{t('policyTitle', language)}</div>
+          <div className={styles.hc}>{t('department', language)}</div>
+          <div className={styles.hc}>{t('lastUpdated', language)}</div>
+          <div className={styles.hc}>{t('version', language)}</div>
         </div>
         {loading ? (
-          <div className={styles.empty}>Loading policies…</div>
+          <div className={styles.empty}>{t('loadingPolicies', language)}</div>
         ) : filtered.length === 0 ? (
-          <div className={styles.empty}>No policies match your search.</div>
+          <div className={styles.empty}>{t('noPoliciesMatch', language)}</div>
         ) : (
           filtered.map((p, i) => {
             const rowInner: JSX.Element = (
@@ -141,7 +144,7 @@ const PoliciesList: React.FunctionComponent<IPoliciesListProps> = (props) => {
                   <div className={styles.nm}>{p.title}</div>
                 </div>
                 <div className={styles.badge} style={BADGE_STYLES[p.department] || {}}>
-                  {p.department}
+                  {localizeChoice(p.department, language)}
                 </div>
                 <div className={styles.date}>{formatLongDate(p.updated)}</div>
                 <div className={styles.ver}>{p.version}</div>

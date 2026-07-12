@@ -42,7 +42,7 @@ export default class SharedDocumentsWebPart extends BaseClientSideWebPart<IShare
       panel2Url: this.properties.panel2Url,
       documentHubUrl: this.properties.documentHubUrl,
       title: pickLocalized(this.properties.title || 'Shared Documents', this.properties.titleAR, language),
-      linkText: pickLocalized(this.properties.linkText || 'Document Hub', this.properties.linkTextAR, language)
+      linkText: pickLocalized(this.properties.linkText || 'Document Hub', this.properties.linkTextAR || 'مركز المستندات', language)
     });
     ReactDom.render(element, this.domElement);
   }

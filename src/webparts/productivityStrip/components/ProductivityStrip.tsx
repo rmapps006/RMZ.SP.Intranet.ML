@@ -4,7 +4,8 @@ import styles from './ProductivityStrip.module.scss';
 import { IProductivityStripProps } from './IProductivityStripProps';
 import { getTodaySchedule, IScheduleItem } from '../services/ProductivityService';
 import { IQuickLinkSetting } from '../../../common/services/SettingsService';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
@@ -57,9 +58,9 @@ function resolveLinks(json: string, central: IQuickLinkSetting[], language: Lang
   return (central || []).map((q) => normalizeLink(q, language));
 }
 
-function LinkTiles(props: { links: IQuickLink[]; newTab: boolean }): JSX.Element {
+function LinkTiles(props: { links: IQuickLink[]; newTab: boolean; language: Language }): JSX.Element {
   if (props.links.length === 0) {
-    return <div className={styles.qlEmpty}>No quick links configured.</div>;
+    return <div className={styles.qlEmpty}>{t('noQuickLinks', props.language)}</div>;
   }
   return (
     <div className={styles.qlG}>
@@ -119,15 +120,15 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
   // "Today" and the schedule follow the viewer's own local timezone.
   const now: Date = new Date();
   const dayNum: string = now.getDate().toString();
-  const weekday: string = now.toLocaleDateString('en-US', { weekday: 'long' });
-  const monthYear: string = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const weekday: string = now.toLocaleDateString(language === 'ar' ? 'ar' : 'en-US', { weekday: 'long' });
+  const monthYear: string = now.toLocaleDateString(language === 'ar' ? 'ar' : 'en-US', { month: 'long', year: 'numeric' });
 
   return (
-    <section className={styles.prod}>
+    <section className={styles.prod} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.prodG}>
         {/* Today's Schedule (left) */}
         <div className={styles.pc}>
-          <div className={styles.pcLbl}>Today&apos;s Schedule</div>
+          <div className={styles.pcLbl}>{t('todaysSchedule', language)}</div>
           <div className={styles.calTop}>
             <div className={styles.calNum}>{dayNum}</div>
             <div>
@@ -136,7 +137,7 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
             </div>
           </div>
           {schedule.length === 0 ? (
-            <div className={styles.calEmpty}>No events scheduled today.</div>
+            <div className={styles.calEmpty}>{t('noEventsToday', language)}</div>
           ) : (
             schedule.map((item: IScheduleItem, idx: number) => (
               <div className={styles.calItem} key={idx}>
@@ -153,8 +154,8 @@ const ProductivityStrip: React.FunctionComponent<IProductivityStripProps> = (pro
 
         {/* Quick Links (right) */}
         <div className={styles.pc}>
-          <div className={styles.pcLbl}>Quick Links</div>
-          <LinkTiles links={quickLinks} newTab={settings.openLinksInNewTab} />
+          <div className={styles.pcLbl}>{t('quickLinks', language)}</div>
+          <LinkTiles links={quickLinks} newTab={settings.openLinksInNewTab} language={language} />
         </div>
       </div>
     </section>

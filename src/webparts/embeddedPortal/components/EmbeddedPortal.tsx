@@ -3,6 +3,7 @@ import styles from './EmbeddedPortal.module.scss';
 import { IEmbeddedPortalProps } from './IEmbeddedPortalProps';
 import { getSP } from '../../../common/services/pnpService';
 import { SettingsService, getCachedSettings } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 
 // Default (stricter) sandbox used for ordinary embeds.
 const STRICT_SANDBOX: string = 'allow-scripts allow-same-origin allow-forms allow-popups';
@@ -40,6 +41,7 @@ function resolveHeight(raw: string): string {
 }
 
 const EmbeddedPortal: React.FunctionComponent<IEmbeddedPortalProps> = (props) => {
+  const language: Language = getCurrentLanguage();
   const url: string = props.portalUrl || 'https://www.orauae.com';
   const cssHeight: string = resolveHeight(props.frameHeight);
   // Give relative (vh/%) heights a sensible floor so full-screen apps aren't squashed.
@@ -93,7 +95,7 @@ const EmbeddedPortal: React.FunctionComponent<IEmbeddedPortalProps> = (props) =>
   }, [props.context, props.hideUrl]);
 
   return (
-    <section className={styles.embeddedPortal}>
+    <section className={styles.embeddedPortal} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.inner}>
         {/* Custom header so the link can open in a new tab (SectionHeader has no target). */}
         <div className={styles.head}>

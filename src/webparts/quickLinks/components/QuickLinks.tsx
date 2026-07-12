@@ -4,7 +4,7 @@ import styles from './QuickLinks.module.scss';
 import { IQuickLinksProps } from './IQuickLinksProps';
 import { SectionHeader } from '../../../common/components/SectionHeader';
 import { getCachedSettings, IQuickLinkSetting } from '../../../common/services/SettingsService';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
 import { linkTarget } from '../../../common/util/format';
 
 /** A single quick-access tile. */
@@ -59,7 +59,7 @@ const QuickLinks: React.FunctionComponent<IQuickLinksProps> = (props) => {
   const globalNewTab: boolean = getCachedSettings().openLinksInNewTab;
 
   return (
-    <section className={styles.quickLinks}>
+    <section className={styles.quickLinks} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader
         title={props.title}
         linkText="View All"

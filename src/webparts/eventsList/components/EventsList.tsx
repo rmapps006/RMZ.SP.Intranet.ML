@@ -7,10 +7,13 @@ import { splitDateChip, linkTarget } from '../../../common/util/format';
 import { getEvents } from '../services/EventsService';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
 
 const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
   const [items, setItems] = React.useState<IEventItem[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const language: Language = getCurrentLanguage();
 
   // Reactive settings so central values apply on first paint (not only after
   // the cache-warming extension has run).
@@ -55,17 +58,17 @@ const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
   }, [props.context, props.eventsList, max, navKey]);
 
   return (
-    <section className={styles.events}>
+    <section className={styles.events} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
-        <div className={styles.evtsEmpty}>Loading events…</div>
+        <div className={styles.evtsEmpty}>{t('loadingEvents', language)}</div>
       ) : items.length === 0 ? (
-        <div className={styles.evtsEmpty}>No events to show.</div>
+        <div className={styles.evtsEmpty}>{t('noEvents', language)}</div>
       ) : (
         <div className={styles.evtsG}>
           {items.map((item: IEventItem, index: number) => {
-            const chip: { mo: string; dy: string } = splitDateChip(item.date);
+            const chip: { mo: string; dy: string } = splitDateChip(item.date, language);
             const inner: JSX.Element = (
               <>
                 <div className={styles.ecDate} style={{ background: item.accent }}>
@@ -73,7 +76,7 @@ const EventsList: React.FunctionComponent<IEventsListProps> = (props) => {
                   <div className={styles.ecDy}>{chip.dy}</div>
                 </div>
                 <div className={styles.ecBd}>
-                  <div className={styles.ecTp}>{item.type}</div>
+                  <div className={styles.ecTp}>{localizeChoice(item.type, language)}</div>
                   <div className={styles.ecTt}>{item.title}</div>
                   {item.time ? <div className={styles.ecTime}>{item.time}</div> : null}
                   {item.location ? <div className={styles.ecLoc}>{item.location}</div> : null}

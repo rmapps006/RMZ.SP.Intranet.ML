@@ -7,6 +7,8 @@ import { IDocumentItem, IDocumentPanel } from '../../../common/models';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 
 const FALLBACK_PANEL1: IDocumentItem[] = [];
 
@@ -22,8 +24,9 @@ function iconClass(fileType: IDocumentItem['fileType']): string {
   return styles.doc;
 }
 
-const DocumentPanel: React.FunctionComponent<IDocumentPanel & { newTab: boolean; loading: boolean }> = (panel) => {
+const DocumentPanel: React.FunctionComponent<IDocumentPanel & { newTab: boolean; loading: boolean; language: Language }> = (panel) => {
   const newTab: boolean = panel.newTab;
+  const language: Language = panel.language;
   const hasLibraryUrl: boolean = !!panel.libraryUrl;
   return (
     <div className={styles.panel}>
@@ -32,17 +35,17 @@ const DocumentPanel: React.FunctionComponent<IDocumentPanel & { newTab: boolean;
         <a
           className={hasLibraryUrl ? styles.panelLink : `${styles.panelLink} ${styles.disabled}`}
           href={panel.libraryUrl || '#'}
-          aria-label={`Open ${panel.title} library`}
+          aria-label={t('openLibrary', language)}
           aria-disabled={!hasLibraryUrl}
           {...linkTarget(newTab)}
         >
-          Open Library
+          {t('openLibrary', language)}
         </a>
       </div>
       {panel.loading ? (
-        <div className={styles.empty}>Loading…</div>
+        <div className={styles.empty}>{t('loading', language)}</div>
       ) : panel.items.length === 0 ? (
-        <div className={styles.empty}>No documents yet.</div>
+        <div className={styles.empty}>{t('noDocuments', language)}</div>
       ) : (
         panel.items.map((doc: IDocumentItem, index: number) => {
           const hasUrl: boolean = !!doc.url;
@@ -72,6 +75,7 @@ const SharedDocuments: React.FunctionComponent<ISharedDocumentsProps> = (props) 
   const [items2, setItems2] = React.useState<IDocumentItem[]>(FALLBACK_PANEL2);
   const [loading1, setLoading1] = React.useState<boolean>(true);
   const [loading2, setLoading2] = React.useState<boolean>(true);
+  const language: Language = getCurrentLanguage();
   const newTab: boolean = useSettings(props.context).openLinksInNewTab;
   const navKey: string = useNavKey();
 
@@ -118,11 +122,11 @@ const SharedDocuments: React.FunctionComponent<ISharedDocumentsProps> = (props) 
   }, [props.context, props.panel1Library, props.panel2Library, navKey]);
 
   return (
-    <section className={styles.root}>
+    <section className={styles.root} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
       <div className={styles.grid}>
-        <DocumentPanel title={props.panel1Title} libraryUrl={props.panel1Url} items={items1} newTab={newTab} loading={loading1} />
-        <DocumentPanel title={props.panel2Title} libraryUrl={props.panel2Url} items={items2} newTab={newTab} loading={loading2} />
+        <DocumentPanel title={props.panel1Title} libraryUrl={props.panel1Url} items={items1} newTab={newTab} loading={loading1} language={language} />
+        <DocumentPanel title={props.panel2Title} libraryUrl={props.panel2Url} items={items2} newTab={newTab} loading={loading2} language={language} />
       </div>
     </section>
   );

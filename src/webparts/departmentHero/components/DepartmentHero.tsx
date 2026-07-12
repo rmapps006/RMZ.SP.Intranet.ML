@@ -3,7 +3,7 @@ import styles from './DepartmentHero.module.scss';
 import { IDepartmentHeroProps } from './IDepartmentHeroProps';
 import { InitialsAvatar } from '../../../common/components/InitialsAvatar';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
 
 const DepartmentHero: React.FunctionComponent<IDepartmentHeroProps> = (props) => {
   // Property-pane values win; otherwise fall back to the central Department Admin settings.
@@ -20,7 +20,7 @@ const DepartmentHero: React.FunctionComponent<IDepartmentHeroProps> = (props) =>
   const hasContent: boolean = !!(departmentName || description);
 
   return (
-    <section className={styles.deptHero}>
+    <section className={styles.deptHero} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.deptHeroBg} />
       <div className={styles.deptHeroCt}>
         {eyebrow ? <div className={styles.deptEyebrow}>{eyebrow}</div> : null}

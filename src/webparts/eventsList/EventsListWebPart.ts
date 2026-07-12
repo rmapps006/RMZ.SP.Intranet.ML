@@ -32,7 +32,7 @@ export default class EventsListWebPart extends BaseClientSideWebPart<IEventsList
       calendarUrl: this.properties.calendarUrl,
       maxItems: this.properties.maxItems,
       title: pickLocalized(this.properties.title || 'Company Events', this.properties.titleAR, language),
-      linkText: pickLocalized(this.properties.linkText || 'View Calendar', this.properties.linkTextAR, language)
+      linkText: pickLocalized(this.properties.linkText || 'View Calendar', this.properties.linkTextAR || 'عرض التقويم', language)
     });
     ReactDom.render(element, this.domElement);
   }

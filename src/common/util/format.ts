@@ -1,5 +1,7 @@
 // Shared formatting helpers for the Intranet web parts.
 
+import { Language } from '../services/languageService';
+
 function pad2(n: number): string {
   return n.toString().padStart(2, '0');
 }
@@ -165,8 +167,12 @@ export function formatLongDate(value: string | Date | undefined): string {
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-/** Month abbreviation + day for event date chips (e.g. { mo: "JUN", dy: "18" }). */
-export function splitDateChip(value: string | Date | undefined): { mo: string; dy: string } {
+/**
+ * Month abbreviation + day for event date chips (e.g. { mo: "JUN", dy: "18" }).
+ * Pass `language` to localise the month name (Arabic renders the Arabic month);
+ * omitting it keeps the English 'en-US' abbreviation.
+ */
+export function splitDateChip(value: string | Date | undefined, language?: Language): { mo: string; dy: string } {
   if (!value) {
     return { mo: '', dy: '' };
   }
@@ -174,8 +180,9 @@ export function splitDateChip(value: string | Date | undefined): { mo: string; d
   if (isNaN(d.getTime())) {
     return { mo: '', dy: '' };
   }
+  const locale: string = language === 'ar' ? 'ar' : 'en-US';
   return {
-    mo: d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    mo: d.toLocaleDateString(locale, { month: 'short' }).toUpperCase(),
     dy: d.getDate().toString()
   };
 }

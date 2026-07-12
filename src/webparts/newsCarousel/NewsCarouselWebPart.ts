@@ -32,7 +32,7 @@ export default class NewsCarouselWebPart extends BaseClientSideWebPart<INewsCaro
       archiveUrl: this.properties.archiveUrl,
       maxItems: parseInt(this.properties.maxItems, 10) || 3,
       title: pickLocalized(this.properties.title || 'News & Announcements', this.properties.titleAR, language),
-      linkText: pickLocalized(this.properties.linkText || 'View Archive', this.properties.linkTextAR, language)
+      linkText: pickLocalized(this.properties.linkText || 'View Archive', this.properties.linkTextAR || 'عرض الأرشيف', language)
     });
     ReactDom.render(element, this.domElement);
   }

@@ -7,10 +7,13 @@ import { formatLongDate, linkTarget } from '../../../common/util/format';
 import { getDepartmentNews } from '../services/DepartmentNewsService';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
 
 const DepartmentNews: React.FunctionComponent<IDepartmentNewsProps> = (props) => {
   const [items, setItems] = React.useState<INewsItem[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const language: Language = getCurrentLanguage();
 
   // Property-pane values win; otherwise fall back to the central Department Admin settings.
   const ds = useDepartmentSettings(props.context);
@@ -51,13 +54,13 @@ const DepartmentNews: React.FunctionComponent<IDepartmentNewsProps> = (props) =>
   }, [props.context, newsList, navKey]);
 
   return (
-    <section className={styles.news}>
+    <section className={styles.news} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={allNewsUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
-        <div className={styles.empty}>Loading…</div>
+        <div className={styles.empty}>{t('loadingNews', language)}</div>
       ) : items.length === 0 ? (
-        <div className={styles.empty}>No news to show.</div>
+        <div className={styles.empty}>{t('noNews', language)}</div>
       ) : (
         <div className={styles.newsG}>
           {items.map((item: INewsItem, index: number) => {
@@ -74,7 +77,7 @@ const DepartmentNews: React.FunctionComponent<IDepartmentNewsProps> = (props) =>
                   {item.imageCaption && !item.imageUrl ? <span className={styles.ncCap}>{item.imageCaption}</span> : null}
                 </div>
                 <div className={styles.ncBd}>
-                  <div className={styles.ncTag}>{item.category}</div>
+                  <div className={styles.ncTag}>{localizeChoice(item.category, language)}</div>
                   <h3 className={styles.ncH}>{item.title}</h3>
                   <div className={styles.ncFt}>
                     <span className={styles.ncDt}>{formatLongDate(item.date)}</span>

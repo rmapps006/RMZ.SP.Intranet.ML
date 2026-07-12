@@ -7,6 +7,7 @@ import { getBenefits } from '../services/HrBenefitsService';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 
 // The 6 design SVG icons, mapped to the fallback benefits by index.
 // SVG attributes are converted to React (strokeWidth, strokeLinecap, etc.).
@@ -84,6 +85,7 @@ function parseBenefits(json: string): { items: IBenefit[]; isFallback: boolean }
 }
 
 const HrBenefits: React.FunctionComponent<IHrBenefitsProps> = (props) => {
+  const language: Language = getCurrentLanguage();
   // Property-pane JSON acts as an override; otherwise read the HR Benefits list.
   const override = parseBenefits(props.benefitsJson);
   const [listItems, setListItems] = React.useState<IBenefit[]>([]);
@@ -129,7 +131,7 @@ const HrBenefits: React.FunctionComponent<IHrBenefitsProps> = (props) => {
   };
 
   return (
-    <section className={styles.benefits}>
+    <section className={styles.benefits} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText="All Benefits" linkUrl={props.allBenefitsUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
       {loading ? (
         <div className={styles.empty}>Loading benefits…</div>

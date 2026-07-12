@@ -7,10 +7,13 @@ import { splitDateChip, linkTarget } from '../../../common/util/format';
 import { getDepartmentEvents } from '../services/DepartmentEventsService';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
 
 const DepartmentEvents: React.FunctionComponent<IDepartmentEventsProps> = (props) => {
   const [items, setItems] = React.useState<IEventItem[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const language: Language = getCurrentLanguage();
 
   // Property-pane values win; otherwise fall back to the central Department Admin settings.
   const ds = useDepartmentSettings(props.context);
@@ -55,13 +58,13 @@ const DepartmentEvents: React.FunctionComponent<IDepartmentEventsProps> = (props
   }, [props.context, eventsList, max, navKey]);
 
   return (
-    <section className={styles.events}>
+    <section className={styles.events} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={calendarUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       {loading ? (
-        <div className={styles.empty}>Loading…</div>
+        <div className={styles.empty}>{t('loadingEvents', language)}</div>
       ) : items.length === 0 ? (
-        <div className={styles.empty}>No events to show.</div>
+        <div className={styles.empty}>{t('noEvents', language)}</div>
       ) : (
         <div className={styles.evtsG}>
           {items.map((item: IEventItem, index: number) => {
@@ -73,7 +76,7 @@ const DepartmentEvents: React.FunctionComponent<IDepartmentEventsProps> = (props
                   <div className={styles.ecDy}>{chip.dy}</div>
                 </div>
                 <div className={styles.ecBd}>
-                  <div className={styles.ecTp}>{item.type}</div>
+                  <div className={styles.ecTp}>{localizeChoice(item.type, language)}</div>
                   <div className={styles.ecTt}>{item.title}</div>
                   {item.time ? <div className={styles.ecTime}>{item.time}</div> : null}
                   {item.location ? <div className={styles.ecLoc}>{item.location}</div> : null}

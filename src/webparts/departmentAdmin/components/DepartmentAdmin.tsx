@@ -9,6 +9,7 @@ import {
   DEFAULT_DEPARTMENT_SETTINGS
 } from '../../../common/services/DepartmentSettingsService';
 import { getCachedSettings } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 import {
   Pivot,
   PivotItem,
@@ -30,6 +31,7 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
     () => new DepartmentSettingsService(getSP(props.context)),
     [props.context]
   );
+  const language: Language = getCurrentLanguage();
 
   const [checking, setChecking] = React.useState<boolean>(true);
   const [canManage, setCanManage] = React.useState<boolean>(false);
@@ -157,7 +159,7 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
 
   if (checking) {
     return (
-      <section className={styles.admin}>
+      <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <div className={styles.panel}>
           <Spinner size={SpinnerSize.large} label="Checking permissions…" />
         </div>
@@ -167,7 +169,7 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
 
   if (!canManage) {
     return (
-      <section className={styles.admin}>
+      <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <div className={styles.panel}>
           <div className={styles.eyebrow}>{getCachedSettings().clientName} · Department Administration</div>
           <h2 className={styles.title}>Administrators only</h2>
@@ -180,7 +182,7 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
   }
 
   return (
-    <section className={styles.admin}>
+    <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.panel}>
         <div className={styles.eyebrow}>{getCachedSettings().clientName} · Department Administration</div>
         <h2 className={styles.title}>Department Setup &amp; Settings</h2>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './HeroGreeting.module.scss';
 import { IHeroGreetingProps } from './IHeroGreetingProps';
 import { getGraphClient } from '../../../common/services/graphService';
-import { getCurrentLanguage } from '../../../common/services/languageService';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 
 // Greeting follows the viewer's own local time. Not admin-authored content
 // (unlike the rest of this web part's text), so the translation is built in
@@ -29,6 +29,8 @@ function timeGreeting(): string {
 }
 
 const HeroGreeting: React.FunctionComponent<IHeroGreetingProps> = (props) => {
+  const language: Language = getCurrentLanguage();
+  const arrow: string = isRtl(language) ? '←' : '→';
   const [name, setName] = React.useState<string>(
     props.context.pageContext.user.displayName || ''
   );
@@ -51,7 +53,7 @@ const HeroGreeting: React.FunctionComponent<IHeroGreetingProps> = (props) => {
   }, [props.context]);
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.bg} aria-hidden="true" />
       <div className={styles.content}>
         {props.showGreeting && name ? (
@@ -76,7 +78,7 @@ const HeroGreeting: React.FunctionComponent<IHeroGreetingProps> = (props) => {
         {props.subtitle ? <p className={styles.sub}>{props.subtitle}</p> : null}
         {props.buttonText ? (
           <a className={styles.btn} href={props.buttonUrl || '#'}>
-            {props.buttonText} &nbsp;&rarr;
+            {props.buttonText} &nbsp;{arrow}
           </a>
         ) : null}
       </div>

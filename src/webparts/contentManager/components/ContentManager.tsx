@@ -5,6 +5,7 @@ import { Pivot, PivotItem, MessageBar, MessageBarType, Spinner, SpinnerSize } fr
 import { NEWS_TYPE, EVENTS_TYPE, BENEFITS_TYPE, IContentTypeDef } from '../services/contentTypes';
 import { canContribute, listExists } from '../services/ContentService';
 import { getCachedSettings } from '../../../common/services/SettingsService';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 import ContentPanel from './ContentPanel';
 
 interface ITab {
@@ -16,6 +17,7 @@ const ContentManager: React.FunctionComponent<IContentManagerProps> = (props) =>
   const [checking, setChecking] = React.useState<boolean>(true);
   const [allowed, setAllowed] = React.useState<boolean>(false);
   const [tabs, setTabs] = React.useState<ITab[]>([]);
+  const language: Language = getCurrentLanguage();
 
   // Build the configured tab set (property toggles + list name overrides).
   const configured: ITab[] = React.useMemo(() => {
@@ -67,7 +69,7 @@ const ContentManager: React.FunctionComponent<IContentManagerProps> = (props) =>
 
   if (checking) {
     return (
-      <section className={styles.cm}>
+      <section className={styles.cm} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <Spinner size={SpinnerSize.large} label="Loading content manager…" />
       </section>
     );
@@ -75,7 +77,7 @@ const ContentManager: React.FunctionComponent<IContentManagerProps> = (props) =>
 
   if (tabs.length === 0) {
     return (
-      <section className={styles.cm}>
+      <section className={styles.cm} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <MessageBar messageBarType={MessageBarType.warning}>
           None of the configured content lists were found on this site. Run Setup (Admin) first, or check the list names in
           this web part’s properties.
@@ -86,7 +88,7 @@ const ContentManager: React.FunctionComponent<IContentManagerProps> = (props) =>
 
   if (!allowed) {
     return (
-      <section className={styles.cm}>
+      <section className={styles.cm} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <MessageBar messageBarType={MessageBarType.warning}>
           You don’t have permission to add content here. Ask a site owner to grant you contribute access.
         </MessageBar>
@@ -95,7 +97,7 @@ const ContentManager: React.FunctionComponent<IContentManagerProps> = (props) =>
   }
 
   return (
-    <section className={styles.cm}>
+    <section className={styles.cm} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.head}>
         <div className={styles.eyebrow}>{getCachedSettings().clientName} · Content</div>
         <h2 className={styles.title}>{props.title || 'Content Manager'}</h2>

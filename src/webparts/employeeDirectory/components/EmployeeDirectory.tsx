@@ -7,6 +7,8 @@ import { getPeople, searchPeople, IDirectoryPerson, IDirectoryConfig, FALLBACK_P
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 
 const SearchIcon: React.FunctionComponent = () => (
   <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className={styles.searchIcon} aria-hidden="true">
@@ -41,6 +43,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
   const [searching, setSearching] = React.useState<boolean>(false);
   const [activeDomain, setActiveDomain] = React.useState<string>('');
 
+  const language: Language = getCurrentLanguage();
   const settings = useSettings(props.context);
   const navKey: string = useNavKey();
   const pageSize: number = props.pageSize && props.pageSize > 0 ? props.pageSize : settings.directoryPageSize;
@@ -122,7 +125,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
     : source;
 
   return (
-    <section className={styles.directory}>
+    <section className={styles.directory} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.fullDirectoryUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.dirTop}>
@@ -130,8 +133,8 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
           <SearchIcon />
           <input
             type="text"
-            placeholder="Search the full directory by name, email, department, position…"
-            aria-label="Search the full directory by name, email, department, position"
+            placeholder={t('searchDirectory', language)}
+            aria-label={t('searchDirectory', language)}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -160,7 +163,11 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
 
       {isSearch ? (
         <div className={styles.dirStatus}>
-          {searching ? 'Searching the directory…' : `${filtered.length} result${filtered.length === 1 ? '' : 's'} for “${query.trim()}”`}
+          {searching
+            ? t('searchingDirectory', language)
+            : language === 'ar'
+              ? `${filtered.length} نتيجة لـ ”${query.trim()}“`
+              : `${filtered.length} result${filtered.length === 1 ? '' : 's'} for “${query.trim()}”`}
         </div>
       ) : null}
 
@@ -206,10 +213,10 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
 
             <div className={styles.dirActs}>
               <a className={styles.dirAct} href={person.phone ? `tel:${person.phone.replace(/[^+\d]/g, '')}` : '#'}>
-                <PhoneIcon /> Call
+                <PhoneIcon /> {t('call', language)}
               </a>
               <a className={styles.dirAct} href={person.email ? `mailto:${person.email}` : '#'}>
-                <EnvelopeIcon /> Email
+                <EnvelopeIcon /> {t('email', language)}
               </a>
               <a
                 className={styles.dirAct}
@@ -217,7 +224,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
                 target="_blank"
                 rel="noreferrer"
               >
-                Teams
+                {t('teams', language)}
               </a>
             </div>
           </div>
@@ -225,7 +232,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
       </div>
 
       {isSearch && !searching && filtered.length === 0 ? (
-        <div className={styles.dirEmpty}>No matching people found.</div>
+        <div className={styles.dirEmpty}>{t('noMatchingPeople', language)}</div>
       ) : null}
     </section>
   );

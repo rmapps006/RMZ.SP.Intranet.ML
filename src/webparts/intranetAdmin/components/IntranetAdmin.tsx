@@ -3,6 +3,7 @@ import styles from './IntranetAdmin.module.scss';
 import { IIntranetAdminProps } from './IIntranetAdminProps';
 import { ProvisioningService, IProvisionResult } from '../services/ProvisioningService';
 import { getSP } from '../../../common/services/pnpService';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
 import {
   SettingsService,
   IIntranetSettings,
@@ -33,6 +34,7 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
 const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
   const service: SettingsService = React.useMemo(() => new SettingsService(getSP(props.context)), [props.context]);
+  const language: Language = getCurrentLanguage();
 
   const [checking, setChecking] = React.useState<boolean>(true);
   const [canManage, setCanManage] = React.useState<boolean>(false);
@@ -322,7 +324,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
 
   if (checking) {
     return (
-      <section className={styles.admin}>
+      <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <div className={styles.panel}>
           <Spinner size={SpinnerSize.large} label="Checking permissions…" />
         </div>
@@ -332,7 +334,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
 
   if (!canManage) {
     return (
-      <section className={styles.admin}>
+      <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
         <div className={styles.panel}>
           <div className={styles.eyebrow}>{getCachedSettings().clientName} · Administration</div>
           <h2 className={styles.title}>Administrators only</h2>
@@ -345,7 +347,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
   }
 
   return (
-    <section className={styles.admin}>
+    <section className={styles.admin} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <div className={styles.panel}>
         <div className={styles.eyebrow}>{getCachedSettings().clientName} · Administration</div>
         <h2 className={styles.title}>Intranet Setup &amp; Settings</h2>

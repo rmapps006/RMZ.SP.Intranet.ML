@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './DepartmentQuickActions.module.scss';
 import { IDepartmentQuickActionsProps } from './IDepartmentQuickActionsProps';
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
 
 interface IQuickAction {
   label: string;
@@ -80,7 +80,7 @@ const DepartmentQuickActions: React.FunctionComponent<IDepartmentQuickActionsPro
       : (ds.quickActions || []).map((a) => ({ label: pickLocalized(a.label || '', a.labelAR, language), url: a.url || '' }));
 
   return (
-    <section className={styles.qaStrip}>
+    <section className={styles.qaStrip} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       {actions.length === 0 ? (
         <div className={styles.empty}>No quick actions configured.</div>
       ) : (

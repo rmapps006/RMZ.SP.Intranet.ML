@@ -31,7 +31,7 @@ export default class EmployeeDirectoryWebPart extends BaseClientSideWebPart<IEmp
       showViewAll: this.properties.showViewAll !== false,
       context: this.context,
       title: pickLocalized(this.properties.title || 'Employee Directory', this.properties.titleAR, language),
-      linkText: pickLocalized(this.properties.linkText || 'Full Directory', this.properties.linkTextAR, language),
+      linkText: pickLocalized(this.properties.linkText || 'Full Directory', this.properties.linkTextAR || 'الدليل الكامل', language),
       fullDirectoryUrl: this.properties.fullDirectoryUrl,
       pageSize: pageSize
     });

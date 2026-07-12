@@ -5,7 +5,7 @@ import { IDepartmentsDirectoryProps } from './IDepartmentsDirectoryProps';
 import { SectionHeader } from '../../../common/components/SectionHeader';
 import { InitialsAvatar } from '../../../common/components/InitialsAvatar';
 import { IDepartmentEntry } from '../../../common/services/SettingsService';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
 import { useSettings } from '../../../common/services/useSettings';
 import { linkTarget } from '../../../common/util/format';
 
@@ -35,7 +35,7 @@ const DepartmentsDirectory: React.FunctionComponent<IDepartmentsDirectoryProps> 
   );
 
   return (
-    <section className={styles.departments}>
+    <section className={styles.departments} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader
         title={props.title || 'Departments'}
         linkText="All Departments"

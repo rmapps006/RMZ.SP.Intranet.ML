@@ -10,7 +10,8 @@ import {
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
-import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
+import { getCurrentLanguage, pickLocalized, isRtl, Language } from '../../../common/services/languageService';
+import { t } from '../../../common/services/uiStrings';
 
 const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = (props) => {
   const [panels, setPanels] = React.useState<IDeptDocPanel[]>([]);
@@ -66,14 +67,14 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
   };
 
   return (
-    <section className={styles.docs}>
+    <section className={styles.docs} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={documentHubUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.docsG}>
         {loading ? (
-          <div className={styles.empty}>Loading…</div>
+          <div className={styles.empty}>{t('loading', language)}</div>
         ) : panels.length === 0 ? (
-          <div className={styles.empty}>No documents to show.</div>
+          <div className={styles.empty}>{t('noDocuments', language)}</div>
         ) : (
           panels.map((panel: IDeptDocPanel, pIndex: number) => (
             <div key={`${panel.title}-${pIndex}`} className={styles.dp}>
@@ -96,7 +97,7 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
                 )}
               </div>
               {panel.items.length === 0 ? (
-                <div className={styles.empty}>No documents to show.</div>
+                <div className={styles.empty}>{t('noDocuments', language)}</div>
               ) : (
                 panel.items.map((item: IDeptDocItem, index: number) => {
                   const inner: JSX.Element = (

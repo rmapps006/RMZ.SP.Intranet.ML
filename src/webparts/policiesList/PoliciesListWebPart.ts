@@ -30,7 +30,7 @@ export default class PoliciesListWebPart extends BaseClientSideWebPart<IPolicies
       policiesList: this.properties.policiesList || 'Policies',
       allPoliciesUrl: this.properties.allPoliciesUrl,
       title: pickLocalized(this.properties.title || 'Policies & Procedures', this.properties.titleAR, language),
-      linkText: pickLocalized(this.properties.linkText || 'All Policies', this.properties.linkTextAR, language)
+      linkText: pickLocalized(this.properties.linkText || 'All Policies', this.properties.linkTextAR || 'كل السياسات', language)
     });
     ReactDom.render(element, this.domElement);
   }

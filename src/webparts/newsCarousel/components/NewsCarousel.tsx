@@ -7,11 +7,14 @@ import { getNews, NEWS_CATEGORIES } from '../services/NewsService';
 import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
+import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
 
 const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
   const [items, setItems] = React.useState<INewsItem[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [activeCategory, setActiveCategory] = React.useState<string>('All');
+  const language: Language = getCurrentLanguage();
 
   // Reactive settings: seeds from cache then fetches + re-renders, so central
   // values (max items, detail page, new-tab preference) are honoured on first
@@ -62,7 +65,7 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
   const visibleItems: INewsItem[] = filtered.slice(0, maxItems);
 
   return (
-    <section className={styles.news}>
+    <section className={styles.news} dir={isRtl(language) ? 'rtl' : 'ltr'}>
       <SectionHeader title={props.title} linkText={props.linkText} linkUrl={props.archiveUrl} showTitle={props.showTitle} showLink={props.showViewAll} />
 
       <div className={styles.newsCats}>
@@ -73,15 +76,15 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
             className={`${styles.ncat} ${activeCategory === cat ? styles.on : ''}`}
             onClick={() => setActiveCategory(cat)}
           >
-            {cat}
+            {localizeChoice(cat, language)}
           </button>
         ))}
       </div>
 
       {loading ? (
-        <div className={styles.newsEmpty}>Loading news…</div>
+        <div className={styles.newsEmpty}>{t('loadingNews', language)}</div>
       ) : visibleItems.length === 0 ? (
-        <div className={styles.newsEmpty}>No news to show.</div>
+        <div className={styles.newsEmpty}>{t('noNews', language)}</div>
       ) : (
         <div className={styles.newsG}>
           {visibleItems.map((item: INewsItem, index: number) => {
@@ -97,7 +100,7 @@ const NewsCarousel: React.FunctionComponent<INewsCarouselProps> = (props) => {
                   }
                 />
                 <div className={styles.ncBd}>
-                  <div className={styles.ncTag}>{item.category}</div>
+                  <div className={styles.ncTag}>{localizeChoice(item.category, language)}</div>
                   <h3 className={styles.ncH}>{item.title}</h3>
                   {item.excerpt ? <p className={styles.ncEx}>{item.excerpt}</p> : null}
                   <div className={styles.ncFt}>
