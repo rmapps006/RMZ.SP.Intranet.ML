@@ -12,8 +12,8 @@ const DepartmentHero: React.FunctionComponent<IDepartmentHeroProps> = (props) =>
   const eyebrow: string = props.eyebrow || pickLocalized(ds.eyebrow, ds.eyebrowAR, language);
   const departmentName: string = props.departmentName || pickLocalized(ds.departmentName, ds.departmentNameAR, language);
   const description: string = props.description || pickLocalized(ds.description, ds.descriptionAR, language);
-  const ownerName: string = props.ownerName || ds.ownerName;
-  const ownerRole: string = props.ownerRole || ds.ownerRole;
+  const ownerName: string = props.ownerName || pickLocalized(ds.ownerName, ds.ownerNameAR, language);
+  const ownerRole: string = props.ownerRole || pickLocalized(ds.ownerRole, ds.ownerRoleAR, language);
   // Settings resolve async (cache seed, then a live fetch); if both name and
   // description are still empty once that settles, show a minimal placeholder
   // instead of an otherwise-blank hero.

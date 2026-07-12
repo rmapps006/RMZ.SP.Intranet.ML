@@ -10,6 +10,7 @@ import {
 import { useDepartmentSettings } from '../../../common/services/useDepartmentSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
+import { getCurrentLanguage, pickLocalized, Language } from '../../../common/services/languageService';
 
 const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = (props) => {
   const [panels, setPanels] = React.useState<IDeptDocPanel[]>([]);
@@ -20,12 +21,13 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
   const policiesLibrary: string = props.policiesLibrary || ds.policiesLibrary;
   const documentsLibrary: string = props.documentsLibrary || ds.documentsLibrary;
   const department: string = props.department || ds.departmentName;
-  // props.panel1Title/panel2Title already resolve the web part's own EN/AR
-  // property-pane override (see DepartmentDocumentsWebPart.render()). The
-  // settings-backed fallback (ds.panel1Title/ds.panel2Title) has no Arabic
-  // variant yet — known follow-up, out of scope here.
-  const panel1Title: string = props.panel1Title || ds.panel1Title;
-  const panel2Title: string = props.panel2Title || ds.panel2Title;
+  // The web part's own EN/AR property-pane override wins; otherwise fall back to
+  // the central Department Admin settings. Both the override and the settings
+  // fallback carry Arabic variants, so resolve the EN and AR sides through the
+  // same fallback before localizing.
+  const language: Language = getCurrentLanguage();
+  const panel1Title: string = pickLocalized(props.panel1Title || ds.panel1Title, props.panel1TitleAR || ds.panel1TitleAR, language);
+  const panel2Title: string = pickLocalized(props.panel2Title || ds.panel2Title, props.panel2TitleAR || ds.panel2TitleAR, language);
   const documentHubUrl: string = props.documentHubUrl || ds.documentHubUrl;
   const newTab: boolean = ds.openLinksInNewTab;
   const navKey: string = useNavKey();

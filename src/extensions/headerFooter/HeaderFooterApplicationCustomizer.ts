@@ -131,11 +131,15 @@ export default class HeaderFooterApplicationCustomizer extends BaseApplicationCu
     this._user = user;
     this._logoAlt = webTitle || strings.LogoAlt;
     this._settings = settings;
-    // Seeds the browser's language preference from the site default on first
-    // visit (a no-op once the visitor has toggled explicitly) and applies
-    // dir="rtl"/lang="ar" to the document so the whole page — including every
-    // web part on it — renders in the resolved language/direction.
-    this._language = initializeLanguage(settings.defaultLanguage);
+    // Seeds the browser's language preference on first visit (a no-op once the
+    // visitor has toggled explicitly) and applies dir="rtl"/lang="ar" to the
+    // document so the whole page — including every web part on it — renders in
+    // the resolved language/direction. The first-visit default follows this
+    // user's own M365/SharePoint UI language, then the site default, so an
+    // Arabic-language user lands on Arabic automatically.
+    const userUiCulture: string | undefined =
+      this.context.pageContext.cultureInfo && this.context.pageContext.cultureInfo.currentUICultureName;
+    this._language = initializeLanguage(settings.defaultLanguage, userUiCulture);
     // Load a custom font stylesheet (e.g. Google Fonts) if the client configured one.
     this._applyCustomFontStylesheet();
     // On a department site the shared nav points at the Main Site's pages, so

@@ -9,7 +9,9 @@ export interface IDepartmentDocumentsProps {
   documentsLibrary: string;
   documentHubUrl: string;
   panel1Title: string;
+  panel1TitleAR: string;
   panel2Title: string;
+  panel2TitleAR: string;
   showTitle: boolean;
   showViewAll: boolean;
 }

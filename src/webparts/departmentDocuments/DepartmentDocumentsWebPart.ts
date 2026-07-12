@@ -39,12 +39,15 @@ export default class DepartmentDocumentsWebPart extends BaseClientSideWebPart<ID
       policiesLibrary: this.properties.policiesLibrary,
       documentsLibrary: this.properties.documentsLibrary,
       documentHubUrl: this.properties.documentHubUrl,
-      // Resolves this web part's own property-pane override only. The
-      // settings-backed fallback (Department Admin's ds.panel1Title/panel2Title,
-      // applied in the component when this resolves empty) still has no Arabic
-      // variant — known follow-up, out of scope here.
-      panel1Title: pickLocalized(this.properties.panel1Title, this.properties.panel1TitleAR, language),
-      panel2Title: pickLocalized(this.properties.panel2Title, this.properties.panel2TitleAR, language)
+      // Pass the raw EN/AR property-pane overrides through untouched. The panel
+      // titles are localized in the component (DepartmentDocuments), where the
+      // settings-backed fallback (Department Admin's ds.panel1Title/panel1TitleAR)
+      // is available, so both the property-pane override and the settings
+      // fallback resolve Arabic consistently.
+      panel1Title: this.properties.panel1Title,
+      panel1TitleAR: this.properties.panel1TitleAR,
+      panel2Title: this.properties.panel2Title,
+      panel2TitleAR: this.properties.panel2TitleAR
     });
     ReactDom.render(element, this.domElement);
   }

@@ -608,16 +608,20 @@ export class ProvisioningService {
       const list = this.sp.web.lists.getByTitle(listTitle);
       await list.items.add({
         Title: 'Annual Strategy Summit 2026',
+        TitleAR: 'قمة الاستراتيجية السنوية 2026',
         EventDate: '2026-06-18T09:00:00Z',
         EndDate: '2026-06-18T17:00:00Z',
         Location: 'Atlantis The Royal, Dubai',
+        LocationAR: 'أتلانتس ذا رويال، دبي',
         Category: 'All-Company'
       });
       await list.items.add({
         Title: 'Digital Transformation Workshop',
+        TitleAR: 'ورشة عمل التحول الرقمي',
         EventDate: '2026-06-24T10:00:00Z',
         EndDate: '2026-06-24T13:00:00Z',
         Location: 'Virtual via Microsoft Teams',
+        LocationAR: 'افتراضي عبر مايكروسوفت تيمز',
         Category: 'Learning & Development'
       });
       return { name: `${listTitle} · sample data`, status: 'ok', message: 'Added 2 sample events.' };
@@ -635,28 +639,41 @@ export class ProvisioningService {
       const list = this.sp.web.lists.getByTitle(listTitle);
       await list.items.add({
         Title: "2026 Employee Benefits: What's New This Year",
+        TitleAR: 'مزايا الموظفين لعام 2026: الجديد هذا العام',
         Category: 'HR Updates',
         NewsDate: '2026-07-01T08:00:00Z',
         Source: 'People & Culture',
+        SourceAR: 'إدارة الموارد البشرية والثقافة',
         Body:
           "<p>We're pleased to announce enhancements to your 2026 benefits package, effective 1 July 2026.</p>" +
           '<ul><li><strong>Medical:</strong> Upgraded regional cover including dependents, with dental and optical.</li>' +
           '<li><strong>Wellness allowance:</strong> AED 2,000 per year toward fitness or mental-health services.</li>' +
           '<li><strong>Annual leave:</strong> +2 days for employees with 3+ years of service.</li>' +
           '<li><strong>Learning:</strong> AED 5,000 annual professional-development budget.</li></ul>' +
-          '<p>Enrolment opens in the HR portal from 1 July.</p>'
+          '<p>Enrolment opens in the HR portal from 1 July.</p>',
+        BodyAR:
+          '<p>يسرّنا أن نعلن عن تحسينات على باقة مزاياكم لعام 2026، اعتباراً من 1 يوليو 2026.</p>' +
+          '<ul><li><strong>التأمين الطبي:</strong> تغطية إقليمية مُحدّثة تشمل المُعالين، مع تغطية طب الأسنان والبصريات.</li>' +
+          '<li><strong>بدل العافية:</strong> 2,000 درهم سنوياً لخدمات اللياقة البدنية أو الصحة النفسية.</li>' +
+          '<li><strong>الإجازة السنوية:</strong> يومان إضافيان للموظفين ذوي الخدمة التي تزيد على 3 سنوات.</li>' +
+          '<li><strong>التعلّم:</strong> ميزانية سنوية للتطوير المهني قدرها 5,000 درهم.</li></ul>' +
+          '<p>يبدأ التسجيل في بوابة الموارد البشرية اعتباراً من 1 يوليو.</p>'
       });
       await list.items.add({
         Title: 'Breaking Ground on the New Waterfront District',
+        TitleAR: 'وضع حجر الأساس لحي الواجهة البحرية الجديد',
         Category: 'Construction Updates',
         NewsDate: '2026-06-20T08:00:00Z',
-        Source: 'Development Office'
+        Source: 'Development Office',
+        SourceAR: 'مكتب التطوير'
       });
       await list.items.add({
         Title: 'Q2 Financial Results Exceed Targets',
+        TitleAR: 'النتائج المالية للربع الثاني تتجاوز المستهدفات',
         Category: 'Finance',
         NewsDate: '2026-06-10T08:00:00Z',
-        Source: 'Finance'
+        Source: 'Finance',
+        SourceAR: 'الإدارة المالية'
       });
       return { name: `${listTitle} · sample data`, status: 'ok', message: 'Added 3 sample news items.' };
     } catch (error) {
@@ -673,37 +690,59 @@ export class ProvisioningService {
       const list = this.sp.web.lists.getByTitle(listTitle);
       await list.items.add({
         Title: 'Comprehensive Medical Insurance',
+        TitleAR: 'تأمين طبي شامل',
         Category: 'Health',
         Summary: 'Regional health cover for you and your dependents, including dental and optical.',
+        SummaryAR: 'تغطية صحية إقليمية لك ولمُعاليك، تشمل طب الأسنان والبصريات.',
         Eligibility: 'All full-time employees from day one.',
+        EligibilityAR: 'جميع الموظفين بدوام كامل من اليوم الأول.',
         Coverage: 'Employee + spouse + up to 3 children',
+        CoverageAR: 'الموظف + الزوج/الزوجة + حتى 3 أطفال',
         Details:
           '<p>Full inpatient and outpatient cover across the region, with direct billing at network ' +
-          'hospitals and clinics. Dental and optical benefits are included up to annual limits.</p>'
+          'hospitals and clinics. Dental and optical benefits are included up to annual limits.</p>',
+        DetailsAR:
+          '<p>تغطية كاملة للعلاج داخل المستشفى وخارجه على مستوى المنطقة، مع الدفع المباشر لدى المستشفيات ' +
+          'والعيادات ضمن الشبكة. تشمل التغطية مزايا طب الأسنان والبصريات ضمن الحدود السنوية.</p>'
       });
       await list.items.add({
         Title: 'Annual Wellness Allowance',
+        TitleAR: 'بدل العافية السنوي',
         Category: 'Wellness',
         Summary: 'AED 2,000 per year toward gym, fitness and mental-health services.',
+        SummaryAR: '2,000 درهم سنوياً لخدمات النادي الرياضي واللياقة البدنية والصحة النفسية.',
         Eligibility: 'All employees after probation.',
+        EligibilityAR: 'جميع الموظفين بعد فترة الاختبار.',
         Coverage: 'AED 2,000 / year',
-        Details: '<p>Reimbursable against gym memberships, fitness classes, and approved mental-health support.</p>'
+        CoverageAR: '2,000 درهم / سنوياً',
+        Details: '<p>Reimbursable against gym memberships, fitness classes, and approved mental-health support.</p>',
+        DetailsAR: '<p>قابل للاسترداد مقابل اشتراكات النادي الرياضي وحصص اللياقة البدنية والدعم النفسي المعتمد.</p>'
       });
       await list.items.add({
         Title: 'Professional Development Budget',
+        TitleAR: 'ميزانية التطوير المهني',
         Category: 'Learning',
         Summary: 'AED 5,000 per year for courses, certifications and conferences.',
+        SummaryAR: '5,000 درهم سنوياً للدورات والشهادات والمؤتمرات.',
         Eligibility: 'All employees after probation.',
+        EligibilityAR: 'جميع الموظفين بعد فترة الاختبار.',
         Coverage: 'AED 5,000 / year',
-        Details: '<p>Covers role-relevant training, professional certifications, and conference attendance with manager approval.</p>'
+        CoverageAR: '5,000 درهم / سنوياً',
+        Details: '<p>Covers role-relevant training, professional certifications, and conference attendance with manager approval.</p>',
+        DetailsAR: '<p>يغطي التدريب المرتبط بالوظيفة والشهادات المهنية وحضور المؤتمرات بموافقة المدير.</p>'
       });
       await list.items.add({
         Title: 'Enhanced Parental Leave',
+        TitleAR: 'إجازة والدية مُعزّزة',
         Category: 'Family',
         Summary: 'Extended paid maternity and paternity leave beyond statutory minimums.',
+        SummaryAR: 'إجازة أمومة وأبوة مدفوعة الأجر ممتدة تتجاوز الحدود الدنيا القانونية.',
         Eligibility: 'Employees with 1+ year of service.',
+        EligibilityAR: 'الموظفون ذوو الخدمة التي تزيد على سنة واحدة.',
         Coverage: 'Up to 90 days maternity / 10 days paternity',
-        Details: '<p>Paid parental leave with a phased return-to-work option in the first month back.</p>'
+        CoverageAR: 'حتى 90 يوماً إجازة أمومة / 10 أيام إجازة أبوة',
+        Details: '<p>Paid parental leave with a phased return-to-work option in the first month back.</p>',
+        DetailsAR: '<p>إجازة والدية مدفوعة الأجر مع خيار العودة التدريجية إلى العمل خلال الشهر الأول من العودة.</p>'
       });
       return { name: `${listTitle} · sample data`, status: 'ok', message: 'Added 4 sample benefits.' };
     } catch (error) {

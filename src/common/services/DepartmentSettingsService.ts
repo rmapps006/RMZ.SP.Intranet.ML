@@ -52,7 +52,9 @@ export interface IDepartmentSettings {
   description: string;
   descriptionAR?: string;
   ownerName: string;
+  ownerNameAR?: string;
   ownerRole: string;
+  ownerRoleAR?: string;
   // Quick Links row (Forms / Documents / Events …)
   quickActions: IDepartmentQuickAction[];
   // Department News
@@ -67,7 +69,9 @@ export interface IDepartmentSettings {
   policiesLibrary: string;
   documentsLibrary: string;
   panel1Title: string;
+  panel1TitleAR?: string;
   panel2Title: string;
+  panel2TitleAR?: string;
   documentHubUrl: string;
   // When true, department widget links open in a new browser tab.
   openLinksInNewTab: boolean;
@@ -83,7 +87,9 @@ export const DEFAULT_DEPARTMENT_SETTINGS: IDepartmentSettings = {
   description: '',
   descriptionAR: '',
   ownerName: '',
+  ownerNameAR: '',
   ownerRole: '',
+  ownerRoleAR: '',
   quickActions: [
     { label: 'Forms', labelAR: 'النماذج', url: '' },
     { label: 'Documents', labelAR: 'المستندات', url: '' },
@@ -98,7 +104,9 @@ export const DEFAULT_DEPARTMENT_SETTINGS: IDepartmentSettings = {
   policiesLibrary: 'Forms',
   documentsLibrary: 'Documents',
   panel1Title: 'Forms & Templates',
+  panel1TitleAR: '',
   panel2Title: 'Shared Documents',
+  panel2TitleAR: '',
   documentHubUrl: '',
   openLinksInNewTab: false
 };
@@ -333,32 +341,41 @@ export class DepartmentSettingsService {
     await this.seedIfEmpty(newsList, [
       {
         Title: `${deptName} Kicks Off 2026 Priorities`,
+        TitleAR: `${deptName} يطلق أولويات عام ٢٠٢٦`,
         Category: 'Announcement',
         NewsDate: '2026-07-01T08:00:00Z',
         Source: deptName,
-        Body: `<p>The ${deptName} team has shared its priorities and key initiatives for the year ahead.</p>`
+        SourceAR: deptName,
+        Body: `<p>The ${deptName} team has shared its priorities and key initiatives for the year ahead.</p>`,
+        BodyAR: `<p>شارك فريق ${deptName} أولوياته ومبادراته الرئيسية للعام المقبل.</p>`
       },
       {
         Title: 'New Team Members Join Us',
+        TitleAR: 'أعضاء جدد ينضمون إلى فريقنا',
         Category: 'Update',
         NewsDate: '2026-06-15T08:00:00Z',
-        Source: deptName
+        Source: deptName,
+        SourceAR: deptName
       }
     ]);
 
     await this.seedIfEmpty(eventsList, [
       {
         Title: `${deptName} Monthly Town Hall`,
+        TitleAR: `اللقاء الشهري المفتوح لـ ${deptName}`,
         EventDate: '2026-07-15T09:00:00Z',
         EndDate: '2026-07-15T10:00:00Z',
         Location: 'Microsoft Teams',
+        LocationAR: 'Microsoft Teams',
         Category: 'Town Hall'
       },
       {
         Title: 'Quarterly Learning Session',
+        TitleAR: 'جلسة التعلم الفصلية',
         EventDate: '2026-07-22T13:00:00Z',
         EndDate: '2026-07-22T14:30:00Z',
         Location: 'Training Room 2',
+        LocationAR: 'قاعة التدريب ٢',
         Category: 'Learning'
       }
     ]);

@@ -208,7 +208,9 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
             <TextField label="Description" multiline rows={3} value={settings.description} onChange={(_, v) => setField('description', v || '')} />
             <TextField label="Description (Arabic)" multiline rows={3} value={settings.descriptionAR} onChange={(_, v) => setField('descriptionAR', v || '')} dir="auto" />
             <TextField label="Owner name" value={settings.ownerName} onChange={(_, v) => setField('ownerName', v || '')} />
+            <TextField label="Owner name (Arabic)" value={settings.ownerNameAR} onChange={(_, v) => setField('ownerNameAR', v || '')} dir="auto" />
             <TextField label="Owner role" value={settings.ownerRole} onChange={(_, v) => setField('ownerRole', v || '')} />
+            <TextField label="Owner role (Arabic)" value={settings.ownerRoleAR} onChange={(_, v) => setField('ownerRoleAR', v || '')} dir="auto" />
             {saveButton}
             {saveBar(save, 'Saved. Reload the department pages to see changes.')}
           </PivotItem>
@@ -247,8 +249,10 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
             />
             <h3 className={styles.subTitle}>Forms &amp; Documents</h3>
             <TextField label="Left panel title" value={settings.panel1Title} onChange={(_, v) => setField('panel1Title', v || '')} />
+            <TextField label="Left panel title (Arabic)" value={settings.panel1TitleAR} onChange={(_, v) => setField('panel1TitleAR', v || '')} dir="auto" />
             <TextField label="Left library (Forms & Templates)" value={settings.policiesLibrary} onChange={(_, v) => setField('policiesLibrary', v || '')} />
             <TextField label="Right panel title" value={settings.panel2Title} onChange={(_, v) => setField('panel2Title', v || '')} />
+            <TextField label="Right panel title (Arabic)" value={settings.panel2TitleAR} onChange={(_, v) => setField('panel2TitleAR', v || '')} dir="auto" />
             <TextField label="Right library (Shared Documents)" value={settings.documentsLibrary} onChange={(_, v) => setField('documentsLibrary', v || '')} />
             <TextField label="Document hub URL" value={settings.documentHubUrl} onChange={(_, v) => setField('documentHubUrl', v || '')} />
             <h3 className={styles.subTitle}>Links</h3>
