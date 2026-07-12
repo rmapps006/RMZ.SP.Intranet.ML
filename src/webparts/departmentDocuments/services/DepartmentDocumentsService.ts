@@ -17,6 +17,7 @@ export interface IDeptDocItem {
 export interface IDeptDocPanel {
   title: string;
   items: IDeptDocItem[];
+  libraryUrl?: string; // server-relative URL of the library — the "Open Library" link target
 }
 
 // Design fallbacks (from design/department-page.html) — used on error/empty.
@@ -84,9 +85,29 @@ async function readLibrary(
 }
 
 /**
+ * Returns a library's server-relative URL (its root folder) so the panel's
+ * "Open Library" link can point at the real library. Undefined when the library
+ * doesn't exist yet or can't be read.
+ */
+async function getLibraryUrl(context: WebPartContext, libraryTitle: string): Promise<string | undefined> {
+  if (!libraryTitle) {
+    return undefined;
+  }
+  try {
+    const info: { ServerRelativeUrl?: string } = await getSP(context)
+      .web.lists.getByTitle(libraryTitle)
+      .rootFolder.select('ServerRelativeUrl')();
+    return info && info.ServerRelativeUrl ? info.ServerRelativeUrl : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * Reads the configured Policies and Documents libraries (filtered by department
- * where applicable) and maps to two typed panels. On error/empty per library,
- * the design fallbacks are returned.
+ * where applicable) and maps to two typed panels, each carrying the library's
+ * URL for its "Open Library" link. On error/empty per library, the design
+ * fallbacks are returned.
  */
 export async function getDepartmentDocuments(
   context: WebPartContext,
@@ -112,8 +133,13 @@ export async function getDepartmentDocuments(
     documents = FALLBACK_DOCUMENTS;
   }
 
+  const [policiesUrl, documentsUrl] = await Promise.all([
+    getLibraryUrl(context, policiesLibrary),
+    getLibraryUrl(context, documentsLibrary)
+  ]);
+
   return [
-    { title: panel1Title, items: policies },
-    { title: panel2Title, items: documents }
+    { title: panel1Title, items: policies, libraryUrl: policiesUrl },
+    { title: panel2Title, items: documents, libraryUrl: documentsUrl }
   ];
 }

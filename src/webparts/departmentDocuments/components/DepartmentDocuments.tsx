@@ -28,6 +28,7 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
   const language: Language = getCurrentLanguage();
   const panel1Title: string = pickLocalized(props.panel1Title || ds.panel1Title, props.panel1TitleAR || ds.panel1TitleAR, language);
   const panel2Title: string = pickLocalized(props.panel2Title || ds.panel2Title, props.panel2TitleAR || ds.panel2TitleAR, language);
+  const openLibraryLabel: string = pickLocalized('Open Library', 'فتح المكتبة', language);
   const documentHubUrl: string = props.documentHubUrl || ds.documentHubUrl;
   const newTab: boolean = ds.openLinksInNewTab;
   const navKey: string = useNavKey();
@@ -78,10 +79,21 @@ const DepartmentDocuments: React.FunctionComponent<IDepartmentDocumentsProps> = 
             <div key={`${panel.title}-${pIndex}`} className={styles.dp}>
               <div className={styles.dpHd}>
                 <div className={styles.dpTt}>{panel.title}</div>
-                {/* No per-library URL exists in the data model yet — disabled until one is added. */}
-                <a className={`${styles.lnk} ${styles.lnkDisabled}`} href="#" aria-disabled="true">
-                  Open Library
-                </a>
+                {/* Links to the real library (its root folder); disabled only when the library can't be resolved. */}
+                {panel.libraryUrl ? (
+                  <a
+                    className={styles.lnk}
+                    href={panel.libraryUrl}
+                    aria-label={`${openLibraryLabel} — ${panel.title}`}
+                    {...linkTarget(newTab)}
+                  >
+                    {openLibraryLabel}
+                  </a>
+                ) : (
+                  <span className={`${styles.lnk} ${styles.lnkDisabled}`} aria-disabled="true">
+                    {openLibraryLabel}
+                  </span>
+                )}
               </div>
               {panel.items.length === 0 ? (
                 <div className={styles.empty}>No documents to show.</div>
