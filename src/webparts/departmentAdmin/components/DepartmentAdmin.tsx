@@ -38,6 +38,9 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
   const [save, setSave] = React.useState<SaveState>('idle');
   const [setupState, setSetupState] = React.useState<SaveState>('idle');
   const [seedSampleData, setSeedSampleData] = React.useState<boolean>(false);
+  // Destructive: wipes this department's News/Events lists before re-seeding.
+  // Never defaults on; only meaningful alongside seedSampleData.
+  const [resetSampleData, setResetSampleData] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     let active: boolean = true;
@@ -81,18 +84,29 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
   }, [service, settings]);
 
   const runSetup = React.useCallback(async (): Promise<void> => {
+    // Reset permanently deletes this department's content — confirm first.
+    const willReset: boolean = seedSampleData && resetSampleData;
+    if (willReset) {
+      const ok: boolean = window.confirm(
+        `Reset will permanently DELETE all existing items in this department's "${settings.newsList || 'News'}" and ` +
+          `"${settings.eventsList || 'Events'}" lists, then re-add the sample data. This cannot be undone.\n\nContinue?`
+      );
+      if (!ok) {
+        return;
+      }
+    }
     setSetupState('saving');
     try {
       // Save first so the Main site URL is stored, then create the list and
       // register the shared header/footer on this department site.
       await service.saveSettings(settings);
-      await service.runSetup(settings, seedSampleData);
+      await service.runSetup(settings, seedSampleData, willReset);
       setSetupState('saved');
       setSave('saved');
     } catch {
       setSetupState('error');
     }
-  }, [service, settings, seedSampleData]);
+  }, [service, settings, seedSampleData, resetSampleData]);
 
   // ---- Quick Links editor ----
   const updateAction = (index: number, patch: Partial<IDepartmentQuickAction>): void => {
@@ -188,12 +202,36 @@ const DepartmentAdmin: React.FunctionComponent<IDepartmentAdminProps> = (props) 
               label="Seed sample data"
               inlineLabel
               checked={seedSampleData}
-              onChange={(_, checked) => setSeedSampleData(checked === true)}
+              onChange={(_, checked) => {
+                setSeedSampleData(checked === true);
+                if (checked !== true) {
+                  setResetSampleData(false); // reset only applies alongside seeding
+                }
+              }}
               onText="On"
               offText="Off"
             />
+            <Toggle
+              label="Reset before seeding — permanently delete existing News and Events items first, then re-add the sample data"
+              inlineLabel
+              checked={resetSampleData}
+              disabled={!seedSampleData}
+              onChange={(_, checked) => setResetSampleData(checked === true)}
+              onText="On"
+              offText="Off"
+            />
+            {seedSampleData && resetSampleData ? (
+              <div className={styles.warn} role="alert">
+                ⚠ Reset is destructive: all existing items in this department&apos;s News and Events lists will be deleted
+                before the sample data is re-added. You will be asked to confirm.
+              </div>
+            ) : null}
             <div className={styles.actions}>
-              <DefaultButton text={setupState === 'saving' ? 'Running…' : 'Run setup'} disabled={setupState === 'saving'} onClick={runSetup} />
+              <DefaultButton
+                text={setupState === 'saving' ? (seedSampleData && resetSampleData ? 'Resetting…' : 'Running…') : seedSampleData && resetSampleData ? 'Reset & run setup' : 'Run setup'}
+                disabled={setupState === 'saving'}
+                onClick={runSetup}
+              />
               <PrimaryButton text={save === 'saving' ? 'Saving…' : 'Save'} disabled={save === 'saving' || !loaded} onClick={saveSettings} />
             </div>
             {saveBar(setupState, 'Setup complete — the Content Manager page (SitePages/Content.aspx) is ready. Reload to see the portal navigation and header.')}

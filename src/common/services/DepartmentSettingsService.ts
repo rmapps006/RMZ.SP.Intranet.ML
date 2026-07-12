@@ -313,6 +313,39 @@ export class DepartmentSettingsService {
     await this.ensureContentList(docsLib, 101);
   }
 
+  /**
+   * Deletes every item in a list — used by the reset option before re-seeding.
+   * Pages through the list (100 at a time) with a safety cap so a misbehaving
+   * delete can never loop forever. Best-effort and idempotent: a missing or
+   * already-empty list is a no-op.
+   */
+  private async clearList(listTitle: string): Promise<void> {
+    try {
+      const list = this.sp.web.lists.getByTitle(listTitle);
+      for (let guard = 0; guard < 200; guard++) {
+        const rows: { Id: number }[] = await list.items.select('Id').top(100)();
+        if (!rows || rows.length === 0) {
+          break;
+        }
+        for (const row of rows) {
+          await list.items.getById(row.Id).delete();
+        }
+      }
+    } catch {
+      /* non-fatal — list may not exist yet, or a delete was denied. */
+    }
+  }
+
+  /**
+   * Deletes all items in the department News and Events lists, so a subsequent
+   * seed re-adds a clean sample set. Destructive — only called when the admin
+   * explicitly opts into a reset.
+   */
+  public async resetSampleContent(s: IDepartmentSettings): Promise<void> {
+    await this.clearList(s.newsList || 'News');
+    await this.clearList(s.eventsList || 'Events');
+  }
+
   /** Adds the given rows to a list only when it is currently empty. Idempotent. */
   private async seedIfEmpty(listTitle: string, rows: Record<string, unknown>[]): Promise<void> {
     try {
@@ -436,12 +469,24 @@ export class DepartmentSettingsService {
     }
   }
 
-  /** Runs department setup: settings list, header/footer registration and content lists. */
-  public async runSetup(settings: IDepartmentSettings, seedSampleData: boolean = false): Promise<void> {
+  /**
+   * Runs department setup: settings list, header/footer registration and content
+   * lists. When `seedSampleData` is set, sample News/Events are added (only into
+   * empty lists); when `resetSampleData` is also set, the News/Events lists are
+   * wiped first so a clean sample set is re-added (destructive).
+   */
+  public async runSetup(
+    settings: IDepartmentSettings,
+    seedSampleData: boolean = false,
+    resetSampleData: boolean = false
+  ): Promise<void> {
     await this.ensureList();
     await this.registerHeaderFooter();
     await this.provisionContentLists(settings);
     if (seedSampleData) {
+      if (resetSampleData) {
+        await this.resetSampleContent(settings);
+      }
       await this.seedSampleContent(settings);
     }
     await this.ensureContentPage(settings);
