@@ -8,7 +8,7 @@ import { useSettings } from '../../../common/services/useSettings';
 import { useNavKey } from '../../../common/services/useNavKey';
 import { linkTarget } from '../../../common/util/format';
 import { getCurrentLanguage, isRtl, Language } from '../../../common/services/languageService';
-import { t } from '../../../common/services/uiStrings';
+import { t, localizeChoice } from '../../../common/services/uiStrings';
 
 const SearchIcon: React.FunctionComponent = () => (
   <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className={styles.searchIcon} aria-hidden="true">
@@ -155,7 +155,7 @@ const EmployeeDirectory: React.FunctionComponent<IEmployeeDirectoryProps> = (pro
                 }
               }}
             >
-              {chip.label}
+              {localizeChoice(chip.label, language)}
             </div>
           ))}
         </div>

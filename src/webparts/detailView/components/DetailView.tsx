@@ -202,7 +202,7 @@ const DetailView: React.FunctionComponent<IDetailViewProps> = (props) => {
 
   const m: IEmployeeDetail = result.data;
   return (
-    <section className={styles.detail}>
+    <section className={styles.detail} dir={rtl ? 'rtl' : 'ltr'}>
       {back}
       <div className={styles.person}>
         <InitialsAvatar name={m.displayName} size={72} />
