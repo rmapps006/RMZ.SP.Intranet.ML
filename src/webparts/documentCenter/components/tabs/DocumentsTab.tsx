@@ -143,7 +143,14 @@ const DocumentsTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
       </div>
 
       {filtered.length === 0 ? (
-        <div className={styles.empty}>{t('noDocumentsMatch', language)}</div>
+        <div className={styles.empty}>
+          <div>{t('noDocumentsMatch', language)}</div>
+          {docs.length === 0 ? (
+            <div className={styles.diag}>
+              Library: &quot;{ctx.libraryTitle}&quot; · Role: {ctx.role} · Loaded: {docs.length} · v1.6.2
+            </div>
+          ) : null}
+        </div>
       ) : (
         <div className={styles.list}>
           {filtered.map((d) => {
