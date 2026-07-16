@@ -772,14 +772,16 @@ export class ProvisioningService {
         }
       ];
 
-      let added: number = 0;
+      let uploaded: number = 0;
+      let firstError: string = '';
       for (const s of samples) {
         try {
           // PnP v4 returns the file info directly; resolve the list item from its URL.
           const info: { ServerRelativeUrl?: string } = await list.rootFolder.files.addUsingPath(s.file, body, { Overwrite: true });
+          uploaded += 1;
           const serverRelativeUrl: string = info.ServerRelativeUrl || '';
           const item = await this.sp.web.getFileByServerRelativePath(serverRelativeUrl).getItem();
-          await item.update({
+          const fields: Record<string, unknown> = {
             Title: s.Title,
             TitleAR: s.TitleAR,
             Category: s.Category,
@@ -789,16 +791,44 @@ export class ProvisioningService {
             ReviewDate: s.ReviewDate,
             Description: s.Description,
             DescriptionAR: s.DescriptionAR
-          });
-          added += 1;
-        } catch {
-          /* best-effort per file — skip and continue */
+          };
+          try {
+            // Fast path: set all metadata in one call.
+            await item.update(fields);
+          } catch (bulkError) {
+            // A single mismatched column would fail the whole batch — fall back to
+            // per-field updates so the file still gets whatever metadata is valid,
+            // and remember the first error for reporting.
+            if (!firstError) {
+              firstError = this._msg(bulkError);
+            }
+            for (const key of Object.keys(fields)) {
+              try {
+                await item.update({ [key]: fields[key] });
+              } catch {
+                /* skip a field that doesn't accept the value / doesn't exist */
+              }
+            }
+          }
+        } catch (uploadError) {
+          if (!firstError) {
+            firstError = this._msg(uploadError);
+          }
         }
+      }
+      if (uploaded > 0) {
+        return {
+          name,
+          status: 'ok',
+          message: firstError
+            ? `Uploaded ${uploaded} sample document(s); some metadata was skipped (${firstError}).`
+            : `Added ${uploaded} sample document(s).`
+        };
       }
       return {
         name,
-        status: added > 0 ? 'ok' : 'error',
-        message: added > 0 ? `Added ${added} sample document(s).` : 'Could not upload sample documents (check library permissions).'
+        status: 'error',
+        message: firstError ? `Could not upload sample documents: ${firstError}` : 'Could not upload sample documents (check library permissions).'
       };
     } catch (error) {
       return { name, status: 'error', message: this._msg(error) };
