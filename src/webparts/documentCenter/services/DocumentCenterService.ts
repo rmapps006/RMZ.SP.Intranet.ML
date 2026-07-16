@@ -65,7 +65,7 @@ interface IDocFileRow {
   Category?: string;
   DocumentType?: string;
   DocStatus?: string;
-  Sensitivity?: string;
+  DocSensitivity?: string;
   DocTags?: string;
   DocOwner?: string;
   ReviewDate?: string;
@@ -178,7 +178,7 @@ function mapRows(rows: IDocFileRow[], language: 'en' | 'ar'): IDocEntry[] {
       department: it.Category || '',
       docType: it.DocumentType || '',
       status: it.DocStatus || '',
-      sensitivity: it.Sensitivity || '',
+      sensitivity: it.DocSensitivity || '',
       tags: splitTags(it.DocTags),
       owner: it.DocOwner || (it.Author && it.Author.Title) || '',
       reviewDate: it.ReviewDate || '',
@@ -234,7 +234,7 @@ export async function getDocuments(context: WebPartContext, libraryTitle: string
     'Category',
     'DocumentType',
     'DocStatus',
-    'Sensitivity',
+    'DocSensitivity',
     'DocTags',
     'DocOwner',
     'ReviewDate'
@@ -360,7 +360,7 @@ export async function uploadDocument(
       Category: meta.department,
       DocumentType: meta.docType,
       DocStatus: meta.status || 'Draft',
-      Sensitivity: meta.sensitivity,
+      DocSensitivity: meta.sensitivity,
       DocTags: meta.tags,
       DocOwner: meta.owner,
       ReviewDate: meta.reviewDate || null,

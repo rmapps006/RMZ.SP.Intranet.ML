@@ -26,7 +26,7 @@ const AdminTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
       { field: 'Category', heading: t('department', language) },
       { field: 'DocumentType', heading: t('documentTypes', language) },
       { field: 'DocStatus', heading: t('statuses', language) },
-      { field: 'Sensitivity', heading: t('sensitivities', language) }
+      { field: 'DocSensitivity', heading: t('sensitivities', language) }
     ],
     [language]
   );

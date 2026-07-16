@@ -184,7 +184,9 @@ export class ProvisioningService {
         await this._ensureChoiceField(listTitle, 'DocumentType', ['Policy', 'Procedure', 'Form', 'Template', 'Report', 'Guideline', 'Contract']);
         // Stage/status through the document lifecycle.
         await this._ensureChoiceField(listTitle, 'DocStatus', ['Draft', 'In Review', 'Published', 'Archived']);
-        await this._ensureChoiceField(listTitle, 'Sensitivity', ['Public', 'Internal', 'Confidential', 'Restricted']);
+        // "DocSensitivity" (not "Sensitivity") to avoid colliding with SharePoint's
+        // built-in sensitivity-label column, which would fail column creation.
+        await this._ensureChoiceField(listTitle, 'DocSensitivity', ['Public', 'Internal', 'Confidential', 'Restricted']);
         await this._ensureTextField(listTitle, 'DocumentNumber');
         await this._ensureTextField(listTitle, 'DocTags');
         await this._ensureTextField(listTitle, 'DocOwner');
@@ -326,25 +328,43 @@ export class ProvisioningService {
 
   private async _ensureTextField(listTitle: string, name: string): Promise<void> {
     if (!(await this._fieldExists(listTitle, name))) {
-      await this.sp.web.lists.getByTitle(listTitle).fields.addText(name);
+      // Best-effort: a single field that collides with a reserved/site column
+      // must not abort the remaining fields on the list.
+      try {
+        await this.sp.web.lists.getByTitle(listTitle).fields.addText(name);
+      } catch {
+        /* non-fatal — skip this column and continue */
+      }
     }
   }
 
   private async _ensureDateField(listTitle: string, name: string): Promise<void> {
     if (!(await this._fieldExists(listTitle, name))) {
-      await this.sp.web.lists.getByTitle(listTitle).fields.addDateTime(name);
+      try {
+        await this.sp.web.lists.getByTitle(listTitle).fields.addDateTime(name);
+      } catch {
+        /* non-fatal */
+      }
     }
   }
 
   private async _ensureMultilineField(listTitle: string, name: string): Promise<void> {
     if (!(await this._fieldExists(listTitle, name))) {
-      await this.sp.web.lists.getByTitle(listTitle).fields.addMultilineText(name, { RichText: true });
+      try {
+        await this.sp.web.lists.getByTitle(listTitle).fields.addMultilineText(name, { RichText: true });
+      } catch {
+        /* non-fatal */
+      }
     }
   }
 
   private async _ensureChoiceField(listTitle: string, name: string, choices: string[]): Promise<void> {
     if (!(await this._fieldExists(listTitle, name))) {
-      await this.sp.web.lists.getByTitle(listTitle).fields.addChoice(name, { Choices: choices });
+      try {
+        await this.sp.web.lists.getByTitle(listTitle).fields.addChoice(name, { Choices: choices });
+      } catch {
+        /* non-fatal — skip this column and continue */
+      }
       return;
     }
     // Field already exists — keep its choices in sync with the code (e.g. so a
@@ -1090,7 +1110,7 @@ export class ProvisioningService {
             Category: s.Category,
             DocumentType: s.DocumentType,
             DocStatus: s.DocStatus,
-            Sensitivity: s.Sensitivity,
+            DocSensitivity: s.Sensitivity,
             DocTags: s.DocTags,
             DocOwner: s.DocOwner,
             ReviewDate: s.ReviewDate,
