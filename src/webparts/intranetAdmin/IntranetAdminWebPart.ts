@@ -17,6 +17,7 @@ export interface IIntranetAdminWebPartProps {
   policiesList: string;
   newsList: string;
   benefitsList: string;
+  docCenterLibrary: string;
   formsLibrary: string;
   templatesLibrary: string;
   pagesLibrary: string;
@@ -33,6 +34,7 @@ export default class IntranetAdminWebPart extends BaseClientSideWebPart<IIntrane
       policiesList: this.properties.policiesList || 'Policies',
       newsList: this.properties.newsList || 'News',
       benefitsList: this.properties.benefitsList || 'HR Benefits',
+      docCenterLibrary: this.properties.docCenterLibrary || 'Document Center',
       formsLibrary: this.properties.formsLibrary || 'Forms',
       templatesLibrary: this.properties.templatesLibrary || 'Templates',
       pagesLibrary: this.properties.pagesLibrary || 'Site Pages',
@@ -64,6 +66,7 @@ export default class IntranetAdminWebPart extends BaseClientSideWebPart<IIntrane
                 PropertyPaneTextField('policiesList', { label: strings.PoliciesListLabel }),
                 PropertyPaneTextField('newsList', { label: strings.NewsListLabel }),
                 PropertyPaneTextField('benefitsList', { label: strings.BenefitsListLabel }),
+                PropertyPaneTextField('docCenterLibrary', { label: strings.DocCenterLibraryLabel }),
                 PropertyPaneTextField('formsLibrary', { label: strings.FormsLibraryLabel }),
                 PropertyPaneTextField('templatesLibrary', { label: strings.TemplatesLibraryLabel }),
                 PropertyPaneTextField('pagesLibrary', { label: strings.PagesLibraryLabel }),

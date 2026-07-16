@@ -74,6 +74,7 @@ On each target site:
    - **Policies** list (Department, PolicyVersion, FileType, **TitleAR**)
    - **News** list (Category, NewsDate, Source/**SourceAR**, TitleAR, Body/**BodyAR**)
    - **HR Benefits** list (Category, Summary/**SummaryAR**, Eligibility/**EligibilityAR**, Coverage/**CoverageAR**, TitleAR, Details/**DetailsAR**)
+   - **Document Center** document library (Category, DocumentType, DocStatus, DocOwner, ReviewDate, Description/**DescriptionAR**, TitleAR) — a real library for the Document Center web part, so you keep SharePoint's built-in versioning, check-in/out and permissions; with "seed sample data" on, a few sample documents (bilingual metadata) are uploaded so it renders populated
    - **Templates** document library
    - **Category** column on **Site Pages** (for the News category filter)
    - **Intranet Settings** list (central config — hidden from Site Contents)

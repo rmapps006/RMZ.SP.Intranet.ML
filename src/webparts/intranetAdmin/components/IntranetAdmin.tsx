@@ -87,8 +87,9 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
     const willReset: boolean = seedSampleData && resetSampleData;
     if (willReset) {
       const ok: boolean = window.confirm(
-        `Reset will permanently DELETE all existing items in the "${props.newsList}", "${props.eventsList}" and ` +
-          `"${props.benefitsList}" lists on this site, then re-add the sample data. This cannot be undone.\n\nContinue?`
+        `Reset will permanently DELETE all existing items in the "${props.newsList}", "${props.eventsList}", ` +
+          `"${props.benefitsList}" and "${props.docCenterLibrary}" lists on this site, then re-add the sample data. ` +
+          `This cannot be undone.\n\nContinue?`
       );
       if (!ok) {
         return;
@@ -104,6 +105,7 @@ const IntranetAdmin: React.FunctionComponent<IIntranetAdminProps> = (props) => {
         policiesList: props.policiesList,
         newsList: props.newsList,
         benefitsList: props.benefitsList,
+        docCenterLibrary: props.docCenterLibrary,
         formsLibrary: props.formsLibrary,
         templatesLibrary: props.templatesLibrary,
         pagesLibrary: props.pagesLibrary,

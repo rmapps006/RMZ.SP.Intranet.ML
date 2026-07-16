@@ -1,0 +1,31 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
+  "id": "1ffc49e2-287a-471b-8c76-f80ad4972e04",
+  "alias": "DocumentCenterWebPart",
+  "componentType": "WebPart",
+  "version": "*",
+  "manifestVersion": 2,
+  "requiresCustomScript": false,
+  "supportedHosts": ["SharePointWebPart"],
+  "supportsThemeVariants": true,
+  "supportsFullBleed": true,
+  "preconfiguredEntries": [
+    {
+      "groupId": "intranet-suite",
+      "group": { "default": "Intranet" },
+      "title": { "default": "Document Center" },
+      "description": { "default": "A custom document-management experience over a SharePoint library — search, category/type/status filtering and quick open, on top of the library's built-in versioning and metadata." },
+      "officeFabricIconFontName": "DocumentSet",
+      "properties": {
+        "title": "Document Center",
+        "titleAR": "",
+        "linkText": "Open Library",
+        "linkTextAR": "",
+        "libraryTitle": "Document Center",
+        "pageSize": "50",
+        "showTitle": true,
+        "showViewAll": true
+      }
+    }
+  ]
+}

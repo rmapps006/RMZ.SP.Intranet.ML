@@ -37,6 +37,15 @@ export type UiStringKey =
   | 'openLibrary'
   | 'loading'
   | 'noDocuments'
+  | 'searchDocuments'
+  | 'allTypes'
+  | 'allStatuses'
+  | 'type'
+  | 'status'
+  | 'owner'
+  | 'reviewDate'
+  | 'noDocumentsMatch'
+  | 'documentsCount'
   // Section "view all" link defaults (used when no admin override is set)
   | 'viewArchive'
   | 'viewCalendar'
@@ -72,6 +81,15 @@ const STRINGS: Record<UiStringKey, { en: string; ar: string }> = {
   openLibrary: { en: 'Open Library', ar: 'فتح المكتبة' },
   loading: { en: 'Loading…', ar: 'جارٍ التحميل…' },
   noDocuments: { en: 'No documents yet.', ar: 'لا توجد مستندات بعد.' },
+  searchDocuments: { en: 'Search documents…', ar: 'ابحث في المستندات…' },
+  allTypes: { en: 'All Types', ar: 'كل الأنواع' },
+  allStatuses: { en: 'All Statuses', ar: 'كل الحالات' },
+  type: { en: 'Type', ar: 'النوع' },
+  status: { en: 'Status', ar: 'الحالة' },
+  owner: { en: 'Owner', ar: 'المسؤول' },
+  reviewDate: { en: 'Review by', ar: 'المراجعة بحلول' },
+  noDocumentsMatch: { en: 'No documents match your filters.', ar: 'لا توجد مستندات مطابقة لعوامل التصفية.' },
+  documentsCount: { en: 'documents', ar: 'مستند' },
   viewArchive: { en: 'View Archive', ar: 'عرض الأرشيف' },
   viewCalendar: { en: 'View Calendar', ar: 'عرض التقويم' },
   allPolicies: { en: 'All Policies', ar: 'كل السياسات' },
@@ -96,6 +114,22 @@ export function t(key: UiStringKey, language: Language): string {
 const CHOICE_AR: Record<string, string> = {
   All: 'الكل',
   'All Departments': 'كل الإدارات',
+  'All Types': 'كل الأنواع',
+  'All Statuses': 'كل الحالات',
+  General: 'عام',
+  // Document Center document types
+  Policy: 'سياسة',
+  Procedure: 'إجراء',
+  Form: 'نموذج',
+  Template: 'قالب',
+  Report: 'تقرير',
+  Guideline: 'إرشادات',
+  Contract: 'عقد',
+  // Document Center statuses
+  Draft: 'مسودة',
+  'In Review': 'قيد المراجعة',
+  Approved: 'معتمد',
+  Archived: 'مؤرشف',
   // News categories
   'General Announcements': 'الإعلانات العامة',
   'Construction Updates': 'تحديثات الإنشاءات',

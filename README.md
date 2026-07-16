@@ -91,6 +91,7 @@ everything renders in the workbench before lists exist.
 | Events | Company events | PnP v4 — Events list |
 | HR Benefits | Benefit cards | Configurable content |
 | Policies List | Searchable, dept-filtered table | PnP v4 — Policies list |
+| Document Center | Custom search / category·type·status filtering over a document library (keeps OOTB versioning, check-in/out, permissions) | PnP v4 — Document Center library |
 | Shared Documents | Two document panels | PnP v4 — document libraries |
 | Employee Directory | Searchable people grid | Graph `/users` |
 | Org Chart (mini) | CEO + direct reports | Graph `/users/{id}/directReports` |

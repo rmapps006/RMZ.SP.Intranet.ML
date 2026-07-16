@@ -5,6 +5,7 @@ declare interface IIntranetAdminWebPartStrings {
   PoliciesListLabel: string;
   NewsListLabel: string;
   BenefitsListLabel: string;
+  DocCenterLibraryLabel: string;
   FormsLibraryLabel: string;
   TemplatesLibraryLabel: string;
   PagesLibraryLabel: string;

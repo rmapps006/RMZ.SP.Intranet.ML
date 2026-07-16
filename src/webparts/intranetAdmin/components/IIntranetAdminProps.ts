@@ -6,6 +6,7 @@ export interface IIntranetAdminProps {
   policiesList: string;
   newsList: string;
   benefitsList: string;
+  docCenterLibrary: string;
   formsLibrary: string;
   templatesLibrary: string;
   pagesLibrary: string;

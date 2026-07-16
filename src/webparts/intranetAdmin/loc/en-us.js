@@ -6,6 +6,7 @@ define([], function () {
     "PoliciesListLabel": "Policies list name",
     "NewsListLabel": "News list name",
     "BenefitsListLabel": "HR Benefits list name",
+    "DocCenterLibraryLabel": "Document Center library name",
     "FormsLibraryLabel": "Forms library name",
     "TemplatesLibraryLabel": "Templates library name",
     "PagesLibraryLabel": "Site Pages library name",

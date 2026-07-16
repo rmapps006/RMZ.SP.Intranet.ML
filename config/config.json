@@ -177,6 +177,14 @@
           "manifest": "./src/webparts/contentManager/ContentManagerWebPart.manifest.json"
         }
       ]
+    },
+    "document-center-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/documentCenter/DocumentCenterWebPart.js",
+          "manifest": "./src/webparts/documentCenter/DocumentCenterWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -202,6 +210,7 @@
     "DepartmentAdminWebPartStrings": "lib/webparts/departmentAdmin/loc/{locale}.js",
     "DepartmentsDirectoryWebPartStrings": "lib/webparts/departmentsDirectory/loc/{locale}.js",
     "DetailViewWebPartStrings": "lib/webparts/detailView/loc/{locale}.js",
-    "ContentManagerWebPartStrings": "lib/webparts/contentManager/loc/{locale}.js"
+    "ContentManagerWebPartStrings": "lib/webparts/contentManager/loc/{locale}.js",
+    "DocumentCenterWebPartStrings": "lib/webparts/documentCenter/loc/{locale}.js"
   }
 }

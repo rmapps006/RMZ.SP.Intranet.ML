@@ -7,6 +7,7 @@ import '@pnp/sp/fields';
 import '@pnp/sp/items';
 import '@pnp/sp/user-custom-actions';
 import '@pnp/sp/folders';
+import '@pnp/sp/files';
 import { IUserCustomActionInfo } from '@pnp/sp/user-custom-actions';
 import '@pnp/sp/clientside-pages';
 import { ClientsideWebpart } from '@pnp/sp/clientside-pages';
@@ -65,6 +66,7 @@ export interface IProvisioningOptions {
   policiesList: string;
   newsList: string;
   benefitsList: string;
+  docCenterLibrary: string;
   formsLibrary: string;
   templatesLibrary: string;
   pagesLibrary: string;
@@ -172,6 +174,23 @@ export class ProvisioningService {
       })
     );
 
+    results.push(
+      // Document Center — a real document library (101) with DMS metadata columns.
+      // The custom Document Center web part renders a search/filter experience on
+      // top of it while SharePoint provides versioning, check-in/out and permissions.
+      await this._ensureList(options.docCenterLibrary, 101, 'Managed documents for the Document Center web part', async (listTitle) => {
+        await this._ensureChoiceField(listTitle, 'Category', ['HR', 'Finance', 'IT', 'Operations', 'Marketing', 'Legal', 'General']);
+        await this._ensureChoiceField(listTitle, 'DocumentType', ['Policy', 'Procedure', 'Form', 'Template', 'Report', 'Guideline', 'Contract']);
+        await this._ensureChoiceField(listTitle, 'DocStatus', ['Draft', 'In Review', 'Approved', 'Archived']);
+        await this._ensureTextField(listTitle, 'DocOwner');
+        await this._ensureDateField(listTitle, 'ReviewDate');
+        await this._ensureMultilineField(listTitle, 'Description');
+        // Arabic translations — same content, rendered when the visitor's language is Arabic.
+        await this._ensureTextField(listTitle, 'TitleAR');
+        await this._ensureMultilineField(listTitle, 'DescriptionAR');
+      })
+    );
+
     results.push(await this._ensureList(options.formsLibrary, 101, 'Forms document library'));
     results.push(await this._ensureList(options.templatesLibrary, 101, 'Templates document library'));
 
@@ -190,12 +209,14 @@ export class ProvisioningService {
         results.push(await this._clearList(options.eventsList));
         results.push(await this._clearList(options.newsList));
         results.push(await this._clearList(options.benefitsList));
+        results.push(await this._clearList(options.docCenterLibrary));
       }
       results.push(await this._seedEvents(options.eventsList));
       // Policies is a document library — seeding needs real files, so it's
       // skipped; upload policy documents to the library instead.
       results.push(await this._seedNews(options.newsList));
       results.push(await this._seedBenefits(options.benefitsList));
+      results.push(await this._seedDocuments(options.docCenterLibrary));
     }
 
     if (options.createViewAllPages) {
@@ -644,6 +665,140 @@ export class ProvisioningService {
         name,
         status: 'ok',
         message: deleted > 0 ? `Deleted ${deleted} existing item(s) before re-seeding.` : 'No existing items to delete.'
+      };
+    } catch (error) {
+      return { name, status: 'error', message: this._msg(error) };
+    }
+  }
+
+  /**
+   * Seeds the Document Center library with a handful of sample documents (real
+   * placeholder .txt files) carrying full bilingual metadata, so the Document
+   * Center web part renders populated out of the box. Only runs on an empty
+   * library; each upload is best-effort so one failure can't abort the rest.
+   */
+  private async _seedDocuments(listTitle: string): Promise<IProvisionResult> {
+    const name: string = `${listTitle} · sample data`;
+    try {
+      const count: number = (await this.sp.web.lists.getByTitle(listTitle).items.top(1)()).length;
+      if (count > 0) {
+        return { name, status: 'skipped', message: 'Library already has items.' };
+      }
+      const list = this.sp.web.lists.getByTitle(listTitle);
+      const body: string = 'Sample document — replace this placeholder with the real file. Managed via the Document Center.';
+      const samples: {
+        file: string;
+        Title: string;
+        TitleAR: string;
+        Category: string;
+        DocumentType: string;
+        DocStatus: string;
+        DocOwner: string;
+        ReviewDate: string;
+        Description: string;
+        DescriptionAR: string;
+      }[] = [
+        {
+          file: 'Employee-Handbook-2026.txt',
+          Title: 'Employee Handbook 2026',
+          TitleAR: 'دليل الموظف ٢٠٢٦',
+          Category: 'HR',
+          DocumentType: 'Policy',
+          DocStatus: 'Approved',
+          DocOwner: 'People & Culture',
+          ReviewDate: '2026-12-31T00:00:00Z',
+          Description: 'The complete guide to company policies, benefits and ways of working.',
+          DescriptionAR: 'الدليل الكامل لسياسات الشركة والمزايا وأساليب العمل.'
+        },
+        {
+          file: 'Expense-Claim-Form.txt',
+          Title: 'Expense Claim Form',
+          TitleAR: 'نموذج مطالبة النفقات',
+          Category: 'Finance',
+          DocumentType: 'Form',
+          DocStatus: 'Approved',
+          DocOwner: 'Finance',
+          ReviewDate: '2026-09-30T00:00:00Z',
+          Description: 'Submit business expenses for reimbursement.',
+          DescriptionAR: 'تقديم نفقات العمل لاستردادها.'
+        },
+        {
+          file: 'IT-Security-Guidelines.txt',
+          Title: 'IT Security Guidelines',
+          TitleAR: 'إرشادات أمن تقنية المعلومات',
+          Category: 'IT',
+          DocumentType: 'Guideline',
+          DocStatus: 'In Review',
+          DocOwner: 'Information Technology',
+          ReviewDate: '2026-08-15T00:00:00Z',
+          Description: 'Security best practices for devices, passwords and data handling.',
+          DescriptionAR: 'أفضل ممارسات الأمان للأجهزة وكلمات المرور والتعامل مع البيانات.'
+        },
+        {
+          file: 'Project-Status-Report-Template.txt',
+          Title: 'Project Status Report Template',
+          TitleAR: 'قالب تقرير حالة المشروع',
+          Category: 'Operations',
+          DocumentType: 'Template',
+          DocStatus: 'Draft',
+          DocOwner: 'PMO',
+          ReviewDate: '2026-10-31T00:00:00Z',
+          Description: 'Standard template for weekly project status reporting.',
+          DescriptionAR: 'قالب موحّد لإعداد تقارير حالة المشروع الأسبوعية.'
+        },
+        {
+          file: 'Vendor-Contract-Template.txt',
+          Title: 'Vendor Contract Template',
+          TitleAR: 'قالب عقد المورّد',
+          Category: 'Legal',
+          DocumentType: 'Contract',
+          DocStatus: 'Approved',
+          DocOwner: 'Legal',
+          ReviewDate: '2027-01-31T00:00:00Z',
+          Description: 'Standard agreement template for engaging third-party vendors.',
+          DescriptionAR: 'قالب الاتفاقية الموحّد للتعاقد مع الموردين الخارجيين.'
+        },
+        {
+          file: 'Onboarding-Procedure.txt',
+          Title: 'Onboarding Procedure',
+          TitleAR: 'إجراء التأهيل الوظيفي',
+          Category: 'HR',
+          DocumentType: 'Procedure',
+          DocStatus: 'Approved',
+          DocOwner: 'People & Culture',
+          ReviewDate: '2026-11-30T00:00:00Z',
+          Description: 'Step-by-step process for welcoming and setting up new joiners.',
+          DescriptionAR: 'عملية تفصيلية لاستقبال الموظفين الجدد وتجهيزهم.'
+        }
+      ];
+
+      let added: number = 0;
+      for (const s of samples) {
+        try {
+          // PnP v4 returns the file info directly; resolve the list item from its URL.
+          const info: { ServerRelativeUrl?: string } = await list.rootFolder.files.addUsingPath(s.file, body, { Overwrite: true });
+          const serverRelativeUrl: string = info.ServerRelativeUrl || '';
+          const item = await this.sp.web.getFileByServerRelativePath(serverRelativeUrl).getItem();
+          await item.update({
+            Title: s.Title,
+            TitleAR: s.TitleAR,
+            Category: s.Category,
+            DocumentType: s.DocumentType,
+            DocStatus: s.DocStatus,
+            DocOwner: s.DocOwner,
+            ReviewDate: s.ReviewDate,
+            Description: s.Description,
+            DescriptionAR: s.DescriptionAR
+          });
+          added += 1;
+        } catch {
+          /* best-effort per file — skip and continue */
+        }
+      }
+      return {
+        name,
+        status: added > 0 ? 'ok' : 'error',
+        message: added > 0 ? `Added ${added} sample document(s).` : 'Could not upload sample documents (check library permissions).'
       };
     } catch (error) {
       return { name, status: 'error', message: this._msg(error) };
