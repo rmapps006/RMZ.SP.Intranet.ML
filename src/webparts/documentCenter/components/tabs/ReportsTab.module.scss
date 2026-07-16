@@ -1,0 +1,186 @@
+@import '../../../../common/styles/tokens';
+
+.wrap {
+  font-family: $font-body;
+  padding-top: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.chart {
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+
+.chartHeading {
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  color: $intranet-text-1;
+  margin: 0 0 14px;
+  letter-spacing: 0.02em;
+}
+
+.chartEmpty {
+  font-size: 13px;
+  color: $intranet-text-muted;
+  padding: 8px 0;
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.barLabel {
+  flex: 0 0 34%;
+  max-width: 34%;
+  font-size: 12px;
+  color: $intranet-text-2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barTrack {
+  flex: 1 1 auto;
+  height: 14px;
+  background: $intranet-bg;
+  border: 1px solid $intranet-border;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 7px;
+  min-width: 2px;
+  background: var(--intranet-accent, #{$intranet-sand});
+}
+
+// Tasteful per-chart tints, all token-based.
+.tintA {
+  background: var(--intranet-accent, #{$intranet-sand});
+}
+.tintB {
+  background: $intranet-sun;
+}
+.tintC {
+  background: $intranet-ocean;
+}
+.tintD {
+  background: $intranet-sand-dark;
+}
+
+.barValue {
+  flex: 0 0 auto;
+  min-width: 24px;
+  text-align: end;
+  font-family: $font-head;
+  font-size: 12px;
+  font-weight: 600;
+  color: $intranet-text-1;
+}
+
+.panel {
+  margin-top: 20px;
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+
+.panelHeading {
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  color: $intranet-text-1;
+  margin: 0 0 12px;
+  letter-spacing: 0.02em;
+}
+
+.nothing {
+  font-size: 13px;
+  color: $intranet-text-2;
+  padding: 6px 0;
+}
+
+.overdueList {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $intranet-border;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.overdueRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid $intranet-border;
+  border-inline-start: 3px solid #b0361b;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.overdueMain {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.overdueNum {
+  font-family: $font-head;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--intranet-accent, #{$intranet-sand});
+  letter-spacing: 0.03em;
+}
+
+.overdueTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $intranet-text-1;
+}
+
+.overdueMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.overdueDept {
+  font-size: 11px;
+  color: $intranet-text-2;
+}
+
+.overdueDate {
+  font-size: 11px;
+  font-weight: 600;
+  color: #b0361b;
+  white-space: nowrap;
+}

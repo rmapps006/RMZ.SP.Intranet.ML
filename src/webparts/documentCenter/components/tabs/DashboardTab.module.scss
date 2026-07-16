@@ -1,0 +1,215 @@
+@import '../../../../common/styles/tokens';
+
+.wrap {
+  font-family: $font-body;
+  padding-top: 12px;
+}
+
+/* ---- KPI tiles ---- */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.tile {
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
+  border-radius: 8px;
+  box-shadow: $intranet-shadow;
+  padding: 18px 20px;
+  border-inline-start: 3px solid var(--intranet-accent, #{$intranet-sand});
+}
+
+.tileWarn {
+  border-inline-start-color: $intranet-sun;
+  background: rgba(234, 139, 110, 0.06);
+}
+
+.tileNum {
+  font-family: $font-head;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: $intranet-text-1;
+}
+
+.tileWarn .tileNum {
+  color: #b0361b;
+}
+
+.tileLabel {
+  font-size: 12px;
+  color: $intranet-text-2;
+  margin-top: 6px;
+}
+
+/* ---- Panels ---- */
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.panel {
+  background: $intranet-white;
+  border: 1px solid $intranet-border;
+  border-radius: 8px;
+  box-shadow: $intranet-shadow;
+  padding: 18px 20px;
+}
+
+.panelTitle {
+  font-family: $font-head;
+  font-size: 14px;
+  font-weight: 700;
+  color: $intranet-text-1;
+  margin: 0 0 14px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.empty {
+  font-size: 13px;
+  color: $intranet-text-muted;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* ---- Shared bits ---- */
+.docNum {
+  font-family: $font-head;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--intranet-accent, #{$intranet-sand});
+  letter-spacing: 0.03em;
+}
+
+.nm {
+  font-size: 13px;
+  font-weight: 600;
+  color: $intranet-text-1;
+}
+
+/* ---- Needs attention rows ---- */
+.attRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  border-bottom: 1px solid $intranet-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.attInfo {
+  min-width: 0;
+}
+
+.attTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.attDept {
+  display: block;
+  font-size: 11px;
+  color: $intranet-text-2;
+  margin-top: 4px;
+}
+
+.attDue {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b0361b;
+  white-space: nowrap;
+}
+
+/* ---- Recent rows ---- */
+.recRow {
+  padding: 12px 0;
+  border-bottom: 1px solid $intranet-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.recInfo {
+  min-width: 0;
+}
+
+.recTitleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.recMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.recDate {
+  font-size: 11px;
+  color: $intranet-text-muted;
+}
+
+.recActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.act {
+  font-size: 12px;
+  color: var(--intranet-accent, #{$intranet-sand});
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ---- Status pills ---- */
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.stPublished {
+  color: #2f6b3a;
+  background: rgba(78, 136, 56, 0.14);
+}
+.stReview {
+  color: #8a5a1e;
+  background: rgba(234, 139, 110, 0.16);
+}
+.stDraft {
+  color: $intranet-text-2;
+  background: rgba(181, 181, 181, 0.2);
+}
+.stArchived {
+  color: #6a6a6a;
+  background: rgba(120, 120, 120, 0.12);
+}

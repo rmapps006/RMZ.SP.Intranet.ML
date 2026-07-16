@@ -179,15 +179,26 @@ export class ProvisioningService {
       // The custom Document Center web part renders a search/filter experience on
       // top of it while SharePoint provides versioning, check-in/out and permissions.
       await this._ensureList(options.docCenterLibrary, 101, 'Managed documents for the Document Center web part', async (listTitle) => {
+        // "Category" holds the owning department; the web part labels it Department.
         await this._ensureChoiceField(listTitle, 'Category', ['HR', 'Finance', 'IT', 'Operations', 'Marketing', 'Legal', 'General']);
         await this._ensureChoiceField(listTitle, 'DocumentType', ['Policy', 'Procedure', 'Form', 'Template', 'Report', 'Guideline', 'Contract']);
-        await this._ensureChoiceField(listTitle, 'DocStatus', ['Draft', 'In Review', 'Approved', 'Archived']);
+        // Stage/status through the document lifecycle.
+        await this._ensureChoiceField(listTitle, 'DocStatus', ['Draft', 'In Review', 'Published', 'Archived']);
+        await this._ensureChoiceField(listTitle, 'Sensitivity', ['Public', 'Internal', 'Confidential', 'Restricted']);
+        await this._ensureTextField(listTitle, 'DocumentNumber');
+        await this._ensureTextField(listTitle, 'DocTags');
         await this._ensureTextField(listTitle, 'DocOwner');
         await this._ensureDateField(listTitle, 'ReviewDate');
         await this._ensureMultilineField(listTitle, 'Description');
         // Arabic translations — same content, rendered when the visitor's language is Arabic.
         await this._ensureTextField(listTitle, 'TitleAR');
         await this._ensureMultilineField(listTitle, 'DescriptionAR');
+        // Turn on version history so "Publish & versions" / "Full history" work.
+        try {
+          await this.sp.web.lists.getByTitle(listTitle).update({ EnableVersioning: true, EnableMinorVersions: false });
+        } catch {
+          /* non-fatal — versioning can be enabled from library settings if this fails. */
+        }
       })
     );
 
@@ -690,9 +701,12 @@ export class ProvisioningService {
         file: string;
         Title: string;
         TitleAR: string;
+        DocumentNumber: string;
         Category: string;
         DocumentType: string;
         DocStatus: string;
+        Sensitivity: string;
+        DocTags: string;
         DocOwner: string;
         ReviewDate: string;
         Description: string;
@@ -702,9 +716,12 @@ export class ProvisioningService {
           file: 'Employee-Handbook-2026.txt',
           Title: 'Employee Handbook 2026',
           TitleAR: 'دليل الموظف ٢٠٢٦',
+          DocumentNumber: 'HR-2026-0001',
           Category: 'HR',
           DocumentType: 'Policy',
-          DocStatus: 'Approved',
+          DocStatus: 'Published',
+          Sensitivity: 'Internal',
+          DocTags: 'handbook; policy; benefits',
           DocOwner: 'People & Culture',
           ReviewDate: '2026-12-31T00:00:00Z',
           Description: 'The complete guide to company policies, benefits and ways of working.',
@@ -714,9 +731,12 @@ export class ProvisioningService {
           file: 'Expense-Claim-Form.txt',
           Title: 'Expense Claim Form',
           TitleAR: 'نموذج مطالبة النفقات',
+          DocumentNumber: 'FIN-2026-0001',
           Category: 'Finance',
           DocumentType: 'Form',
-          DocStatus: 'Approved',
+          DocStatus: 'Published',
+          Sensitivity: 'Internal',
+          DocTags: 'expense; claim; reimbursement',
           DocOwner: 'Finance',
           ReviewDate: '2026-09-30T00:00:00Z',
           Description: 'Submit business expenses for reimbursement.',
@@ -726,9 +746,12 @@ export class ProvisioningService {
           file: 'IT-Security-Guidelines.txt',
           Title: 'IT Security Guidelines',
           TitleAR: 'إرشادات أمن تقنية المعلومات',
+          DocumentNumber: 'IT-2026-0001',
           Category: 'IT',
           DocumentType: 'Guideline',
           DocStatus: 'In Review',
+          Sensitivity: 'Confidential',
+          DocTags: 'security; passwords; devices',
           DocOwner: 'Information Technology',
           ReviewDate: '2026-08-15T00:00:00Z',
           Description: 'Security best practices for devices, passwords and data handling.',
@@ -738,9 +761,12 @@ export class ProvisioningService {
           file: 'Project-Status-Report-Template.txt',
           Title: 'Project Status Report Template',
           TitleAR: 'قالب تقرير حالة المشروع',
+          DocumentNumber: 'OPS-2026-0001',
           Category: 'Operations',
           DocumentType: 'Template',
           DocStatus: 'Draft',
+          Sensitivity: 'Internal',
+          DocTags: 'project; report; template',
           DocOwner: 'PMO',
           ReviewDate: '2026-10-31T00:00:00Z',
           Description: 'Standard template for weekly project status reporting.',
@@ -750,9 +776,12 @@ export class ProvisioningService {
           file: 'Vendor-Contract-Template.txt',
           Title: 'Vendor Contract Template',
           TitleAR: 'قالب عقد المورّد',
+          DocumentNumber: 'LEG-2026-0001',
           Category: 'Legal',
           DocumentType: 'Contract',
-          DocStatus: 'Approved',
+          DocStatus: 'Published',
+          Sensitivity: 'Confidential',
+          DocTags: 'contract; vendor; agreement',
           DocOwner: 'Legal',
           ReviewDate: '2027-01-31T00:00:00Z',
           Description: 'Standard agreement template for engaging third-party vendors.',
@@ -762,9 +791,12 @@ export class ProvisioningService {
           file: 'Onboarding-Procedure.txt',
           Title: 'Onboarding Procedure',
           TitleAR: 'إجراء التأهيل الوظيفي',
+          DocumentNumber: 'HR-2026-0002',
           Category: 'HR',
           DocumentType: 'Procedure',
-          DocStatus: 'Approved',
+          DocStatus: 'Published',
+          Sensitivity: 'Internal',
+          DocTags: 'onboarding; joiner; process',
           DocOwner: 'People & Culture',
           ReviewDate: '2026-11-30T00:00:00Z',
           Description: 'Step-by-step process for welcoming and setting up new joiners.',
@@ -784,9 +816,12 @@ export class ProvisioningService {
           const fields: Record<string, unknown> = {
             Title: s.Title,
             TitleAR: s.TitleAR,
+            DocumentNumber: s.DocumentNumber,
             Category: s.Category,
             DocumentType: s.DocumentType,
             DocStatus: s.DocStatus,
+            Sensitivity: s.Sensitivity,
+            DocTags: s.DocTags,
             DocOwner: s.DocOwner,
             ReviewDate: s.ReviewDate,
             Description: s.Description,
