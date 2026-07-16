@@ -86,27 +86,31 @@ async function getLibraryUrl(context: WebPartContext, libraryTitle: string): Pro
  */
 export async function getDocuments(context: WebPartContext, libraryTitle: string, pageSize: number): Promise<IDocCenterResult> {
   try {
-    const rows: IDocFileRow[] = await getSP(context)
-      .web.lists.getByTitle(libraryTitle)
-      .items.select(
-        'Id',
-        'Title',
-        'TitleAR',
-        'Description',
-        'DescriptionAR',
-        'Category',
-        'DocumentType',
-        'DocStatus',
-        'DocOwner',
-        'ReviewDate',
-        'Modified',
-        'FileLeafRef',
-        'FileRef',
-        'FileSystemObjectType'
-      )
-      .filter('FSObjType eq 0')
-      .orderBy('Modified', false)
-      .top(pageSize > 0 ? pageSize : 50)();
+    const list = getSP(context).web.lists.getByTitle(libraryTitle);
+    const top: number = pageSize > 0 ? pageSize : 50;
+    // Built-in fields that always exist, plus the DMS metadata columns. If the
+    // metadata columns are missing (e.g. setup hasn't created them yet), a select
+    // of a non-existent field fails the WHOLE query — so fall back to the base
+    // fields and still show the documents (title from the file name).
+    const BASE: string[] = ['Id', 'Title', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType'];
+    const FULL: string[] = [
+      ...BASE,
+      'TitleAR',
+      'Description',
+      'DescriptionAR',
+      'Category',
+      'DocumentType',
+      'DocStatus',
+      'DocOwner',
+      'ReviewDate'
+    ];
+
+    let rows: IDocFileRow[];
+    try {
+      rows = await list.items.select(...FULL).filter('FSObjType eq 0').orderBy('Modified', false).top(top)();
+    } catch {
+      rows = await list.items.select(...BASE).filter('FSObjType eq 0').orderBy('Modified', false).top(top)();
+    }
 
     if (!rows || rows.length === 0) {
       const emptyUrl: string | undefined = await getLibraryUrl(context, libraryTitle);
