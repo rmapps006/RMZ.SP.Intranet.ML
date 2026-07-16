@@ -191,7 +191,9 @@ export class ProvisioningService {
         await this._ensureTextField(listTitle, 'DocTags');
         await this._ensureTextField(listTitle, 'DocOwner');
         await this._ensureDateField(listTitle, 'ReviewDate');
-        await this._ensureMultilineField(listTitle, 'Description');
+        // "DocDescription" (not "Description") to avoid colliding with the built-in
+        // Description field on document libraries, which would fail column creation.
+        await this._ensureMultilineField(listTitle, 'DocDescription');
         // Arabic translations — same content, rendered when the visitor's language is Arabic.
         await this._ensureTextField(listTitle, 'TitleAR');
         await this._ensureMultilineField(listTitle, 'DescriptionAR');
@@ -1114,7 +1116,7 @@ export class ProvisioningService {
             DocTags: s.DocTags,
             DocOwner: s.DocOwner,
             ReviewDate: s.ReviewDate,
-            Description: s.Description,
+            DocDescription: s.Description,
             DescriptionAR: s.DescriptionAR
           };
           try {

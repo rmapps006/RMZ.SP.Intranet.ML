@@ -59,7 +59,7 @@ interface IDocFileRow {
   Id?: number;
   Title?: string;
   TitleAR?: string;
-  Description?: string;
+  DocDescription?: string;
   DescriptionAR?: string;
   DocumentNumber?: string;
   Category?: string;
@@ -173,7 +173,7 @@ function mapRows(rows: IDocFileRow[], language: 'en' | 'ar'): IDocEntry[] {
     return {
       id: it.Id || 0,
       title: pickLocalized(it.Title || stripExtension(leaf), it.TitleAR, language),
-      description: pickLocalized(it.Description || '', it.DescriptionAR, language),
+      description: pickLocalized(it.DocDescription || '', it.DescriptionAR, language),
       documentNumber: it.DocumentNumber || '',
       department: it.Category || '',
       docType: it.DocumentType || '',
@@ -228,7 +228,7 @@ export async function getDocuments(context: WebPartContext, libraryTitle: string
   const FULL: string[] = [
     ...WITH_PEOPLE,
     'TitleAR',
-    'Description',
+    'DocDescription',
     'DescriptionAR',
     'DocumentNumber',
     'Category',
@@ -364,7 +364,7 @@ export async function uploadDocument(
       DocTags: meta.tags,
       DocOwner: meta.owner,
       ReviewDate: meta.reviewDate || null,
-      Description: meta.description
+      DocDescription: meta.description
     };
     try {
       await item.update(fields);

@@ -147,7 +147,7 @@ const DocumentsTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
           <div>{t('noDocumentsMatch', language)}</div>
           {docs.length === 0 ? (
             <div className={styles.diag}>
-              Library: &quot;{ctx.libraryTitle}&quot; · Role: {ctx.role} · Loaded: {docs.length} · v1.6.2
+              Library: &quot;{ctx.libraryTitle}&quot; · Role: {ctx.role} · Loaded: {docs.length} · v1.6.4
             </div>
           ) : null}
         </div>

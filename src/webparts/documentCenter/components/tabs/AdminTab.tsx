@@ -63,7 +63,6 @@ const AdminTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
     return () => {
       active = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ctx.context, ctx.libraryTitle]);
 
   const patch = (field: string, change: Partial<ISectionState>): void => {
