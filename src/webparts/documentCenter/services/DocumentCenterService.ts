@@ -1,11 +1,11 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
+import { SPPermission } from '@microsoft/sp-page-context';
 import { getSP } from '../../../common/services/pnpService';
 import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 import '@pnp/sp/security';
 import '@pnp/sp/files';
 import '@pnp/sp/folders';
 import '@pnp/sp/fields';
-import { PermissionKind } from '@pnp/sp/security';
 
 export type DocFileType = 'pdf' | 'doc' | 'xls' | 'ppt' | 'other';
 export type DocStage = 'Draft' | 'In Review' | 'Published' | 'Archived';
@@ -131,19 +131,22 @@ function splitTags(value: string | undefined): string[] {
     .filter((t) => !!t);
 }
 
-/** Resolves the viewer's DMS role from their effective SharePoint permissions. */
-export async function getUserRole(context: WebPartContext, libraryTitle: string): Promise<DocRole> {
-  const sp = getSP(context);
+/**
+ * Resolves the viewer's DMS role from their web-level base permissions. Uses the
+ * synchronous page context (no API call, always available) so role detection is
+ * reliable: Manage Web → Administrator, Approve Items → Approver, Add List Items
+ * → Contributor, otherwise Reader.
+ */
+export function getUserRole(context: WebPartContext): DocRole {
   try {
-    const webPerms = await sp.web.getCurrentUserEffectivePermissions();
-    if (sp.web.hasPermissions(webPerms, PermissionKind.ManageWeb)) {
+    const perms = context.pageContext.web.permissions;
+    if (perms.hasPermission(SPPermission.manageWeb)) {
       return 'Administrator';
     }
-    const listPerms = await sp.web.lists.getByTitle(libraryTitle).getCurrentUserEffectivePermissions();
-    if (sp.web.hasPermissions(listPerms, PermissionKind.ApproveItems)) {
+    if (perms.hasPermission(SPPermission.approveItems)) {
       return 'Approver';
     }
-    if (sp.web.hasPermissions(listPerms, PermissionKind.AddListItems)) {
+    if (perms.hasPermission(SPPermission.addListItems) || perms.hasPermission(SPPermission.editListItems)) {
       return 'Contributor';
     }
     return 'Reader';
@@ -198,9 +201,9 @@ function mapRows(rows: IDocFileRow[], language: 'en' | 'ar'): IDocEntry[] {
 export async function getDocuments(context: WebPartContext, libraryTitle: string, pageSize: number): Promise<IDocCenterResult> {
   const sp = getSP(context);
   const webUrl: string = context.pageContext.web.absoluteUrl;
+  const role: DocRole = getUserRole(context);
 
-  const [role, currentUser, listInfo, libraryUrl] = await Promise.all([
-    getUserRole(context, libraryTitle),
+  const [currentUser, listInfo, libraryUrl] = await Promise.all([
     sp.web.currentUser.select('Id')().catch(() => ({ Id: 0 })),
     sp.web.lists
       .getByTitle(libraryTitle)
@@ -218,38 +221,45 @@ export async function getDocuments(context: WebPartContext, libraryTitle: string
     currentUserId: (currentUser as { Id?: number }).Id || 0
   };
 
-  try {
-    const list = sp.web.lists.getByTitle(libraryTitle);
-    const top: number = pageSize > 0 ? pageSize : 200;
-    const BASE: string[] = ['Id', 'Title', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType', 'Author/Id', 'Author/Title', 'Editor/Title'];
-    const FULL: string[] = [
-      ...BASE,
-      'TitleAR',
-      'Description',
-      'DescriptionAR',
-      'DocumentNumber',
-      'Category',
-      'DocumentType',
-      'DocStatus',
-      'Sensitivity',
-      'DocTags',
-      'DocOwner',
-      'ReviewDate'
-    ];
-    const language = getCurrentLanguage();
+  const list = sp.web.lists.getByTitle(libraryTitle);
+  const top: number = pageSize > 0 ? pageSize : 200;
+  const CORE: string[] = ['Id', 'Title', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType'];
+  const WITH_PEOPLE: string[] = [...CORE, 'Author/Id', 'Author/Title', 'Editor/Title'];
+  const FULL: string[] = [
+    ...WITH_PEOPLE,
+    'TitleAR',
+    'Description',
+    'DescriptionAR',
+    'DocumentNumber',
+    'Category',
+    'DocumentType',
+    'DocStatus',
+    'Sensitivity',
+    'DocTags',
+    'DocOwner',
+    'ReviewDate'
+  ];
+  const language = getCurrentLanguage();
 
-    let rows: IDocFileRow[];
+  // Progressive fallback: full metadata + people, then people-only, then the
+  // guaranteed built-in fields with no expand. This ensures documents list even
+  // when the DMS columns don't exist yet or an expand isn't permitted.
+  const attempts: (() => Promise<IDocFileRow[]>)[] = [
+    () => list.items.select(...FULL).expand('Author', 'Editor').filter('FSObjType eq 0').orderBy('Modified', false).top(top)(),
+    () => list.items.select(...WITH_PEOPLE).expand('Author', 'Editor').filter('FSObjType eq 0').orderBy('Modified', false).top(top)(),
+    () => list.items.select(...CORE).filter('FSObjType eq 0').top(top)()
+  ];
+
+  for (const attempt of attempts) {
     try {
-      rows = await list.items.select(...FULL).expand('Author', 'Editor').filter('FSObjType eq 0').orderBy('Modified', false).top(top)();
+      const rows: IDocFileRow[] = await attempt();
+      base.documents = mapRows(rows || [], language);
+      return base;
     } catch {
-      rows = await list.items.select(...BASE).expand('Author', 'Editor').filter('FSObjType eq 0').orderBy('Modified', false).top(top)();
+      /* try the next, less-demanding query shape */
     }
-
-    base.documents = mapRows(rows || [], language);
-    return base;
-  } catch {
-    return base;
   }
+  return base;
 }
 
 /** Computes dashboard/report aggregates from a document set. */
