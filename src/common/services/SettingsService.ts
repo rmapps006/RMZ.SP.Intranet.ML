@@ -252,6 +252,15 @@ export class SettingsService {
     // Departments grid — don't intermittently render empty.
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
+        // Probe without a 404: on a site that hasn't been set up the list is
+        // absent, and getByTitle(...) would emit a noisy console 404.
+        const found: { Id?: string }[] = await this.sp.web.lists
+          .filter(`Title eq '${SETTINGS_LIST}'`)
+          .select('Id')
+          .top(1)();
+        if (!found || found.length === 0) {
+          return { ...DEFAULT_SETTINGS };
+        }
         const items: Record<string, string>[] = await this.sp.web.lists
           .getByTitle(SETTINGS_LIST)
           .items.filter(`Title eq '${SETTINGS_KEY}'`)
@@ -283,6 +292,11 @@ export class SettingsService {
       }
     }
     try {
+      // Probe without a 404 before reading items (list absent on unset-up sites).
+      const found: { Id?: string }[] = await this.sp.web.lists.filter(`Title eq '${NAV_LIST}'`).select('Id').top(1)();
+      if (!found || found.length === 0) {
+        return DEFAULT_NAV;
+      }
       const rows: Record<string, unknown>[] = await this.sp.web.lists
         .getByTitle(NAV_LIST)
         .items.select('Title', NAV_URL_FIELD, NAV_ORDER_FIELD, NAV_NEWTAB_FIELD, NAV_LABEL_AR_FIELD)

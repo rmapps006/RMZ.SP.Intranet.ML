@@ -170,6 +170,16 @@ export class DepartmentSettingsService {
       }
     }
     try {
+      // Probe for the list without a 404: on the main site (and any non-department
+      // site) this list doesn't exist, and getByTitle(...) would emit a noisy 404.
+      // A filtered lists query returns an empty array instead.
+      const found: { Id?: string }[] = await this.sp.web.lists
+        .filter(`Title eq '${DEPT_SETTINGS_LIST}'`)
+        .select('Id')
+        .top(1)();
+      if (!found || found.length === 0) {
+        return { ...DEFAULT_DEPARTMENT_SETTINGS };
+      }
       const items: Record<string, string>[] = await this.sp.web.lists
         .getByTitle(DEPT_SETTINGS_LIST)
         .items.filter(`Title eq '${DEPT_SETTINGS_KEY}'`)
@@ -188,10 +198,11 @@ export class DepartmentSettingsService {
 
   /** Ensures the (hidden) department settings list exists. Idempotent. */
   public async ensureList(): Promise<void> {
-    const list = this.sp.web.lists.getByTitle(DEPT_SETTINGS_LIST);
-    let exists: boolean = true;
+    // Existence check via a filtered lists query so a missing list doesn't 404.
+    let exists: boolean = false;
     try {
-      await list.select('Id')();
+      const found: { Id?: string }[] = await this.sp.web.lists.filter(`Title eq '${DEPT_SETTINGS_LIST}'`).select('Id').top(1)();
+      exists = !!found && found.length > 0;
     } catch {
       exists = false;
     }

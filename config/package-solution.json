@@ -3,7 +3,7 @@
   "solution": {
     "name": "RMZ Intranet Suite",
     "id": "17bb4221-0353-40e2-9fe6-0509ce056699",
-    "version": "1.6.0.0",
+    "version": "1.6.1.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": false,
     "isDomainIsolated": false,
@@ -48,7 +48,7 @@
         "title": "RMZ Intranet Suite - Header & Footer",
         "description": "Deploys the header/footer application customizer to every page.",
         "id": "0b08d894-b9a6-479d-aa50-e8bdbd11c655",
-        "version": "1.6.0.0",
+        "version": "1.6.1.0",
         "componentIds": [
           "1083fb8f-96fc-49dc-9284-2d77402b58a9",
           "0ad7b1b8-201e-4b92-9848-aa424526a5e5",
