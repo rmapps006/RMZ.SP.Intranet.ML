@@ -149,7 +149,7 @@ const DocumentsTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
             <div className={styles.diag}>
               <div>
                 Library: &quot;{ctx.libraryTitle}&quot;
-                {ctx.siteUrl ? <> · Site: {ctx.siteUrl}</> : null} · Role: {ctx.role} · Loaded: {docs.length} · v1.6.5
+                {ctx.siteUrl ? <> · Site: {ctx.siteUrl}</> : null} · Role: {ctx.role} · Loaded: {docs.length} · v1.6.6
               </div>
               {ctx.loadError ? <div>Load error: {ctx.loadError}</div> : null}
             </div>

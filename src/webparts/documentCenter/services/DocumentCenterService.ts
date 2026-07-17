@@ -1,5 +1,6 @@
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPPermission } from '@microsoft/sp-page-context';
+import { SPFI } from '@pnp/sp';
 import { getSP } from '../../../common/services/pnpService';
 import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 import '@pnp/sp/security';
@@ -215,6 +216,43 @@ function mapRows(rows: IDocFileRow[], language: 'en' | 'ar'): IDocEntry[] {
   });
 }
 
+interface IResolvedList {
+  id: string;
+  itemCount: number;
+  template: number;
+  matches: number;
+}
+
+/**
+ * Resolves the target list, disambiguating when several lists share the same
+ * title. Repeated provisioning can leave more than one "Document Center" behind
+ * (e.g. an empty generic list alongside the real document library); plain
+ * getByTitle then returns whichever was created first, which may be the empty
+ * one. This prefers a document library (BaseTemplate 101), and among those the
+ * one that actually holds items, so the web part always reads the populated
+ * library. Returns undefined when no list carries the title.
+ */
+async function resolveList(sp: SPFI, libraryTitle: string): Promise<IResolvedList | undefined> {
+  try {
+    const safe: string = libraryTitle.replace(/'/g, "''");
+    const rows: { Id: string; BaseTemplate: number; ItemCount: number }[] = await sp.web.lists
+      .filter(`Title eq '${safe}'`)
+      .select('Id', 'BaseTemplate', 'ItemCount')();
+    if (!rows || rows.length === 0) {
+      return undefined;
+    }
+    const libs = rows.filter((r) => r.BaseTemplate === 101);
+    const pick =
+      libs.filter((r) => (r.ItemCount || 0) > 0)[0] ||
+      rows.filter((r) => (r.ItemCount || 0) > 0)[0] ||
+      libs[0] ||
+      rows[0];
+    return { id: pick.Id, itemCount: pick.ItemCount || 0, template: pick.BaseTemplate, matches: rows.length };
+  } catch {
+    return undefined;
+  }
+}
+
 /**
  * Loads the full working set: documents (bilingual title/description resolved),
  * the library URL and web/list identifiers (for version-history links), the
@@ -232,13 +270,10 @@ export async function getDocuments(
   const trimmedSite: string = (siteUrl || '').trim().replace(/\/+$/, '');
   const webUrl: string = trimmedSite || context.pageContext.web.absoluteUrl;
 
-  const [role, currentUser, listInfo, libraryUrl] = await Promise.all([
+  const [role, currentUser, resolved, libraryUrl] = await Promise.all([
     getUserRole(context, siteUrl),
     sp.web.currentUser.select('Id')().catch(() => ({ Id: 0 })),
-    sp.web.lists
-      .getByTitle(libraryTitle)
-      .select('Id')()
-      .catch(() => ({ Id: '' })),
+    resolveList(sp, libraryTitle),
     getLibraryUrl(context, libraryTitle, siteUrl)
   ]);
 
@@ -246,12 +281,13 @@ export async function getDocuments(
     documents: [],
     libraryUrl,
     webUrl,
-    listId: (listInfo as { Id?: string }).Id || '',
+    listId: resolved ? resolved.id : '',
     role,
     currentUserId: (currentUser as { Id?: number }).Id || 0
   };
 
-  const list = sp.web.lists.getByTitle(libraryTitle);
+  // Read the resolved library by its GUID so a same-titled empty list can't shadow it.
+  const list = resolved ? sp.web.lists.getById(resolved.id) : sp.web.lists.getByTitle(libraryTitle);
   const top: number = pageSize > 0 ? pageSize : 200;
   const CORE: string[] = ['Id', 'Title', 'Modified', 'FileLeafRef', 'FileRef', 'FileSystemObjectType'];
   const WITH_PEOPLE: string[] = [...CORE, 'Author/Id', 'Author/Title', 'Editor/Title'];
@@ -281,19 +317,29 @@ export async function getDocuments(
   ];
 
   let lastError: string = '';
+  let succeeded: boolean = false;
   for (const attempt of attempts) {
     try {
       const rows: IDocFileRow[] = await attempt();
       base.documents = mapRows(rows || [], language);
-      return base;
+      succeeded = true;
+      break;
     } catch (err) {
       lastError = err instanceof Error ? err.message : String(err);
       /* try the next, less-demanding query shape */
     }
   }
-  // All query shapes failed — surface why (library missing on this web, no access, etc.).
-  if (lastError) {
+  // Diagnostics for the empty-state line. If every query threw, show the error.
+  // If a query succeeded but returned nothing, describe what was resolved so a
+  // title mismatch / shadowing empty list / wrong site is obvious.
+  if (!succeeded && lastError) {
     base.loadError = lastError;
+  } else if (base.documents.length === 0) {
+    base.loadError = resolved
+      ? `Read ${resolved.matches} list(s) titled "${libraryTitle}"; used ${
+          resolved.template === 101 ? 'a document library' : `template ${resolved.template}`
+        } with ItemCount ${resolved.itemCount} (returned 0 files).`
+      : `No list titled "${libraryTitle}" was found on ${webUrl}.`;
   }
   return base;
 }
