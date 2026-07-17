@@ -37,7 +37,7 @@ const AdminTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
   React.useEffect(() => {
     let active = true;
     setLoading(true);
-    Promise.all(columns.map((c) => getChoices(ctx.context, ctx.libraryTitle, c.field)))
+    Promise.all(columns.map((c) => getChoices(ctx.context, ctx.libraryTitle, c.field, ctx.siteUrl)))
       .then((results) => {
         if (!active) {
           return;
@@ -103,7 +103,7 @@ const AdminTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
       return;
     }
     patch(field, { saving: true, saved: false });
-    updateChoices(ctx.context, ctx.libraryTitle, field, cur.values)
+    updateChoices(ctx.context, ctx.libraryTitle, field, cur.values, ctx.siteUrl)
       .then((ok) => {
         patch(field, { saving: false, saved: ok });
       })

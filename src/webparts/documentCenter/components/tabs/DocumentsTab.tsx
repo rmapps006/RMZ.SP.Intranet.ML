@@ -85,7 +85,7 @@ const DocumentsTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
 
   const changeStage = (id: number, stage: DocStage): void => {
     setBusyId(id);
-    setStage(ctx.context, ctx.libraryTitle, id, stage)
+    setStage(ctx.context, ctx.libraryTitle, id, stage, ctx.siteUrl)
       .then(() => ctx.reload())
       .catch(() => {
         /* ignore */
@@ -147,7 +147,11 @@ const DocumentsTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
           <div>{t('noDocumentsMatch', language)}</div>
           {docs.length === 0 ? (
             <div className={styles.diag}>
-              Library: &quot;{ctx.libraryTitle}&quot; · Role: {ctx.role} · Loaded: {docs.length} · v1.6.4
+              <div>
+                Library: &quot;{ctx.libraryTitle}&quot;
+                {ctx.siteUrl ? <> · Site: {ctx.siteUrl}</> : null} · Role: {ctx.role} · Loaded: {docs.length} · v1.6.5
+              </div>
+              {ctx.loadError ? <div>Load error: {ctx.loadError}</div> : null}
             </div>
           ) : null}
         </div>

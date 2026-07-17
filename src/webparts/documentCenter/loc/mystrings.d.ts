@@ -6,6 +6,8 @@ declare interface IDocumentCenterWebPartStrings {
   LinkTextLabel: string;
   LinkTextARLabel: string;
   LibraryTitleLabel: string;
+  SiteUrlLabel: string;
+  SiteUrlDescription: string;
   PageSizeLabel: string;
 }
 

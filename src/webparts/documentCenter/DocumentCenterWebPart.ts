@@ -11,6 +11,7 @@ import { getCurrentLanguage, pickLocalized } from '../../common/services/languag
 
 export interface IDocumentCenterWebPartProps {
   libraryTitle: string;
+  siteUrl: string;
   pageSize: string;
   showTitle: boolean;
   showViewAll: boolean;
@@ -29,6 +30,7 @@ export default class DocumentCenterWebPart extends BaseClientSideWebPart<IDocume
     const element: React.ReactElement<IDocumentCenterProps> = React.createElement(DocumentCenter, {
       context: this.context,
       libraryTitle: this.properties.libraryTitle || 'Document Center',
+      siteUrl: (this.properties.siteUrl || '').trim(),
       pageSize: pageSize,
       showTitle: this.properties.showTitle !== false,
       showViewAll: this.properties.showViewAll !== false,
@@ -62,6 +64,10 @@ export default class DocumentCenterWebPart extends BaseClientSideWebPart<IDocume
                 PropertyPaneTextField('linkText', { label: strings.LinkTextLabel }),
                 PropertyPaneTextField('linkTextAR', { label: strings.LinkTextARLabel }),
                 PropertyPaneTextField('libraryTitle', { label: strings.LibraryTitleLabel }),
+                PropertyPaneTextField('siteUrl', {
+                  label: strings.SiteUrlLabel,
+                  description: strings.SiteUrlDescription
+                }),
                 PropertyPaneTextField('pageSize', { label: strings.PageSizeLabel })
               ]
             }

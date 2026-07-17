@@ -3,6 +3,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 export interface IDocumentCenterProps {
   context: WebPartContext;
   libraryTitle: string;
+  siteUrl: string;
   pageSize: number;
   showTitle: boolean;
   showViewAll: boolean;

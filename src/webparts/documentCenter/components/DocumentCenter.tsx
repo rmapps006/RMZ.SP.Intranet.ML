@@ -48,6 +48,7 @@ const DocumentCenter: React.FunctionComponent<IDocumentCenterProps> = (props) =>
   const [listId, setListId] = React.useState<string>('');
   const [role, setRole] = React.useState<DocRole>('Reader');
   const [currentUserId, setCurrentUserId] = React.useState<number>(0);
+  const [loadError, setLoadError] = React.useState<string | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [reloadKey, setReloadKey] = React.useState<number>(0);
 
@@ -60,7 +61,7 @@ const DocumentCenter: React.FunctionComponent<IDocumentCenterProps> = (props) =>
   React.useEffect(() => {
     let active: boolean = true;
     setLoading(true);
-    getDocuments(props.context, props.libraryTitle, props.pageSize)
+    getDocuments(props.context, props.libraryTitle, props.pageSize, props.siteUrl)
       .then((result: IDocCenterResult) => {
         if (!active) {
           return;
@@ -71,6 +72,7 @@ const DocumentCenter: React.FunctionComponent<IDocumentCenterProps> = (props) =>
         setListId(result.listId);
         setRole(result.role);
         setCurrentUserId(result.currentUserId);
+        setLoadError(result.loadError);
       })
       .catch(() => {
         /* service returns a safe default */
@@ -83,13 +85,14 @@ const DocumentCenter: React.FunctionComponent<IDocumentCenterProps> = (props) =>
     return () => {
       active = false;
     };
-  }, [props.context, props.libraryTitle, props.pageSize, navKey, reloadKey]);
+  }, [props.context, props.libraryTitle, props.siteUrl, props.pageSize, navKey, reloadKey]);
 
   const stats: IDocStats = React.useMemo(() => (docs.length ? computeStats(docs, currentUserId) : EMPTY_STATS), [docs, currentUserId]);
 
   const ctx: IDocCtx = {
     context: props.context,
     libraryTitle: props.libraryTitle,
+    siteUrl: props.siteUrl,
     language,
     rtl,
     role,
@@ -99,6 +102,7 @@ const DocumentCenter: React.FunctionComponent<IDocumentCenterProps> = (props) =>
     listId,
     currentUserId,
     libraryUrl,
+    loadError,
     reload
   };
 

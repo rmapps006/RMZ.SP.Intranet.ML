@@ -3,6 +3,7 @@ import { SPPermission } from '@microsoft/sp-page-context';
 import { getSP } from '../../../common/services/pnpService';
 import { getCurrentLanguage, pickLocalized } from '../../../common/services/languageService';
 import '@pnp/sp/security';
+import { PermissionKind } from '@pnp/sp/security';
 import '@pnp/sp/files';
 import '@pnp/sp/folders';
 import '@pnp/sp/fields';
@@ -53,6 +54,8 @@ export interface IDocCenterResult {
   listId: string;
   role: DocRole;
   currentUserId: number;
+  /** Populated when the document query failed outright (library missing / no access), for diagnostics. */
+  loadError?: string;
 }
 
 interface IDocFileRow {
@@ -132,33 +135,54 @@ function splitTags(value: string | undefined): string[] {
 }
 
 /**
- * Resolves the viewer's DMS role from their web-level base permissions. Uses the
- * synchronous page context (no API call, always available) so role detection is
- * reliable: Manage Web → Administrator, Approve Items → Approver, Add List Items
- * → Contributor, otherwise Reader.
+ * Resolves the viewer's DMS role from their effective permissions on the target
+ * web. Asks the server (currentUserHasPermissions) rather than trusting the
+ * page-context permission bits, which are only populated for the page's own web
+ * and can under-report (e.g. showing an owner as "Reader") — especially when the
+ * library lives on a different site than the page. Falls back to the synchronous
+ * page context if the server call fails. Manage Web → Administrator, Approve
+ * Items → Approver, Add/Edit List Items → Contributor, otherwise Reader.
  */
-export function getUserRole(context: WebPartContext): DocRole {
+export async function getUserRole(context: WebPartContext, siteUrl?: string): Promise<DocRole> {
   try {
-    const perms = context.pageContext.web.permissions;
-    if (perms.hasPermission(SPPermission.manageWeb)) {
+    const web = getSP(context, siteUrl).web;
+    if (await web.currentUserHasPermissions(PermissionKind.ManageWeb)) {
       return 'Administrator';
     }
-    if (perms.hasPermission(SPPermission.approveItems)) {
+    if (await web.currentUserHasPermissions(PermissionKind.ApproveItems)) {
       return 'Approver';
     }
-    if (perms.hasPermission(SPPermission.addListItems) || perms.hasPermission(SPPermission.editListItems)) {
+    if (
+      (await web.currentUserHasPermissions(PermissionKind.AddListItems)) ||
+      (await web.currentUserHasPermissions(PermissionKind.EditListItems))
+    ) {
       return 'Contributor';
     }
     return 'Reader';
   } catch {
+    // Fall back to the page-context bits (only meaningful for the current web).
+    try {
+      const perms = context.pageContext.web.permissions;
+      if (perms.hasPermission(SPPermission.manageWeb)) {
+        return 'Administrator';
+      }
+      if (perms.hasPermission(SPPermission.approveItems)) {
+        return 'Approver';
+      }
+      if (perms.hasPermission(SPPermission.addListItems) || perms.hasPermission(SPPermission.editListItems)) {
+        return 'Contributor';
+      }
+    } catch {
+      /* ignore */
+    }
     return 'Reader';
   }
 }
 
 /** Returns the library's server-relative URL (its root folder) for the "Open Library" link. */
-async function getLibraryUrl(context: WebPartContext, libraryTitle: string): Promise<string | undefined> {
+async function getLibraryUrl(context: WebPartContext, libraryTitle: string, siteUrl?: string): Promise<string | undefined> {
   try {
-    const info: { ServerRelativeUrl?: string } = await getSP(context)
+    const info: { ServerRelativeUrl?: string } = await getSP(context, siteUrl)
       .web.lists.getByTitle(libraryTitle)
       .rootFolder.select('ServerRelativeUrl')();
     return info && info.ServerRelativeUrl ? info.ServerRelativeUrl : undefined;
@@ -198,18 +222,24 @@ function mapRows(rows: IDocFileRow[], language: 'en' | 'ar'): IDocEntry[] {
  * resilient — if the DMS columns aren't present yet, it falls back to built-in
  * fields so documents still list.
  */
-export async function getDocuments(context: WebPartContext, libraryTitle: string, pageSize: number): Promise<IDocCenterResult> {
-  const sp = getSP(context);
-  const webUrl: string = context.pageContext.web.absoluteUrl;
-  const role: DocRole = getUserRole(context);
+export async function getDocuments(
+  context: WebPartContext,
+  libraryTitle: string,
+  pageSize: number,
+  siteUrl?: string
+): Promise<IDocCenterResult> {
+  const sp = getSP(context, siteUrl);
+  const trimmedSite: string = (siteUrl || '').trim().replace(/\/+$/, '');
+  const webUrl: string = trimmedSite || context.pageContext.web.absoluteUrl;
 
-  const [currentUser, listInfo, libraryUrl] = await Promise.all([
+  const [role, currentUser, listInfo, libraryUrl] = await Promise.all([
+    getUserRole(context, siteUrl),
     sp.web.currentUser.select('Id')().catch(() => ({ Id: 0 })),
     sp.web.lists
       .getByTitle(libraryTitle)
       .select('Id')()
       .catch(() => ({ Id: '' })),
-    getLibraryUrl(context, libraryTitle)
+    getLibraryUrl(context, libraryTitle, siteUrl)
   ]);
 
   const base: IDocCenterResult = {
@@ -250,14 +280,20 @@ export async function getDocuments(context: WebPartContext, libraryTitle: string
     () => list.items.select(...CORE).filter('FSObjType eq 0').top(top)()
   ];
 
+  let lastError: string = '';
   for (const attempt of attempts) {
     try {
       const rows: IDocFileRow[] = await attempt();
       base.documents = mapRows(rows || [], language);
       return base;
-    } catch {
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : String(err);
       /* try the next, less-demanding query shape */
     }
+  }
+  // All query shapes failed — surface why (library missing on this web, no access, etc.).
+  if (lastError) {
+    base.loadError = lastError;
   }
   return base;
 }
@@ -316,13 +352,13 @@ export function isOverdue(doc: IDocEntry): boolean {
 }
 
 /** Builds the next document number for a department, e.g. HR-2026-0007. */
-async function nextDocumentNumber(context: WebPartContext, libraryTitle: string, department: string): Promise<string> {
+async function nextDocumentNumber(context: WebPartContext, libraryTitle: string, department: string, siteUrl?: string): Promise<string> {
   const code: string = DEPT_CODE[department] || (department ? department.substring(0, 3).toUpperCase() : 'DOC');
   const year: number = new Date().getFullYear();
   const prefix: string = `${code}-${year}-`;
   let max: number = 0;
   try {
-    const rows: { DocumentNumber?: string }[] = await getSP(context)
+    const rows: { DocumentNumber?: string }[] = await getSP(context, siteUrl)
       .web.lists.getByTitle(libraryTitle)
       .items.select('DocumentNumber')
       .filter(`startswith(DocumentNumber,'${prefix}')`)
@@ -345,12 +381,13 @@ export async function uploadDocument(
   context: WebPartContext,
   libraryTitle: string,
   file: File,
-  meta: IUploadMeta
+  meta: IUploadMeta,
+  siteUrl?: string
 ): Promise<{ ok: boolean; documentNumber?: string; error?: string }> {
   try {
-    const sp = getSP(context);
+    const sp = getSP(context, siteUrl);
     const list = sp.web.lists.getByTitle(libraryTitle);
-    const documentNumber: string = await nextDocumentNumber(context, libraryTitle, meta.department);
+    const documentNumber: string = await nextDocumentNumber(context, libraryTitle, meta.department, siteUrl);
     const info: { ServerRelativeUrl?: string } = await list.rootFolder.files.addUsingPath(file.name, file, { Overwrite: false });
     const item = await sp.web.getFileByServerRelativePath(info.ServerRelativeUrl || '').getItem();
     const fields: Record<string, unknown> = {
@@ -384,9 +421,9 @@ export async function uploadDocument(
 }
 
 /** Moves a document to a new stage (Draft / In Review / Published / Archived). */
-export async function setStage(context: WebPartContext, libraryTitle: string, itemId: number, stage: DocStage): Promise<boolean> {
+export async function setStage(context: WebPartContext, libraryTitle: string, itemId: number, stage: DocStage, siteUrl?: string): Promise<boolean> {
   try {
-    await getSP(context).web.lists.getByTitle(libraryTitle).items.getById(itemId).update({ DocStatus: stage });
+    await getSP(context, siteUrl).web.lists.getByTitle(libraryTitle).items.getById(itemId).update({ DocStatus: stage });
     return true;
   } catch {
     return false;
@@ -399,9 +436,9 @@ export function versionHistoryUrl(webUrl: string, listId: string, itemId: number
 }
 
 /** Reads the current choices for a choice column (Admin taxonomy editor). */
-export async function getChoices(context: WebPartContext, libraryTitle: string, fieldInternalName: string): Promise<string[]> {
+export async function getChoices(context: WebPartContext, libraryTitle: string, fieldInternalName: string, siteUrl?: string): Promise<string[]> {
   try {
-    const field: { Choices?: string[] } = await getSP(context)
+    const field: { Choices?: string[] } = await getSP(context, siteUrl)
       .web.lists.getByTitle(libraryTitle)
       .fields.getByInternalNameOrTitle(fieldInternalName)
       .select('Choices')();
@@ -412,9 +449,9 @@ export async function getChoices(context: WebPartContext, libraryTitle: string, 
 }
 
 /** Replaces the choices of a choice column (Admin taxonomy editor, Administrators only). */
-export async function updateChoices(context: WebPartContext, libraryTitle: string, fieldInternalName: string, choices: string[]): Promise<boolean> {
+export async function updateChoices(context: WebPartContext, libraryTitle: string, fieldInternalName: string, choices: string[], siteUrl?: string): Promise<boolean> {
   try {
-    await getSP(context)
+    await getSP(context, siteUrl)
       .web.lists.getByTitle(libraryTitle)
       .fields.getByInternalNameOrTitle(fieldInternalName)
       .update({ Choices: choices }, 'SP.FieldChoice');

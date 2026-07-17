@@ -39,7 +39,7 @@ const UploadTab: React.FunctionComponent<{ ctx: IDocCtx }> = ({ ctx }) => {
     }
     setState('busy');
     setMessage('');
-    uploadDocument(ctx.context, ctx.libraryTitle, file, meta)
+    uploadDocument(ctx.context, ctx.libraryTitle, file, meta, ctx.siteUrl)
       .then((res) => {
         if (res.ok) {
           setState('ok');
